@@ -61,12 +61,26 @@
     .h-meta{text-align:left}
   }
   @media(max-width:520px){.kpis{grid-template-columns:1fr 1fr}.kpi .value{font-size:20px}}
+  /* ---------- portfolio nav ---------- */
+  .pnav{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+  .pnav a{font-size:13px;padding:8px 18px;border-radius:22px;text-decoration:none;border:1px solid var(--line);
+    background:#fff;color:var(--ink-2);transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+  .pnav a .ico{font-size:15px}
+  .pnav a.on{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+  .pnav a:not(.on):hover{border-color:var(--accent);color:var(--accent-deep)}
+  .pnav .spacer{margin-left:auto;font-size:12px;color:var(--ink-2);align-self:center}
 </style>
 <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"><\/script>
 <script>if(typeof echarts==="undefined")document.write('<script src="https://cdn.staticfile.net/echarts/5.5.0/echarts.min.js"><\/script>')</script>
 </head>
 <body>
 <div class="wrap">
+
+  <nav class="pnav">
+    <a class="on" href="index.html"><span class="ico">📊</span>营收智能仪表盘</a>
+    <a href="e02-analysis.html"><span class="ico">📈</span>南京分行 7 月异动诊断</a>
+    <span class="spacer">刘健博 · 数据分析作品集</span>
+  </nav>
 
   <header>
     <div class="h-title">
