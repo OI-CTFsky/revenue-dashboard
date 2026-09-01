@@ -1,315 +1,299 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>营收情况智能分析仪表盘 | 刘健博 · 数据分析作品集</title>
-<meta name="description" content="基于 Tableau 看板复刻重构的信贷业务营收智能分析仪表盘：目标达成、用户规模、利润结构、逾期风险全维度交互分析。">
-<meta property="og:title" content="营收情况智能分析仪表盘">
-<meta property="og:description" content="Tableau 看板复刻 · 信贷业务营收多维交互分析 · 刘健博数据分析作品集">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>刘健博 · 数据分析个人平台 | 简历与作品集</title>
+<meta name="description" content="刘健博个人平台：数据分析 / 数据运营求职，简历与交互式作品集（营收智能仪表盘、异动诊断报告）。">
 <style>
   :root{
-    --accent:#d37295; --accent-deep:#b84a73; --ink:#2b2733; --ink-2:#6b6478;
-    --line:#eee7ef; --card:#ffffff; --bg:#f7f4f8; --good:#3aa47c; --warn:#d9534f;
-    --blue:#5b7fd4; --teal:#4bb3a4; --gold:#d9a441; --violet:#8a74c9;
+    --ink:#2b2733; --ink-2:#6b6577; --ink-3:#9b95a5;
+    --bg:#f6f5f8; --card:#ffffff; --line:#e8e5ee;
+    --accent:#5b54c9; --accent-deep:#463f9e; --accent-soft:#eeedfa;
+    --gold:#b9891f; --green:#0f9960; --red:#d9534f;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:"Microsoft YaHei","PingFang SC","Helvetica Neue",Arial,sans-serif;
-    background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
-  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
-  /* ---------- header ---------- */
-  header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;
-    padding:26px 30px;background:linear-gradient(135deg,#fff 55%,#fdf3f7);border:1px solid var(--line);
-    border-radius:16px;box-shadow:0 6px 24px rgba(43,39,51,.06)}
-  .h-title h1{font-size:26px;letter-spacing:1px}
-  .h-title h1 .dot{color:var(--accent)}
-  .h-title p{margin-top:8px;font-size:13px;color:var(--ink-2)}
-  .badges{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-  .badge{font-size:12px;padding:3px 10px;border-radius:20px;background:#fbeef3;color:var(--accent-deep);border:1px solid #f2d9e4}
-  .badge.gray{background:#f0eef3;color:#5f5a6b;border-color:#e3e0e8}
-  .h-meta{text-align:right;font-size:12px;color:var(--ink-2);line-height:1.9}
-  .h-meta b{color:var(--ink);font-size:14px}
-  /* ---------- kpi ---------- */
-  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0}
-  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;
-    position:relative;overflow:hidden;transition:transform .18s, box-shadow .18s}
-  .kpi:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(43,39,51,.09)}
-  .kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c,var(--accent))}
-  .kpi .label{font-size:12px;color:var(--ink-2);display:flex;justify-content:space-between;align-items:center}
-  .kpi .label .tag{font-size:10px;color:#fff;background:var(--c,var(--accent));border-radius:8px;padding:1px 7px}
-  .kpi .value{font-size:25px;font-weight:700;margin-top:8px;font-variant-numeric:tabular-nums}
-  .kpi .sub{font-size:11.5px;color:var(--ink-2);margin-top:5px}
-  .kpi .sub .neg{color:var(--warn);font-weight:600}
-  .kpi .sub .pos{color:var(--good);font-weight:600}
-  /* ---------- section ---------- */
-  section{background:var(--card);border:1px solid var(--line);border-radius:14px;
-    padding:18px 20px 14px;margin-bottom:18px;box-shadow:0 3px 14px rgba(43,39,51,.04)}
-  .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-  .sec-head .bar{width:5px;height:18px;border-radius:3px;background:var(--accent)}
-  .sec-head h2{font-size:16.5px}
-  .sec-head .en{font-size:11px;color:var(--ink-2);margin-left:auto;letter-spacing:.5px}
-  .chart{width:100%;height:340px}
-  .row2{display:grid;grid-template-columns:1fr 1.35fr;gap:18px}
-  .row2 section{margin-bottom:18px}
-  .note{font-size:11.5px;color:var(--ink-2);margin-top:6px;line-height:1.8;background:#faf8fb;border-radius:10px;padding:10px 14px}
-  .note b{color:var(--ink)}
-  footer{margin-top:26px;text-align:center;font-size:12px;color:var(--ink-2);line-height:2}
-  footer b{color:var(--ink)}
+  body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",system-ui,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
+  .wrap{max-width:980px;margin:0 auto;padding:0 22px 60px}
+
+  /* ---------- top nav ---------- */
+  .topnav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .topnav .in{max-width:980px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .topnav .brand{font-weight:700;font-size:15px;color:var(--ink);text-decoration:none}
+  .topnav .brand b{color:var(--accent)}
+  .topnav .links{display:flex;gap:4px;flex-wrap:wrap}
+  .topnav .links a{font-size:13px;color:var(--ink-2);text-decoration:none;padding:5px 12px;border-radius:18px}
+  .topnav .links a:hover{background:var(--accent-soft);color:var(--accent-deep)}
+  .topnav .dl{margin-left:auto;background:var(--accent);color:#fff;font-size:13px;font-weight:600;
+    padding:7px 18px;border-radius:20px;text-decoration:none;box-shadow:0 3px 10px rgba(91,84,201,.28)}
+  .topnav .dl:hover{background:var(--accent-deep)}
+
+  /* ---------- hero ---------- */
+  .hero{background:linear-gradient(135deg,#463f9e 0%,#5b54c9 55%,#7a68d8 100%);
+    color:#fff;border-radius:0 0 26px 26px;padding:56px 0 46px;margin-bottom:34px}
+  .hero .in{max-width:980px;margin:0 auto;padding:0 22px}
+  .hero h1{font-size:40px;letter-spacing:2px;font-weight:700}
+  .hero .role{margin-top:8px;font-size:17px;opacity:.92}
+  .hero .role b{background:rgba(255,255,255,.18);padding:3px 12px;border-radius:16px;font-size:14px;margin-right:8px}
+  .hero .contact{margin-top:16px;display:flex;gap:10px 22px;flex-wrap:wrap;font-size:14px;opacity:.95}
+  .hero .cta{margin-top:26px;display:flex;gap:14px;flex-wrap:wrap}
+  .hero .cta a{font-size:14px;font-weight:600;text-decoration:none;padding:10px 26px;border-radius:26px}
+  .hero .cta .a1{background:#fff;color:var(--accent-deep);box-shadow:0 4px 14px rgba(0,0,0,.18)}
+  .hero .cta .a2{border:1.5px solid rgba(255,255,255,.65);color:#fff}
+  .hero .cta a:hover{transform:translateY(-1px)}
+  .stats{margin-top:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .stats .s{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:14px 16px}
+  .stats .s b{display:block;font-size:22px;font-weight:700}
+  .stats .s span{font-size:12px;opacity:.85}
+
+  /* ---------- sections ---------- */
+  section{margin-bottom:38px;scroll-margin-top:70px}
+  h2.sec{font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:18px}
+  h2.sec::before{content:"";width:5px;height:20px;border-radius:3px;background:var(--accent)}
+  h2.sec em{font-style:normal;font-size:12px;color:var(--ink-3);font-weight:400;margin-left:auto}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:0 1px 3px rgba(43,39,51,.04)}
+
+  /* skills */
+  .skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .skill{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .skill h3{font-size:14px;color:var(--accent-deep);margin-bottom:8px;display:flex;gap:8px;align-items:center}
+  .skill p{font-size:13.5px;color:var(--ink-2)}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .tags span{font-size:12px;background:var(--accent-soft);color:var(--accent-deep);
+    padding:3px 10px;border-radius:12px}
+
+  /* experience */
+  .exp{border-left:2px solid var(--accent-soft);padding-left:22px;position:relative}
+  .exp+.exp{margin-top:26px}
+  .exp::before{content:"";position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;
+    background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+  .exp .head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+  .exp .head h3{font-size:16.5px;font-weight:700}
+  .exp .head .sub{color:var(--accent-deep);font-weight:600;font-size:14px}
+  .exp .date{margin-left:auto;font-size:12.5px;color:var(--ink-3);white-space:nowrap}
+  .exp ul{margin:10px 0 0;padding-left:18px}
+  .exp li{font-size:13.5px;color:var(--ink-2);margin-bottom:6px}
+  .exp li b{color:var(--ink);font-weight:600}
+
+  /* portfolio */
+  .works{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .work{position:relative;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);
+    border-radius:16px;overflow:hidden;text-decoration:none;color:var(--ink);transition:.18s;
+    box-shadow:0 1px 3px rgba(43,39,51,.04)}
+  .work:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(70,63,158,.14);border-color:var(--accent)}
+  .work .cover{height:120px;display:flex;align-items:center;justify-content:center;font-size:44px}
+  .work .cover.c1{background:linear-gradient(135deg,#eef0ff,#e3e6fb)}
+  .work .cover.c2{background:linear-gradient(135deg,#0A1424,#12305c)}
+  .work .cover.c3{background:linear-gradient(135deg,#fdf6e6,#f9ecd0)}
+  .work .body{padding:16px 18px 18px;flex:1;display:flex;flex-direction:column}
+  .work h3{font-size:15.5px;font-weight:700;margin-bottom:6px}
+  .work p{font-size:12.5px;color:var(--ink-2);flex:1}
+  .work .go{margin-top:12px;font-size:13px;font-weight:600;color:var(--accent)}
+  .work .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .work .meta span{font-size:11px;background:var(--accent-soft);color:var(--accent-deep);padding:2px 8px;border-radius:10px}
+
+  /* education */
+  .edu{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+  .edu .logo{width:54px;height:54px;border-radius:14px;background:var(--accent);color:#fff;display:flex;
+    align-items:center;justify-content:center;font-size:22px;flex:none}
+  .edu h3{font-size:16.5px}
+  .edu .date{font-size:12.5px;color:var(--ink-3)}
+  .edu p{font-size:13.5px;color:var(--ink-2);margin-top:6px}
+
+  footer{margin-top:46px;padding-top:22px;border-top:1px solid var(--line);
+    text-align:center;font-size:12.5px;color:var(--ink-3)}
+  footer a{color:var(--accent-deep);text-decoration:none}
+
   @media(max-width:900px){
-    .kpis{grid-template-columns:repeat(2,1fr)}
-    .row2{grid-template-columns:1fr}
-    .h-meta{text-align:left}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .skill-grid{grid-template-columns:1fr}
+    .works{grid-template-columns:1fr}
+    .hero h1{font-size:32px}
+    .topnav .links{display:none}
   }
-  @media(max-width:520px){.kpis{grid-template-columns:1fr 1fr}.kpi .value{font-size:20px}}
-  /* ---------- portfolio nav ---------- */
-  .pnav{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
-  .pnav a{font-size:13px;padding:8px 18px;border-radius:22px;text-decoration:none;border:1px solid var(--line);
-    background:#fff;color:var(--ink-2);transition:all .15s;display:inline-flex;align-items:center;gap:6px}
-  .pnav a .ico{font-size:15px}
-  .pnav a.on{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
-  .pnav a:not(.on):hover{border-color:var(--accent);color:var(--accent-deep)}
-  .pnav .spacer{margin-left:auto;font-size:12px;color:var(--ink-2);align-self:center}
+  @media print{
+    .topnav,.hero .cta{display:none}
+    body{background:#fff}
+    .card,.work,.skill,.exp{box-shadow:none;break-inside:avoid}
+    .hero{border-radius:0;background:#463f9e !important;-webkit-print-color-adjust:exact}
+  }
 </style>
-<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"><\/script>
-<script>if(typeof echarts==="undefined")document.write('<script src="https://cdn.staticfile.net/echarts/5.5.0/echarts.min.js"><\/script>')</script>
 </head>
 <body>
+
+<div class="topnav">
+  <div class="in">
+    <a class="brand" href="#">刘健博<b> · </b>数据分析个人平台</a>
+    <div class="links">
+      <a href="#skills">技能</a>
+      <a href="#exp">实习经历</a>
+      <a href="#projects">项目经历</a>
+      <a href="#edu">教育</a>
+      <a href="#works">作品集</a>
+    </div>
+    <a class="dl" href="resume.pdf" download>下载简历 PDF</a>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="in">
+    <h1>刘健博</h1>
+    <p class="role"><b>求职意向</b>数据分析 / 数据运营&nbsp;&nbsp;·&nbsp;&nbsp;<b>期望城市</b>杭州</p>
+    <div class="contact">
+      <span>📞 155-0244-6408</span>
+      <span>✉️ 15502446408@163.com</span>
+      <span>🎓 山东财经大学 · 金融工程</span>
+      <span>💻 GitHub：OI-CTFsky</span>
+    </div>
+    <div class="cta">
+      <a class="a1" href="#works">查看交互式作品集 ↓</a>
+      <a class="a2" href="resume.pdf" download>下载简历 PDF</a>
+    </div>
+    <div class="stats">
+      <div class="s"><b>4.75/5.0</b><span>GPA · 专业 TOP 3%</span></div>
+      <div class="s"><b>2 大类</b><span>审计数据 + 商业分析项目</span></div>
+      <div class="s"><b>500+ 份</b><span>函证核验 · 准确率 100%</span></div>
+      <div class="s"><b>15% ↑</b><span>Python 自动化提效 · 省 40h</span></div>
+    </div>
+  </div>
+</div>
+
 <div class="wrap">
 
-  <nav class="pnav">
-    <a class="on" href="index.html"><span class="ico">📊</span>营收智能仪表盘</a>
-    <a href="e02-analysis.html"><span class="ico">📈</span>南京分行 7 月异动诊断</a>
-    <span class="spacer">刘健博 · 数据分析作品集</span>
-  </nav>
-
-  <header>
-    <div class="h-title">
-      <h1>营收情况智能分析仪表盘<span class="dot">.</span></h1>
-      <p>信贷业务 2020 年 8 月经营全貌 · 目标 / 规模 / 利润 / 风险四维联动分析</p>
-      <div class="badges">
-        <span class="badge">Tableau 看板复刻重构</span>
-        <span class="badge">4 战区 · 13 城市 · 29 业务组</span>
-        <span class="badge gray">2020-08-01 ~ 08-31</span>
+  <section id="skills">
+    <h2 class="sec">专业技能<em>SKILLS</em></h2>
+    <div class="skill-grid">
+      <div class="skill">
+        <h3>📊 数据分析</h3>
+        <p>Python（Pandas 自动化脚本）、SQL / MySQL 数据查询、Tableau 可视化看板、Stata / MATLAB 统计建模、AI 提示词工程</p>
+        <div class="tags"><span>Python</span><span>Pandas</span><span>SQL</span><span>Tableau</span><span>Stata</span><span>MATLAB</span><span>ECharts</span></div>
+      </div>
+      <div class="skill">
+        <h3>🧰 办公与证书</h3>
+        <p>Office / WPS（Word / Excel / PPT）、Xmind、PS；擅长数据报告撰写与演示汇报</p>
+        <div class="tags"><span>证券从业</span><span>基金从业</span><span>计算机二级</span><span>CET-6</span></div>
       </div>
     </div>
-    <div class="h-meta">
-      <b>刘健博</b> · 数据分析作品集<br>
-      金融工程 | Python · Tableau · ECharts<br>
-      数据源：8月成交 / 获客 / 业绩目标 / 城市战区信息
+  </section>
+
+  <section id="exp">
+    <h2 class="sec">工作 / 实习经历<em>EXPERIENCE</em></h2>
+    <div class="card">
+      <div class="exp">
+        <div class="head">
+          <h3>天职国际会计师事务所</h3>
+          <span class="sub">审计助理</span>
+          <span class="date">2025.08 – 2026.06</span>
+        </div>
+        <ul>
+          <li><b>数据对账：</b>统筹国家电网母子公司财务与业务两类异构数据库，统一口径并逐笔定位差异，完成双向 100% 勾稽匹配与差异归因</li>
+          <li><b>函证核验：</b>负责沈鼓集团 IPO 项目 10 余个核心科目，完成 500 余份函证清洗与交叉比对，追踪回函异常，准确率 100%</li>
+          <li><b>指标建模：</b>整合沈阳产业投资集团多科目财务数据，搭建偿债能力、盈利能力与经营趋势三维测算模型，输出 3 份专项分析报告</li>
+          <li><b>自动化提效：</b>Python 处理海航航空 10 余家子公司海量数据，自主开发汇总清洗小程序，效率提升 15%，节省工时约 40 小时</li>
+          <li><b>数据治理：</b>完成 5 家境外银行英文询证函标准化，使函证工作较去年提前 10 天完成</li>
+          <li><b>AI 提效：</b>精通 AI 工具与提示词工程，辅助数据校验、清洗与报告生成，提升底稿编制与复核效率</li>
+        </ul>
+      </div>
     </div>
-  </header>
-
-  <div class="kpis" id="kpis"></div>
-
-  <section>
-    <div class="sec-head"><span class="bar"></span><h2>目标达成</h2><span class="en">TARGET vs ACTUAL</span></div>
-    <div id="cGoal" class="chart"></div>
-    <div class="note"><b>口径：</b>进度差值 = 实际成交额 − 目标；达成率 = 实际成交额 / 目标。全司当月目标 1.21 亿元，实际完成 0.97 亿元，达成率 80.3%，缺口主要来自东部与南部战区。</div>
   </section>
 
-  <section>
-    <div class="sec-head"><span class="bar"></span><h2>用户规模</h2><span class="en">USER FUNNEL BY DAY</span></div>
-    <div id="cUser" class="chart"></div>
-    <div class="note"><b>口径：</b>注册 → 实名认证 → 戳额 → 给额 → 成交 五级漏斗，按日堆叠。当月注册 262.7 万人，最终成交 80.7 万人，整体转化率 <b>30.7%</b>，其中戳额/注册率 97.6%，给额/戳额率 63.7%，成交/给额率 49.4%。</div>
+  <section id="projects">
+    <h2 class="sec">项目经历<em>PROJECTS</em></h2>
+    <div class="card">
+      <div class="exp">
+        <div class="head"><h3>电商用户转化漏斗与 RFM 价值分析</h3><span class="date">2026.06 – 2026.08</span></div>
+        <ul>
+          <li><b>数据清洗：</b>Python/Pandas 对电商用户行为日志去重、补缺与标准化，沉淀可复用的清洗流程与质量控制规范</li>
+          <li><b>指标体系：</b>围绕人货场搭建 UV/PV、转化率、复购率、客单价及留存率核心指标体系，输出指标字典</li>
+          <li><b>行为分析：</b>漏斗模型拆解浏览-加购-下单-支付完整转化路径，RFM 模型划分用户价值分层，输出运营策略建议</li>
+          <li><b>可视化看板：</b>Tableau 搭建用户行为分析看板，呈现流量、转化、留存多维视图，支持动态筛选</li>
+        </ul>
+      </div>
+      <div class="exp">
+        <div class="head"><h3>海航财务健康度量化与 CSI 指数归因分析</h3><span class="date">2026.03 – 2026.06</span></div>
+        <ul>
+          <li><b>财务分析：</b>选取海南航空近三年财报数据，搭建偿债能力、盈利能力与运营效率多维测算模型，识别关键财务异动指标与风险点</li>
+          <li><b>趋势研判：</b>结合行情量价数据，运用趋势分析、财务比率与相关性检验，构建量价联动分析框架</li>
+          <li><b>指数分析：</b>对 CSI 指数近六个月走势归因，拆解成分股贡献度，评估市场风格切换与行业轮动特征</li>
+          <li><b>报告输出：</b>独立输出量化分析报告，跑通数据采集-清洗-建模-结论的完整个人分析链路</li>
+        </ul>
+      </div>
+      <div class="exp">
+        <div class="head"><h3>证券客户分层画像与精准营销策略优化</h3><span class="date">2024.06 – 2024.08</span></div>
+        <ul>
+          <li><b>标签体系：</b>搭建客户标签体系，刻画风险偏好、资产特征与投资行为偏好，支撑精准营销与服务</li>
+          <li><b>分层画像：</b>提炼客户分层画像与 RFM 价值模型，识别高价值客户群体特征，支撑差异化经营策略</li>
+          <li><b>转化复盘：</b>复盘客户转化全链路数据，定位各环节数据表现与流失原因，优化跟进策略与营销话术</li>
+          <li><b>策略迭代：</b>基于数据反馈与 A/B 测试持续迭代营销策略，沉淀可复用实验流程与转化提升 SOP</li>
+        </ul>
+      </div>
+      <div class="exp">
+        <div class="head"><h3>快递包装废弃物回收经济效益调研分析</h3><span class="date">2023.09 – 2023.12 · 队长</span></div>
+        <ul>
+          <li><b>调研设计：</b>牵头快递纸箱回收现状调研项目，围绕废弃量、回收率与再利用效益设定核心指标</li>
+          <li><b>数据采集：</b>实地统计菜鸟驿站废弃纸箱数量、规格与流向，设计问卷与访谈提纲，形成一手数据库</li>
+          <li><b>效益测算：</b>结合废纸回收市场价格，构建再利用经济效益测算模型，量化潜在回收规模与经济价值</li>
+          <li><b>结论建议：</b>识别回收流程堵点与改进方向，带领成员输出完整调研分析报告</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
-  <section>
-    <div class="sec-head"><span class="bar"></span><h2>利润占比</h2><span class="en">PROFIT STRUCTURE</span></div>
-    <div id="cProfit" class="chart"></div>
-    <div class="note"><b>口径（与原 Tableau 计算字段一致）：</b>资金成本 = 成交额×3%；获客成本 = 注册人数×0.5 元/人；毛利 = 应收利息 − 资金成本 − 获客成本 − 逾期金额；各占比 = 对应项 / 应收利息。当月逾期侵蚀 31.3% 的利息收入，导致整体毛利转负，风险处置是利润修复的首要杠杆。</div>
+  <section id="edu">
+    <h2 class="sec">教育经历<em>EDUCATION</em></h2>
+    <div class="card">
+      <div class="edu">
+        <div class="logo">🎓</div>
+        <div>
+          <h3>山东财经大学 · 金融工程</h3>
+          <span class="date">2021.09 – 2025.07</span>
+          <p>GPA 4.75/5.0（专业 TOP 3%）· 互联网+大赛银奖 · 大创国家级奖项<br>
+          主修：Python、MATLAB、概率统计、计量经济学与金融工程</p>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <div class="row2">
-    <section>
-      <div class="sec-head"><span class="bar"></span><h2>风险饼图</h2><span class="en">OVERDUE BY ZONE</span></div>
-      <div id="cPie" class="chart" style="height:320px"></div>
-    </section>
-    <section>
-      <div class="sec-head"><span class="bar"></span><h2>逾期分布</h2><span class="en">OVERDUE BY CITY</span></div>
-      <div id="cCity" class="chart" style="height:320px"></div>
-    </section>
-  </div>
-
-  <section>
-    <div class="sec-head"><span class="bar"></span><h2>风险关系</h2><span class="en">RISK CORRELATION</span></div>
-    <div id="cRisk" class="chart"></div>
-    <div class="note"><b>口径：</b>每个气泡为一个业务组：横轴 = 应收利息（万元），纵轴 = 逾期金额（万元），气泡大小 = 成交额，颜色 = 所属战区。气泡越靠上方，代表单位利息收入承担的逾期损失越重。</div>
+  <section id="works">
+    <h2 class="sec">作品集<em>PORTFOLIO · 点击交互体验</em></h2>
+    <div class="works">
+      <a class="work" href="dashboard.html">
+        <div class="cover c1">📊</div>
+        <div class="body">
+          <h3>营收情况智能分析仪表盘</h3>
+          <p>Tableau 看板复刻重构：信贷业务营收四维度交互仪表盘，含目标达成、用户漏斗、利润结构与逾期风险分析，支持联动筛选。</p>
+          <div class="meta"><span>ECharts</span><span>Tableau 复刻</span><span>交互看板</span></div>
+          <span class="go">进入看板 →</span>
+        </div>
+      </a>
+      <a class="work" href="e02-analysis.html">
+        <div class="cover c2">📈</div>
+        <div class="body">
+          <h3>南京分行现状分析与异动诊断</h3>
+          <p>信贷业务现状分析报告 V2：量价拆解、逐层下钻、关键问题归因与证据链诊断，完整分析思路与方法论沉淀。</p>
+          <div class="meta"><span>分析报告</span><span>异动诊断</span><span>逐层下钻</span></div>
+          <span class="go">查看报告 →</span>
+        </div>
+      </a>
+      <a class="work" href="resume.pdf">
+        <div class="cover c3">📄</div>
+        <div class="body">
+          <h3>个人简历（PDF）</h3>
+          <p>完整求职简历：教育背景、天职国际实习经历、四大项目经历与专业技能，适合投递与打印。</p>
+          <div class="meta"><span>简历原件</span><span>可直接下载</span></div>
+          <span class="go">下载 PDF →</span>
+        </div>
+      </a>
+    </div>
   </section>
 
   <footer>
-    <b>刘健博 · 数据分析作品集</b> — 本页由 Tableau 打包工作簿（.twbx）提取原始数据，按原计算字段口径用 ECharts 复刻重构，支持全交互与移动端自适应<br>
-    数据为课程练习数据集 · 指标口径与原 Tableau 看板一致 · © 2026
+    刘健博 · 数据分析个人平台 &nbsp;|&nbsp; 联系方式：15502446408@163.com &nbsp;|&nbsp;
+    <a href="https://github.com/OI-CTFsky" target="_blank" rel="noopener">GitHub</a>
   </footer>
+
 </div>
-
-<script>
-const AGG = {"kpi":{"成交额":97204643,"应收利息":5870970,"逾期金额":1836885,"逾期率":0.31287589614663336,"毛利":-195353.29000000004,"利润占比":-0.03327444868565161,"总目标":120990759,"目标达成率":0.8034055146310802,"注册人数":2626598,"成交人数":807045,"戳额注册率":0.9338753018162658,"成交注册率":0.30725866691438886},"goal_data":[["东部战区",57006694,70360104,0.8102133277119659],["北部战区",7044180,7075594,0.9955602314095466],["南部战区",19702075,27469871,0.7172248824903473],["西部战区",13451694,16085190,0.8362782161727651]],"user_data":{"dates":["2020-08-01","2020-08-02","2020-08-03","2020-08-04","2020-08-05","2020-08-06","2020-08-07","2020-08-08","2020-08-09","2020-08-10","2020-08-11","2020-08-12","2020-08-13","2020-08-14","2020-08-15","2020-08-16","2020-08-17","2020-08-18","2020-08-19","2020-08-20","2020-08-21","2020-08-22","2020-08-23","2020-08-24","2020-08-25","2020-08-26","2020-08-27","2020-08-28","2020-08-29","2020-08-30","2020-08-31"],"注册":[74390,75134,70930,68891,84706,83608,84827,84721,86846,76259,69531,85105,78514,86306,86521,81764,81385,73170,87288,88537,89999,90599,95473,90406,80552,92643,96982,92789,95898,95617,97207],"实名":[72579,73230,69178,67224,82547,81467,82636,82566,84635,74410,67847,82869,76447,84089,84260,79570,79259,71239,84984,86223,87697,88165,92921,88053,78387,90149,94432,90351,93353,93145,94595],"戳额":[69683,70233,66409,64494,79102,78135,79254,79183,81149,71373,65167,79427,73252,80638,80793,76225,75926,68234,81476,82589,84093,84522,89041,84383,75165,86437,90596,86569,89458,89303,90606],"给额":[42066,42520,39863,38927,47564,47099,47732,47951,49024,42997,39192,48069,44164,48927,48812,46042,45914,41008,49317,49926,50879,51252,53878,51314,45289,52282,54938,52446,54320,54179,55095],"成交":[22989,23199,22163,21328,25831,25567,25717,25885,26583,23540,21535,25956,24133,26744,26612,25466,24945,22599,26712,27117,27661,27769,29080,27787,24629,28409,29932,28540,29429,29290,29898]},"profit_data":[{"战区":"东部战区","毛利":100305,"资金占比":0.49507854758115943,"获客占比":0.22530796204148734,"逾期占比":0.2505767277297988,"利润占比":0.02903676264755449},{"战区":"北部战区","毛利":-51721,"资金占比":0.48686206388115816,"获客占比":0.21080574856700518,"逾期占比":0.42148939307370475,"利润占比":-0.11915720552186813},{"战区":"南部战区","毛利":-223991,"资金占比":0.5030582464776865,"获客占比":0.22940870071442068,"逾期占比":0.45817396322188914,"利润占比":-0.1906409104139963},{"战区":"西部战区","毛利":-19946,"资金占比":0.4997081626057335,"获客占比":0.21540096065618836,"逾期占比":0.3095893498172921,"利润占比":-0.0246984730792139}],"over_city":[["广州",459268],["合肥",276342],["杭州",195086],["苏州",174904],["北京",134714],["南京",125233],["西安",124421],["上海",94028],["深圳",79058],["武汉",61514],["天津",48236],["重庆",39650],["成都",24431]],"over_zone":[["东部战区",865593],["南部战区",538326],["西部战区",250016],["北部战区",182950]],"risk_scatter":[["西部战区-重庆-重庆一组",146040.0,39650.0,2497891.0,"西部战区"],["西部战区-西安-西安一组",195472.0,124421.0,3184094.0,"西部战区"],["西部战区-武汉-武汉一组",258544.0,61514.0,4333291.0,"西部战区"],["西部战区-成都-成都一组",170984.0,24431.0,2826133.0,"西部战区"],["西部战区-成都-成都二组",36533.0,0.0,610285.0,"西部战区"],["南部战区-深圳-深圳一组",230531.0,79058.0,3791478.0,"南部战区"],["南部战区-广州-广州一组",499045.0,220885.0,8658150.0,"南部战区"],["南部战区-广州-广州三组",189699.0,156527.0,3189449.0,"南部战区"],["南部战区-广州-广州二组",255663.0,81856.0,4062998.0,"南部战区"],["东部战区-苏州-苏州一组",329892.0,45258.0,5567756.0,"东部战区"],["东部战区-苏州-苏州三组",31057.0,28397.0,490057.0,"东部战区"],["东部战区-苏州-苏州二组",443134.0,101249.0,7216563.0,"东部战区"],["东部战区-上海-上海一组",357571.0,61667.0,5867056.0,"东部战区"],["东部战区-上海-上海三组",218915.0,11656.0,3605067.0,"东部战区"],["东部战区-上海-上海二组",195990.0,20705.0,3255103.0,"东部战区"],["东部战区-南京-南京一组",233772.0,44814.0,3819415.0,"东部战区"],["东部战区-南京-南京四组",102997.0,18867.0,1761389.0,"东部战区"],["东部战区-南京-南京三组",146874.0,0.0,2401933.0,"东部战区"],["东部战区-南京-南京二组",145850.0,61552.0,2606909.0,"东部战区"],["东部战区-合肥-合肥一组",316945.0,144359.0,5175070.0,"东部战区"],["东部战区-合肥-合肥二组",159768.0,131983.0,2505846.0,"东部战区"],["东部战区-杭州-杭州一组",331086.0,76934.0,5524557.0,"东部战区"],["东部战区-杭州-杭州三组",117018.0,13385.0,2008667.0,"东部战区"],["东部战区-杭州-杭州二组",323534.0,104767.0,5201306.0,"东部战区"],["北部战区-天津-天津一组",172408.0,48236.0,2735153.0,"北部战区"],["北部战区-北京-北京一组",15658.0,20077.0,277502.0,"北部战区"],["北部战区-北京-北京四组",96074.0,46106.0,1514080.0,"北部战区"],["北部战区-北京-北京三组",141142.0,68531.0,2364797.0,"北部战区"],["北部战区-北京-北京二组",8774.0,0.0,152648.0,"北部战区"]],"zone_info":[["东部战区","001","江永","一级战区"],["西部战区","003","田楠","二级战区"],["南部战区","002","高安平","二级战区"],["北部战区","004","沈乐欣","三级战区"]],"city_info":[["001","上海","吴刚","一线",12114],["002","广州","孙乒","一线",9854],["003","杭州","杜光亮","二线",10499],["004","南京","苏川","二线",9912],["005","合肥","侯阳冰","二线",8694],["006","武汉","王刚","二线",9107],["007","北京","范俊发","一线",12358],["008","深圳","高弘壮","一线",11498],["009","成都","叶超","二线",9016],["010","西安","黄鹏天","二线",8295],["011","天津","冯谦","一线",8244],["012","重庆","于子默","二线",9713],["013","苏州","张建","二线",8800]]};
-const W = v => (v/10000).toFixed(1) + '万';
-const Y = v => { const n = v/100000000; return n>=1 ? n.toFixed(2)+'亿' : (v/10000).toFixed(1)+'万'; };
-const P = v => (v*100).toFixed(1) + '%';
-const C = { east:'#d37295', north:'#5b7fd4', south:'#4bb3a4', west:'#d9a441', violet:'#8a74c9' };
-const zoneColor = z => z.startsWith('东')?C.east : z.startsWith('北')?C.north : z.startsWith('南')?C.south : C.west;
-
-/* ---------- KPI cards ---------- */
-(function(){
-  const k = AGG.kpi;
-  const cards = [
-    {l:'成交额（8月）', v:'¥'+Y(k.成交额), s:'目标 ¥'+Y(k.总目标), c:'#d37295'},
-    {l:'目标达成率', v:P(k.目标达成率), s:'进度差值 −¥'+W(k.总目标-k.成交额), c:'#5b7fd4'},
-    {l:'应收利息', v:'¥'+Y(k.应收利息), s:'资金成本 ¥'+Y(k.成交额*0.03), c:'#4bb3a4'},
-    {l:'逾期金额', v:'¥'+Y(k.逾期金额), s:'逾期占比 <span class="neg">'+P(k.逾期率)+'</span>', c:'#d9534f'},
-    {l:'毛利', v:'¥'+W(k.毛利), s:'利润占比 <span class="neg">'+P(k.利润占比)+'</span>', c:'#8a74c9'},
-    {l:'注册人数', v:Y(k.注册人数), s:'日均 '+W(k.注册人数/31), c:'#d9a441'},
-    {l:'成交人数', v:Y(k.成交人数), s:'成交/注册率 '+P(k.成交注册率), c:'#3aa47c'},
-    {l:'戳额/注册率', v:P(k.戳额注册率), s:'漏斗首层转化强度', c:'#5f8fd9'}
-  ];
-  document.getElementById('kpis').innerHTML = cards.map(c =>
-    '<div class="kpi" style="--c:'+c.c+'"><div class="label">'+c.l+'<span class="tag">KPI</span></div>'+
-    '<div class="value">'+c.v+'</div><div class="sub">'+c.s+'</div></div>').join('');
-})();
-
-/* ---------- charts ---------- */
-const charts = [];
-function mk(id, opt){ const el = document.getElementById(id); if(!el) return;
-  const ch = echarts.init(el); ch.setOption(opt); charts.push(ch); return ch; }
-window.addEventListener('resize', () => charts.forEach(c => c.resize()));
-
-const tip = {backgroundColor:'rgba(255,255,255,.96)', borderColor:'#eee7ef', borderWidth:1,
-  textStyle:{color:'#2b2733', fontSize:12}, extraCssText:'box-shadow:0 6px 18px rgba(43,39,51,.12);border-radius:8px;'};
-
-/* 1. 目标达成 */
-(function(){
-  const g = AGG.goal_data;
-  mk('cGoal', {
-    color:['#e8cdda','#d37295','#5b7fd4'],
-    tooltip:{...tip, trigger:'axis', axisPointer:{type:'shadow'}},
-    legend:{top:0, right:0, itemWidth:12, itemHeight:8, textStyle:{color:'#6b6478', fontSize:11}},
-    grid:{left:8, right:14, top:44, bottom:6, containLabel:true},
-    xAxis:{type:'category', data:g.map(r=>r[0]), axisLine:{lineStyle:{color:'#e5e0e8'}},
-      axisTick:{show:false}, axisLabel:{color:'#6b6478', fontSize:11}},
-    yAxis:[{type:'value', name:'金额（万元）', nameTextStyle:{color:'#9a93a5', fontSize:10},
-      axisLabel:{color:'#6b6478', fontSize:10, formatter:v=>v/10000},
-      splitLine:{lineStyle:{color:'#f1ecf3'}}}],
-    series:[
-      {name:'月度目标', type:'bar', barGap:'-55%', z:1, barWidth:'52%', itemStyle:{color:'#efe4ea', borderRadius:[4,4,0,0]},
-       data:g.map(r=>r[2]), tooltip:{valueFormatter:v=>W(v)}},
-      {name:'实际成交额', type:'bar', z:2, barWidth:'52%', itemStyle:{borderRadius:[4,4,0,0],
-        color:{type:'linear',x:0,y:0,x2:0,y2:1,colorStops:[{offset:0,color:'#e09ab5'},{offset:1,color:'#c5658c'}]}},
-       label:{show:true, position:'top', fontSize:10, color:'#b84a73', formatter:p=>P(g[p.dataIndex][3])},
-       data:g.map(r=>r[1]), tooltip:{valueFormatter:v=>W(v)}}
-    ]
-  });
-})();
-
-/* 2. 用户规模 堆叠面积 */
-(function(){
-  const u = AGG.user_data;
-  const days = u.dates.map(d => +d.slice(8)+'日');
-  const names = ['注册','实名','戳额','给额','成交'];
-  const colors = ['#efe4ea','#e3c3d3','#d37295','#b84a73','#8e3960'];
-  mk('cUser', {
-    color:colors, tooltip:{...tip, trigger:'axis', axisPointer:{type:'line', lineStyle:{color:'#d37295'}},
-      valueFormatter:v=>W(v)},
-    legend:{top:0, right:0, itemWidth:12, itemHeight:8, textStyle:{color:'#6b6478', fontSize:11}},
-    grid:{left:8, right:16, top:40, bottom:6, containLabel:true},
-    xAxis:{type:'category', boundaryGap:false, data:days,
-      axisLine:{lineStyle:{color:'#e5e0e8'}}, axisLabel:{color:'#6b6478', fontSize:10}},
-    yAxis:{type:'value', axisLabel:{color:'#6b6478', fontSize:10, formatter:v=>W(v)},
-      splitLine:{lineStyle:{color:'#f1ecf3'}}},
-    series: names.map((n,i) => ({
-      name:n+'人数', type:'line', stack:'total', symbol:'none', smooth:true, lineStyle:{width:0},
-      areaStyle:{opacity:.92}, emphasis:{focus:'series'},
-      data:u[n]
-    }))
-  });
-})();
-
-/* 3. 利润占比 组合图 */
-(function(){
-  const p = AGG.profit_data;
-  const zs = p.map(r=>r.战区);
-  mk('cProfit', {
-    tooltip:{...tip, trigger:'axis', axisPointer:{type:'shadow'}},
-    legend:{top:0, right:0, itemWidth:12, itemHeight:8, textStyle:{color:'#6b6478', fontSize:11}},
-    grid:{left:8, right:10, top:44, bottom:6, containLabel:true},
-    xAxis:{type:'category', data:zs, axisTick:{show:false},
-      axisLine:{lineStyle:{color:'#e5e0e8'}}, axisLabel:{color:'#6b6478', fontSize:11}},
-    yAxis:[
-      {type:'value', name:'毛利（万元）', nameTextStyle:{color:'#9a93a5', fontSize:10},
-       axisLabel:{color:'#6b6478', fontSize:10, formatter:v=>v/10000}, splitLine:{lineStyle:{color:'#f1ecf3'}}},
-      {type:'value', name:'占比', max:.45, nameTextStyle:{color:'#9a93a5', fontSize:10},
-       axisLabel:{color:'#6b6478', fontSize:10, formatter:v=>(v*100).toFixed(0)+'%'}, splitLine:{show:false}}
-    ],
-    series:[
-      {name:'毛利', type:'bar', barWidth:'38%', data:p.map(r=>r.毛利),
-        itemStyle:{borderRadius:[4,4,0,0], color:pa=>zoneColor(pa.name)},
-        tooltip:{valueFormatter:v=>W(v)}},
-      {name:'资金占比', type:'line', yAxisIndex:1, smooth:true, symbolSize:6, data:p.map(r=>+r.资金占比.toFixed(3))},
-      {name:'获客占比', type:'line', yAxisIndex:1, smooth:true, symbolSize:6, data:p.map(r=>+r.获客占比.toFixed(3))},
-      {name:'逾期占比', type:'line', yAxisIndex:1, smooth:true, symbolSize:6, data:p.map(r=>+r.逾期占比.toFixed(3))},
-      {name:'利润占比', type:'line', yAxisIndex:1, smooth:true, symbolSize:7, lineStyle:{width:2.5},
-       data:p.map(r=>+r.利润占比.toFixed(3))}
-    ],
-    color:['#8a74c9','#5b7fd4','#4bb3a4','#d9534f','#d37295']
-  });
-})();
-
-/* 4. 风险饼图 */
-(function(){
-  const z = AGG.over_zone;
-  mk('cPie', {
-    color:z.map(r=>zoneColor(r[0])),
-    tooltip:{...tip, trigger:'item', formatter:p=>''+p.name+'<br>逾期金额：<b>'+W(p.value)+'</b>（'+p.percent+'%）'},
-    legend:{bottom:0, itemWidth:12, itemHeight:8, textStyle:{color:'#6b6478', fontSize:11}},
-    series:[{type:'pie', radius:['42%','68%'], center:['50%','45%'],
-      itemStyle:{borderColor:'#fff', borderWidth:2, borderRadius:5},
-      label:{formatter:'{b}\n{d}%', fontSize:11, color:'#6b6478', lineHeight:16},
-      data:z.map(r=>({name:r[0], value:r[1]}))}]
-  });
-})();
-
-/* 5. 逾期分布 城市条形 */
-(function(){
-  const c = AGG.over_city.slice(0,10);
-  mk('cCity', {
-    tooltip:{...tip, trigger:'axis', axisPointer:{type:'shadow'}, valueFormatter:v=>W(v)},
-    grid:{left:8, right:34, top:8, bottom:6, containLabel:true},
-    xAxis:{type:'value', axisLabel:{color:'#6b6478', fontSize:10, formatter:v=>v/10000}, splitLine:{lineStyle:{color:'#f1ecf3'}}},
-    yAxis:{type:'category', inverse:true, data:c.map(r=>r[0]),
-      axisLine:{show:false}, axisTick:{show:false}, axisLabel:{color:'#2b2733', fontSize:11}},
-    series:[{type:'bar', barWidth:13, data:c.map(r=>r[1]),
-      label:{show:true, position:'right', fontSize:10, color:'#b84a73', formatter:p=>W(p.value)},
-      itemStyle:{borderRadius:[0,7,7,0], color:{type:'linear',x:0,y:0,x2:1,y2:0,
-        colorStops:[{offset:0,color:'#e8a9bf'},{offset:1,color:'#c5658c'}]}}}]
-  });
-})();
-
-/* 6. 风险关系 散点 */
-(function(){
-  const s = AGG.risk_scatter;
-  const zones = [...new Set(s.map(r=>r[4]))];
-  mk('cRisk', {
-    color:zones.map(zoneColor),
-    tooltip:{...tip, formatter:p=>{
-      const d = p.data; // [应收利息, 逾期金额, 成交额, 战区, 业务组]
-      return '<b>'+d[4]+'</b><br>应收利息：'+W(d[0])+'<br>逾期金额：<b style="color:#d9534f">'+W(d[1])+
-        '</b><br>成交额：'+W(d[2])+'<br>逾期/利息：'+P(d[1]/d[0]);}},
-    legend:{top:0, right:0, itemWidth:12, itemHeight:8, textStyle:{color:'#6b6478', fontSize:11}},
-    grid:{left:10, right:20, top:40, bottom:6, containLabel:true},
-    xAxis:{type:'value', name:'应收利息（万元）', nameTextStyle:{color:'#9a93a5', fontSize:10},
-      scale:true, axisLabel:{color:'#6b6478', fontSize:10, formatter:v=>(v/10000).toFixed(0)},
-      splitLine:{lineStyle:{color:'#f1ecf3'}}},
-    yAxis:{type:'value', name:'逾期金额（万元）', nameTextStyle:{color:'#9a93a5', fontSize:10}, scale:true,
-      axisLabel:{color:'#6b6478', fontSize:10, formatter:v=>(v/10000).toFixed(1)}, splitLine:{lineStyle:{color:'#f1ecf3'}}},
-    series: zones.map(z => ({
-      name:z, type:'scatter',
-      data:s.filter(r=>r[4]===z).map(r=>[r[1], r[2], r[3], r[4], r[0]]),
-      symbolSize:d => 6 + Math.sqrt(d[2]/1000000)*16,
-      itemStyle:{opacity:.82, borderColor:'#fff', borderWidth:1},
-      emphasis:{focus:'series', itemStyle:{opacity:1}}
-    }))
-  });
-})();
-</script>
 </body>
 </html>
