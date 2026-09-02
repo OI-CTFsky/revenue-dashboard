@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>刘健博 · SQL 代码速查 | 数据分析个人平台</title>
+<meta name="description" content="刘健博的 SQL 学习笔记：从基础查询、聚合筛选到窗口函数与环比同比分析的代码速查。">
+<style>
+  :root{
+    --bg:#1a1d23; --bg2:#22262d; --card:#282c34; --line:#3e4451;
+    --text:#abb2bf; --head:#e6e9ef; --muted:#7f848e;
+    --k:#c678dd; --f:#e5c07b; --s:#98c379; --n:#d19a66; --c:#5c6370;
+    --accent:#61afef; --accent2:#56b6c2;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",system-ui,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.65;font-size:15px}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px 60px}
+
+  /* top nav - matches platform style but dark */
+  .topnav{position:sticky;top:0;z-index:50;background:rgba(26,29,35,.92);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .topnav .in{max-width:960px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .topnav .brand{font-weight:700;font-size:15px;color:var(--head);text-decoration:none}
+  .topnav .brand b{color:var(--accent)}
+  .topnav .links{display:flex;gap:4px;flex-wrap:wrap}
+  .topnav .links a{font-size:13px;color:var(--muted);text-decoration:none;padding:5px 12px;border-radius:18px}
+  .topnav .links a:hover{background:var(--bg2);color:var(--accent)}
+  .topnav .home{margin-left:auto;background:var(--accent);color:#0d1117;font-size:13px;font-weight:600;
+    padding:7px 18px;border-radius:20px;text-decoration:none}
+  .topnav .home:hover{background:#8fcfff}
+
+  /* hero */
+  .hero{padding:52px 0 36px;text-align:center;border-bottom:1px solid var(--line);margin-bottom:32px}
+  .hero h1{font-size:34px;color:var(--head);letter-spacing:1px}
+  .hero h1 .sql{font-family:"SF Mono","Fira Code","Consolas",monospace;color:var(--accent)}
+  .hero p{color:var(--muted);margin-top:10px;font-size:15px;max-width:620px;margin-left:auto;margin-right:auto}
+  .hero .stats{display:flex;justify-content:center;gap:28px;margin-top:24px;flex-wrap:wrap}
+  .hero .stats b{display:block;font-size:26px;color:var(--head)}
+  .hero .stats span{font-size:12px;color:var(--muted)}
+
+  /* cards */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:22px;overflow:hidden}
+  .card-head{padding:14px 18px;background:var(--bg2);border-bottom:1px solid var(--line);
+    color:var(--head);font-weight:600;font-size:15.5px;display:flex;align-items:center;gap:10px}
+  .card-head::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .card pre{margin:0;padding:16px 18px;overflow-x:auto;font-family:"SF Mono","Fira Code","Consolas","PingFang SC",monospace;
+    font-size:13.5px;line-height:1.7;background:var(--card)}
+  .card code{color:var(--text)}
+
+  /* syntax highlighting */
+  .k{color:var(--k);font-weight:600}
+  .f{color:var(--f)}
+  .s{color:var(--s)}
+  .n{color:var(--n)}
+  .c{color:var(--c);font-style:italic}
+
+  /* section divider */
+  .sec-label{margin:34px 0 18px;font-size:13px;color:var(--accent2);font-weight:600;letter-spacing:1px;
+    text-transform:uppercase;border-left:3px solid var(--accent2);padding-left:10px}
+
+  /* footer */
+  .footer{margin-top:46px;text-align:center;color:var(--muted);font-size:13px}
+  .footer a{color:var(--accent);text-decoration:none}
+
+  @media(max-width:640px){
+    .hero h1{font-size:26px}
+    .card pre{font-size:12px;padding:12px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="in">
+    <a class="brand" href="index.html">刘健博<b>·</b>个人平台</a>
+    <div class="links">
+      <a href="index.html">主页</a>
+      <a href="dashboard.html">营收仪表盘</a>
+      <a href="e02-analysis.html">异动诊断</a>
+      <a href="sql-cheatsheet.html">SQL 速查</a>
+    </div>
+    <a class="home" href="index.html">← 返回作品集主页</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <h1><span class="sql">SQL</span> 代码速查</h1>
+    <p>从基础查询、聚合筛选到窗口函数、环比同比分析的学习笔记。所有代码片段均可在 MySQL / Hive SQL 环境中直接运行。</p>
+    <div class="stats">
+      <div><b id="card-count">—</b><span>代码片段</span></div>
+      <div><b>MySQL</b><span>主要方言</span></div>
+      <div><b>窗口函数</b><span>RANK / LAG / 累计</span></div>
+    </div>
+  </header>
+
+  <div class="sec-label">代码片段</div>
+
+<div class="card"><div class="card-head">4.2 基础SQL语句 | 基础查询</div><pre><code><span class='k'>select</span> 日期,业务组,成交额
+<span class='k'>from</span> dsx_test.8月成交数据
+<span class='k'>select</span> 日期,业务组,成交额,逾期金额,应收利息
+<span class='k'>from</span> dsx_test.8月成交数据
+<span class='k'>select</span> *,业务组,日期
+<span class='k'>from</span> dsx_test.8月成交数据
+<span class='k'>select</span> *,逾期金额/成交额 <span class='k'>AS</span> 逾期率,应收利息/成交额 <span class='k'>AS</span> 预估利率
+<span class='k'>from</span> dsx_test.8月成交数据
+<span class='k'>select</span> *,<span class='f'>round</span>(成交人数/注册人数,<span class='n'>2</span>) 成交率
+<span class='k'>from</span> dsx_test.8月获客数据</code></pre></div>
+<div class="card"><div class="card-head">基础筛选</div><pre><code><span class='k'>select</span> *,<span class='f'>round</span>(逾期金额/成交额,<span class='n'>2</span>) 逾期率
+<span class='k'>from</span> dsx_test.8月成交数据
+<span class='k'>where</span> 城市 = &#x27;上海&#x27; <span class='k'>and</span> 成交额 &gt; <span class='n'>10000</span>
+<span class='k'>select</span> 日期,业务组,注册人数,戳额人数,成交人数,<span class='f'>round</span>(成交人数/注册人数,<span class='n'>4</span>) 成交率
+<span class='k'>from</span> dsx_test.8月获客数据
+<span class='k'>where</span> 注册人数 &gt; <span class='n'>1000</span> <span class='k'>and</span> 成交人数 &lt; <span class='n'>500</span></code></pre></div>
+<div class="card"><div class="card-head">去重 distinct</div><pre><code><span class='k'>from</span> dsx_test.8月获客数据 
+<span class='k'>where</span> 成交人数 &lt; <span class='n'>10</span></code></pre></div>
+<div class="card"><div class="card-head">分组</div><pre><code><span class='k'>select</span> 城市,业务组
+<span class='k'>from</span> dsx_test.`8月成交数据`
+<span class='k'>where</span> 应收利息 &lt; <span class='n'>100</span>
+<span class='k'>group</span> <span class='k'>by</span> <span class='n'>1</span>,<span class='n'>2</span>
+<span class='k'>select</span> 日期,业务组,成交人数
+<span class='k'>from</span> dsx_test.`8月获客数据`
+<span class='k'>where</span> 成交人数 &lt; <span class='n'>10</span>
+<span class='k'>group</span> <span class='k'>by</span> <span class='n'>2</span>,<span class='n'>3</span> 
+<span class='k'>select</span> 日期,城市,业务组,<span class='f'>sum</span>(成交额) 成交额总和,<span class='f'>avg</span>(成交额) 成交额均值,<span class='f'>max</span>(成交额) 成交额最大值,<span class='f'>min</span>(成交额) 成交额最小值
+<span class='k'>from</span> dsx_test.`8月成交数据`
+<span class='k'>where</span> 应收利息 &lt; <span class='n'>100</span>
+<span class='k'>group</span> <span class='k'>by</span> <span class='n'>2</span>,<span class='n'>3</span></code></pre></div>
+<div class="card"><div class="card-head">练习题2</div><pre><code><span class='k'>select</span>
+cj.业务组
+,cj.城市
+,city.城市经理
+,cj.战区
+,zq.战区经理
+,<span class='f'>sum</span>(cj.成交额) 成交总和
+,<span class='f'>sum</span>(hk.注册人数) 注册人数总和
+,<span class='f'>sum</span>(cj.逾期金额) 逾期总和
+,<span class='f'>round</span>(<span class='f'>sum</span>(cj.逾期金额)/<span class='f'>sum</span>(cj.成交额),<span class='n'>4</span>) 逾期率
+<span class='k'>from</span> dsx_test.`8月成交数据` cj
+<span class='k'>join</span> dsx_test.`8月获客数据` hk
+<span class='k'>on</span> cj.日期 = hk.日期 <span class='k'>and</span> cj.业务组 = hk.业务组
+<span class='k'>join</span> dsx_test.城市信息 city
+<span class='k'>on</span> cj.城市 = city.城市名称
+<span class='k'>join</span> dsx_test.战区信息 zq
+<span class='k'>on</span> cj.战区 = zq.战区名称
+<span class='k'>where</span> cj.成交额 &gt;  <span class='n'>100000</span> <span class='k'>and</span> hk.注册人数 &gt; <span class='n'>5000</span>
+<span class='k'>group</span> <span class='k'>by</span>  <span class='n'>1</span>
+<span class='k'>having</span> <span class='f'>sum</span>(逾期金额) &lt; <span class='n'>100000</span></code></pre></div>
+<div class="card"><div class="card-head">子查询</div><pre><code><span class='k'>where</span> <span class='k'>in</span> 本身是一种链接逻辑
+<span class='k'>select</span>
+    <span class='f'>sum</span>(成交额) 8月总成交额
+<span class='k'>from</span> dsx_test.`8月成交数据` deal
+<span class='k'>join</span>
+(
+    <span class='k'>select</span>
+        城市
+    <span class='k'>from</span> dsx_test.`8月成交数据`
+    <span class='k'>group</span> <span class='k'>by</span> <span class='n'>1</span>
+    <span class='k'>having</span> <span class='f'>sum</span>(成交额) &gt; <span class='n'>10000000</span>
+)city
+<span class='k'>on</span> deal.城市 = city.城市</code></pre></div>
+<div class="card"><div class="card-head">计算战区下城市平均成交额大于5百万的战区的总成交额</div><pre><code><span class='k'>select</span> <span class='f'>sum</span>(成交额) 满足条件战区总成交额
+<span class='k'>from</span> dsx_test.`8月成交数据` a1
+<span class='k'>join</span>
+(
+    <span class='k'>select</span> 战区
+<span class='k'>from</span> dsx_test.`8月成交数据`
+<span class='k'>group</span> <span class='k'>by</span> <span class='n'>1</span>
+<span class='k'>having</span> <span class='f'>sum</span>(成交额)/<span class='f'>count</span>(<span class='k'>distinct</span> 城市) &gt; <span class='n'>5000000</span>
+) a2
+<span class='k'>on</span> a1.战区 = a2.战区</code></pre></div>
+<div class="card"><div class="card-head">求出成交额小于城市平均成交额的城市在各自战区的总成交额，按成交额降序排序</div><pre><code><span class='k'>select</span> 战区
+,<span class='f'>sum</span>(成交额) 满足条件城市聚合到战区成交额
+<span class='k'>from</span> dsx_test.`8月成交数据` a1
+<span class='k'>right</span> <span class='k'>join</span>
+(
+    <span class='k'>select</span> 城市
+    <span class='k'>from</span> dsx_test.`8月成交数据`
+    <span class='k'>group</span> <span class='k'>by</span> <span class='n'>1</span>
+    <span class='k'>having</span> <span class='f'>sum</span>(成交额) &lt; (<span class='k'>select</span> <span class='f'>sum</span>(成交额)/<span class='f'>count</span>(<span class='k'>distinct</span> 城市) <span class='k'>from</span> dsx_test.8月成交数据)
+) a2
+<span class='k'>on</span> a2.城市 = a1.城市
+<span class='k'>group</span> <span class='k'>by</span> <span class='n'>1</span>
+<span class='k'>order</span> <span class='k'>by</span> <span class='n'>2</span> <span class='k'>desc</span></code></pre></div>
+<div class="card"><div class="card-head">求8月各战区成交额最高的三天、这三天的排行、成交额、战区总成交额、以及各自占战区总成交额的占比（保留小数点后3位小数）</div><pre><code><span class='k'>select</span> *
+,<span class='f'>round</span>(成交额/战区总成交额,<span class='n'>3</span>) 总成交额占比
+<span class='k'>from</span> (<span class='k'>select</span> 战区
+           , 日期
+           , 成交额
+           , <span class='f'>rank</span>() <span class='k'>over</span> (<span class='k'>partition</span> <span class='k'>by</span> 战区 <span class='k'>order</span> <span class='k'>by</span> 成交额 <span class='k'>desc</span>) 成交额排行
+           , <span class='f'>sum</span>(成交额) <span class='k'>over</span> (<span class='k'>partition</span> <span class='k'>by</span> 战区)                 战区总成交额
+      <span class='k'>from</span> (<span class='k'>select</span> 战区
+                 , <span class='f'>cast</span>(<span class='f'>replace</span>(<span class='f'>replace</span>(<span class='f'>replace</span>(日期, &#x27;年&#x27;, &#x27;-&#x27;), &#x27;月&#x27;, &#x27;-&#x27;), &#x27;日&#x27;, &#x27;-&#x27;) <span class='k'>as</span> <span class='k'>date</span>) 日期
+                 , <span class='f'>sum</span>(成交额) 成交额
+            <span class='k'>from</span> dsx_test.`8月成交数据`
+            <span class='k'>group</span> <span class='k'>by</span> <span class='n'>1</span>, <span class='n'>2</span>
+            )a
+      <span class='k'>order</span> <span class='k'>by</span> <span class='n'>1</span>,<span class='n'>4</span>
+    )b
+<span class='k'>where</span> 成交额排行 &lt; <span class='n'>4</span></code></pre></div>
+<div class="card"><div class="card-head">求8月各战区日成交额排名前20%的日期、成交额、以及具体排名及排名百分比（以百分比展示，取百分比后一位小数）</div><pre><code><span class='k'>select</span>
+    战区
+    ,日期
+    ,成交额
+    ,成交额排行
+    ,<span class='f'>concat</span>(<span class='f'>round</span>(排名百分比*<span class='n'>100</span>,<span class='n'>1</span>),&#x27;%&#x27;) 排名百分比
+<span class='k'>from</span>(
+            <span class='k'>select</span>
+            战区
+            ,日期
+            ,成交额
+            ,<span class='f'>rank</span>() <span class='k'>over</span> (<span class='k'>partition</span> <span class='k'>by</span> 战区 <span class='k'>order</span> <span class='k'>by</span> 成交额 <span class='k'>desc</span>) 成交额排行
+            ,<span class='f'>cume_dist</span>() <span class='k'>over</span> (<span class='k'>partition</span> <span class='k'>by</span> 战区 <span class='k'>order</span> <span class='k'>by</span> 成交额 <span class='k'>desc</span>) 排名百分比
+            <span class='k'>from</span> (
+                 <span class='k'>select</span>
+                 战区
+                ,日期
+                ,<span class='f'>sum</span>(成交额) 成交额
+                 <span class='k'>from</span> dsx_test.`8月成交数据`
+                 <span class='k'>group</span> <span class='k'>by</span> <span class='n'>1</span>,<span class='n'>2</span>
+                ) a
+        ) b
+<span class='k'>where</span> 排名百分比 &lt; <span class='n'>0.2</span></code></pre></div>
+<div class="card"><div class="card-head">求8月各战区日成交额的极差，按极差降序排序 | 解法一：窗口函数</div><pre><code><span class='k'>select</span> 战区
+,(最大值-最小值) 极差
+<span class='k'>from</span>
+    (
+        <span class='k'>select</span> 战区
+        ,日期
+        ,成交额
+        ,<span class='f'>max</span>(成交额) <span class='k'>over</span> (<span class='k'>partition</span> <span class='k'>by</span> 战区) 最大值
+        ,<span class='f'>min</span>(成交额) <span class='k'>over</span> (<span class='k'>partition</span> <span class='k'>by</span> 战区) 最小值
+        <span class='k'>from</span>(
+            <span class='k'>select</span> 战区
+            ,日期
+            ,<span class='f'>sum</span>(成交额) 成交额
+            <span class='k'>from</span> dsx_test.`8月成交数据`
+            <span class='k'>group</span> <span class='k'>by</span> <span class='n'>1</span>,<span class='n'>2</span>
+            ) a
+    ) b
+<span class='k'>group</span> <span class='k'>by</span> <span class='n'>1</span>
+<span class='k'>order</span> <span class='k'>by</span> <span class='n'>2</span> <span class='k'>desc</span></code></pre></div>
+<div class="card"><div class="card-head">解法二：直接聚合</div><pre><code><span class='k'>select</span>
+    战区
+    ,<span class='f'>max</span>(成交额)- <span class='f'>min</span>(成交额) 日成交额极差
+<span class='k'>from</span> (
+    <span class='k'>select</span>
+        战区
+        ,日期
+        ,<span class='f'>sum</span>(成交额) 成交额
+        <span class='k'>from</span> dsx_test.`8月成交数据`
+        <span class='k'>group</span> <span class='k'>by</span> <span class='n'>1</span>,<span class='n'>2</span>
+     ) a
+<span class='k'>group</span> <span class='k'>by</span> <span class='n'>1</span>
+<span class='k'>order</span> <span class='k'>by</span> <span class='n'>2</span> <span class='k'>desc</span></code></pre></div>
+<div class="card"><div class="card-head">求8月东部战区的日成交额，天环比，周同比</div><pre><code><span class='k'>select</span>
+    战区
+    ,日期
+    ,成交额
+    ,<span class='f'>concat</span>(<span class='f'>round</span>((成交额/前一日成交额-<span class='n'>1</span>)*<span class='n'>100</span>,<span class='n'>1</span>),&#x27;%&#x27;) 天环比
+    ,<span class='f'>concat</span>(<span class='f'>round</span>((成交额/前一周成交额-<span class='n'>1</span>)*<span class='n'>100</span>,<span class='n'>1</span>),&#x27;%&#x27;) 周同比
+<span class='k'>from</span>
+    (
+        <span class='k'>select</span>
+            战区
+            ,日期
+            ,成交额
+            ,<span class='f'>lag</span>(成交额,<span class='n'>1</span>) <span class='k'>over</span> (<span class='k'>partition</span> <span class='k'>by</span> 战区 <span class='k'>order</span> <span class='k'>by</span> 日期) 前一日成交额
+            ,<span class='f'>lag</span>(成交额,<span class='n'>7</span>) <span class='k'>over</span> (<span class='k'>partition</span> <span class='k'>by</span> 战区 <span class='k'>order</span> <span class='k'>by</span> 日期) 前一周成交额
+        <span class='k'>from</span> (
+            <span class='k'>select</span>
+                战区
+                ,<span class='f'>cast</span>(<span class='f'>replace</span>(<span class='f'>replace</span>(<span class='f'>replace</span>(日期,&#x27;年&#x27;,&#x27;-&#x27;),&#x27;月&#x27;,&#x27;-&#x27;),&#x27;日&#x27;,&#x27;-&#x27;) <span class='k'>as</span> <span class='k'>date</span>) 日期
+                ,<span class='f'>sum</span>(成交额) 成交额
+                <span class='k'>from</span> dsx_test.`8月成交数据`
+                <span class='k'>where</span> 战区 = &#x27;东部战区&#x27;
+                <span class='k'>group</span> <span class='k'>by</span> <span class='n'>1</span>,<span class='n'>2</span>
+             ) a
+    ) b</code></pre></div>
+<div class="card"><div class="card-head">求8月东部战区的日成交额、当月总成交额、截至当天的累计成交额、近3天的平均成交额（当日及前2日）、近7天的累计成交额（当日及前后3日）</div><pre><code><span class='k'>select</span>
+     战区
+     ,日期
+     ,成交额 日成交额
+     ,<span class='f'>sum</span>(成交额) <span class='k'>over</span> (<span class='k'>partition</span> <span class='k'>by</span> 战区) 当月总成交额
+     ,<span class='f'>sum</span>(成交额) <span class='k'>over</span> (<span class='k'>partition</span> <span class='k'>by</span> 战区 <span class='k'>order</span> <span class='k'>by</span> 日期) 截止当天的累计成交额
+     ,<span class='f'>avg</span>(成交额) <span class='k'>over</span> (<span class='k'>partition</span> <span class='k'>by</span> 战区 <span class='k'>order</span> <span class='k'>by</span> 日期 <span class='k'>rows</span> <span class='n'>2</span> <span class='k'>preceding</span>) 近三天的平均成交额
+     ,<span class='f'>sum</span>(成交额) <span class='k'>over</span> (<span class='k'>partition</span> <span class='k'>by</span> 战区 <span class='k'>order</span> <span class='k'>by</span> 日期 <span class='k'>rows</span> <span class='k'>between</span> <span class='n'>3</span> <span class='k'>preceding</span> <span class='k'>and</span> <span class='n'>3</span> <span class='k'>following</span>) 近七天的累计成交额
+<span class='k'>from</span> (
+        <span class='k'>select</span>
+        战区
+        ,<span class='f'>cast</span>(<span class='f'>replace</span>(<span class='f'>replace</span>(<span class='f'>replace</span>(日期,&#x27;年&#x27;,&#x27;-&#x27;),&#x27;月&#x27;,&#x27;-&#x27;),&#x27;日&#x27;,&#x27;-&#x27;) <span class='k'>as</span> <span class='k'>date</span>) 日期
+        ,<span class='f'>sum</span>(成交额) 成交额
+        <span class='k'>from</span> dsx_test.`8月成交数据`
+        <span class='k'>where</span> 战区 = &#x27;东部战区&#x27;
+        <span class='k'>group</span> <span class='k'>by</span> <span class='n'>1</span>,<span class='n'>2</span>
+) a</code></pre></div>
+
+  <div class="footer">
+    © 刘健博 · 数据分析求职作品集 ·
+    <a href="index.html">返回个人平台主页</a> ·
+    <a href="resume.pdf" target="_blank">下载简历 PDF</a>
+  </div>
+
+</div>
+
+<script>
+  document.getElementById('card-count').textContent = document.querySelectorAll('.card').length;
+</script>
+
+</body>
+</html>
