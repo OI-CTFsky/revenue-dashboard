@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>绿色"驿站"，常驻青春 · 国家级大创项目 | 刘健博个人平台</title>
+<meta name="description" content="国家级大学生创业训练项目：快递包装自动化回收与再利用。含行业调研、SPSS 回归分析、TAM/SAM/SOM 规模测算、四年财务预测与投融资方案（已脱敏）。">
+<style>
+  :root{
+    --ink:#242b26; --ink-2:#5d6b62; --ink-3:#97a49c;
+    --bg:#f5f8f6; --card:#ffffff; --line:#e2ebe6;
+    --accent:#0f9960; --accent-deep:#0b7350; --accent-soft:#e6f5ee;
+    --gold:#b9891f; --blue:#3d7dd8; --purple:#5b54c9;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",system-ui,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.7;font-size:15px}
+  .wrap{max-width:980px;margin:0 auto;padding:0 22px 60px}
+
+  /* ---------- top nav ---------- */
+  .topnav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.93);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .topnav .in{max-width:980px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .topnav .brand{font-weight:700;font-size:15px;color:var(--ink);text-decoration:none}
+  .topnav .brand b{color:var(--accent)}
+  .topnav .links{display:flex;gap:4px;flex-wrap:wrap}
+  .topnav .links a{font-size:13px;color:var(--ink-2);text-decoration:none;padding:5px 12px;border-radius:18px}
+  .topnav .links a:hover{background:var(--accent-soft);color:var(--accent-deep)}
+  .topnav .links a.on{background:var(--accent-soft);color:var(--accent-deep);font-weight:600}
+  .topnav .home{margin-left:auto;background:var(--accent);color:#fff;font-size:13px;font-weight:600;
+    padding:7px 18px;border-radius:20px;text-decoration:none}
+  .topnav .home:hover{background:var(--accent-deep)}
+
+  /* ---------- hero ---------- */
+  .hero{background:linear-gradient(135deg,#0b7350 0%,#0f9960 55%,#37b785 100%);
+    color:#fff;border-radius:0 0 26px 26px;padding:50px 0 42px;margin-bottom:30px}
+  .hero .in{max-width:980px;margin:0 auto;padding:0 22px}
+  .hero .badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);
+    font-size:12.5px;padding:4px 14px;border-radius:16px;margin-bottom:14px}
+  .hero h1{font-size:36px;letter-spacing:1px;font-weight:700}
+  .hero .sub{margin-top:8px;font-size:16px;opacity:.93}
+  .hero .meta{margin-top:16px;display:flex;gap:10px 24px;flex-wrap:wrap;font-size:13.5px;opacity:.95}
+  .stats{margin-top:26px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .stats .s{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:13px 15px}
+  .stats .s b{display:block;font-size:22px;font-weight:700}
+  .stats .s span{font-size:12px;opacity:.88}
+
+  /* ---------- sections ---------- */
+  section{margin-bottom:34px;scroll-margin-top:70px}
+  h2.sec{font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  h2.sec::before{content:"";width:5px;height:20px;border-radius:3px;background:var(--accent)}
+  h2.sec em{font-style:normal;font-size:12px;color:var(--ink-3);font-weight:400;margin-left:auto}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;
+    box-shadow:0 1px 3px rgba(36,43,38,.05)}
+  .card+.card{margin-top:14px}
+  .card h3{margin-bottom:10px;color:var(--accent-deep)}
+  .lead{color:var(--ink-2);font-size:14.5px}
+  .note{background:#fff8e8;border:1px solid #f0e0b8;color:#7a5c12;border-radius:12px;
+    padding:12px 16px;font-size:13px;line-height:1.65}
+  .note b{color:#6b4e0a}
+
+  /* ---------- role grid ---------- */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .tile h4{font-size:14px;color:var(--accent-deep);margin-bottom:6px;display:flex;gap:8px;align-items:center}
+  .tile p{font-size:13.2px;color:var(--ink-2)}
+  .tile .big{font-size:24px;font-weight:700;color:var(--ink);display:block;line-height:1.3}
+  .tile .unit{font-size:12px;color:var(--ink-3);font-weight:400}
+
+  /* ---------- flow ---------- */
+  .flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin-top:6px}
+  .flow .step{flex:1 1 180px;background:var(--accent-soft);border:1px solid #cdeadb;border-radius:14px;
+    padding:16px;position:relative;text-align:center}
+  .flow .step .n{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--accent);
+    color:#fff;font-size:13px;font-weight:700;align-items:center;justify-content:center;margin-bottom:8px}
+  .flow .step h5{font-size:14px;margin-bottom:6px}
+  .flow .step p{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+  .flow .arrow{flex:0 0 34px;display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:20px}
+
+  /* ---------- table ---------- */
+  table{width:100%;border-collapse:collapse;font-size:13.3px;margin-top:6px}
+  th,td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--line)}
+  th:first-child,td:first-child{text-align:left}
+  thead th{background:var(--accent-soft);color:var(--accent-deep);font-weight:600;font-size:12.5px}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#fafcfb}
+  td.hl{color:var(--accent-deep);font-weight:600}
+
+  /* ---------- charts ---------- */
+  .chart{width:100%;height:320px}
+  .chart-sm{width:100%;height:260px}
+
+  /* ---------- risk ---------- */
+  .risks{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .risk{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:10px;padding:12px 15px}
+  .risk h5{font-size:13.5px;margin-bottom:4px}
+  .risk p{font-size:12.6px;color:var(--ink-2)}
+
+  ul.dot{margin:8px 0 0;padding-left:20px}
+  ul.dot li{font-size:13.6px;color:var(--ink-2);margin-bottom:7px}
+  ul.dot li b{color:var(--ink);font-weight:600}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .tags span{font-size:12px;background:var(--accent-soft);color:var(--accent-deep);padding:3px 11px;border-radius:12px}
+
+  footer{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);
+    text-align:center;font-size:12.5px;color:var(--ink-3)}
+  footer a{color:var(--accent-deep);text-decoration:none}
+
+  @media(max-width:900px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .grid2,.grid3,.risks{grid-template-columns:1fr}
+    .hero h1{font-size:28px}
+    .topnav .links{display:none}
+    .flow .arrow{display:none}
+    .flow .step{margin-bottom:10px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="in">
+    <a class="brand" href="index.html">刘健博<b>·</b>个人平台</a>
+    <div class="links">
+      <a href="index.html">主页</a>
+      <a href="dashboard.html">营收仪表盘</a>
+      <a href="e02-analysis.html">异动诊断</a>
+      <a href="sql-cheatsheet.html">SQL 速查</a>
+      <a class="on" href="green-station.html">绿色驿站</a>
+    </div>
+    <a class="home" href="index.html">← 返回个人主页</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="in">
+    <span class="badge">🏅 国家级大学生创业训练项目</span>
+    <h1>绿色"驿站"，常驻青春</h1>
+    <p class="sub">快递包装自动化回收与再利用 · 高校场景全链路循环方案</p>
+    <div class="meta">
+      <span>🏫 山东财经大学 · 金融学院</span>
+      <span>📅 2023.06 – 2024.06</span>
+      <span>👤 项目负责人</span>
+      <span>💰 立项经费 5,000 元</span>
+    </div>
+    <div class="stats">
+      <div class="s"><b>6 人</b><span>团队规模 · 本人任负责人</span></div>
+      <div class="s"><b>300+ 份</b><span>有效调研问卷</span></div>
+      <div class="s"><b>96,660 件</b><span>年回收量测算</span></div>
+      <div class="s"><b>96.92%</b><span>学生参与意愿</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="note">
+    <b>🔒 脱敏说明：</b>本页仅用于作品集展示，已完整隐去其他团队成员与指导教师的姓名、学号、联系方式与照片，
+    本人的学号与项目申报联系电话同样剔除，仅保留项目内容、数据模型与个人分工部分。
+  </div>
+
+  <!-- 1 项目概览 -->
+  <section id="overview" style="margin-top:26px">
+    <h2 class="sec">项目概览<em>OVERVIEW</em></h2>
+    <div class="card">
+      <p class="lead">
+        项目以高校为场景，通过<b>自动回收设备 + 返利激励</b>解决快递包装废弃物回收率低的痛点。
+        在菜鸟驿站与各宿舍楼布设具备自动称重、分类、估价与返现能力的回收箱，回收的纸箱按质量分级后分流至
+        <b>再运输 / DIY 手工改造 / 废纸再生</b>三条再利用路径，形成"回收—分拣—再利用—研发"的闭环。
+      </p>
+      <div class="grid3" style="margin-top:18px">
+        <div class="tile">
+          <h4>🎯 痛点</h4>
+          <p>快递包装总体回收率不足 <b>20%</b>，纸箱回收率不到一半；2018 年各类快递包装材料消耗量已达 <b>941.23 万吨</b>。</p>
+        </div>
+        <div class="tile">
+          <h4>💡 方案</h4>
+          <p>自动回收箱 + 小程序估价返现 + 分级再利用，覆盖快递盒、泡沫箱、塑料袋等多品类包装。</p>
+        </div>
+        <div class="tile">
+          <h4>📈 成果</h4>
+          <p>完成 3 份调查报告与完整立项书，项目获<b>国家级立项</b>，并获<b>互联网+ 大赛银奖</b>。</p>
+        </div>
+      </div>
+      <div class="tags">
+        <span>循环经济</span><span>高校场景</span><span>SPSS 回归</span><span>TAM/SAM/SOM</span>
+        <span>财务建模</span><span>投融资方案</span><span>团队负责人</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 我的角色 -->
+  <section id="role">
+    <h2 class="sec">我的角色与分工<em>MY ROLE</em></h2>
+    <div class="card">
+      <div class="grid2">
+        <div class="tile">
+          <h4>👤 项目负责人</h4>
+          <p><b>立项书投融资方案、效益监测部分</b>，调查问卷设计与发放，以及整个项目书的整合与统稿。</p>
+        </div>
+        <div class="tile">
+          <h4>🤝 团队与协作</h4>
+          <p>统筹 6 人团队分工推进，协调菜鸟驿站、物流公司、DIY 手工店等外部合作方落地回收链路。</p>
+        </div>
+      </div>
+      <ul class="dot" style="margin-top:14px">
+        <li><b>调研分析：</b>设计问卷并回收 300 余份，用 SPSS 做信效度检验与多元 Logistic 回归，量化回收率关键影响因素（模型 p=0.004）。</li>
+        <li><b>规模测算：</b>基于 27,000 名在校生测算年回收量 96,660 件、参与意愿 96.92%，用 TAM/SAM/SOM 法测算初期市场规模约 90 万元。</li>
+        <li><b>效益监测：</b>搭建回收量与销售额预测模型，给出四年销售额 33.6 万至 70.9 万，跟踪 22.44 万成本预算与 5,000 元经费执行。</li>
+        <li><b>资源协调：</b>作为负责人推进回收链路落地，输出 3 份调查报告并获互联网+ 等奖项。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3 行业与市场 -->
+  <section id="market">
+    <h2 class="sec">行业与市场分析<em>MARKET</em></h2>
+    <div class="card">
+      <div class="grid3">
+        <div class="tile">
+          <span class="big">630<span class="unit"> 亿件</span></span>
+          <p>2019 年我国快递业务量，自 2014 年起稳居世界第一</p>
+        </div>
+        <div class="tile">
+          <span class="big">941<span class="unit">.23 万吨</span></span>
+          <p>2018 年各类快递包装材料消耗量，废弃物随业务量同步攀升</p>
+        </div>
+        <div class="tile">
+          <span class="big">&lt;20<span class="unit">%</span></span>
+          <p>快递包装垃圾总体回收率，纸箱回收率也不到一半</p>
+        </div>
+        <div class="tile">
+          <span class="big">49.0<span class="unit">%</span></span>
+          <p>2019 年我国废纸回收率，创 10 年间新高</p>
+        </div>
+        <div class="tile">
+          <span class="big">58.3<span class="unit">%</span></span>
+          <p>2019 年我国废纸利用率，较 2011-2017 年的 70%+ 明显下滑</p>
+        </div>
+        <div class="tile">
+          <span class="big">7.10<span class="unit"> 亿</span></span>
+          <p>截至 2020 年 3 月我国网络购物用户规模，占网民整体 78.6%</p>
+        </div>
+      </div>
+      <p class="lead" style="margin-top:16px">
+        行业存在三大结构性问题：<b>过度包装严重</b>（缓冲物、塑料袋、厚纸盒层层叠加，拆后即废）、
+        <b>无标准化包装</b>（各快递企业自建标准，行业内无法形成统一回收制度）、
+        <b>回收意识淡薄且缺乏立法约束</b>。已有回收模式（菜鸟回箱计划、旧衣回收箱改装）存在客户类型覆盖少、
+        产业链单一、网点密度低等不足，为高校场景的差异化方案留出空间。
+      </p>
+    </div>
+  </section>
+
+  <!-- 4 解决方案 -->
+  <section id="solution">
+    <h2 class="sec">解决方案：四模块闭环<em>SOLUTION</em></h2>
+    <div class="card">
+      <div class="flow">
+        <div class="step">
+          <div class="n">1</div>
+          <h5>回收模块</h5>
+          <p>驿站设大型回收装置、宿舍楼与餐厅设小型装置；小程序查询点位、在线估价、预约快递小车上门取件</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <div class="n">2</div>
+          <h5>分拣模块</h5>
+          <p>回收箱内部按破损程度与大小重量自动分类、捆装；破损严重者单独分流至废品回收站</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <div class="n">3</div>
+          <h5>再利用模块</h5>
+          <p>完好异形盒 → DIY 手工店制作工艺品；普通盒 → 快递公司二次运输；低质盒 → 废纸再生</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="step">
+          <div class="n">4</div>
+          <h5>研发模块</h5>
+          <p>用前期利润研发可折叠、免胶带、可减震的"共享快递盒"，实现物流公司—消费者—项目多方共赢</p>
+        </div>
+      </div>
+      <h3 style="margin-top:22px;font-size:15px">竞争优势与创新点</h3>
+      <ul class="dot">
+        <li><b>分类更简单：</b>高校客户年龄结构趋同、环保意识更强，包装规格差异远小于社会面，分类与推广成本更低。</li>
+        <li><b>使用链更长：</b>相比"纸箱换鸡蛋"，积分可直接转零钱存入校园卡或微信；回收箱还对接 DIY 手工店，附加价值更高。</li>
+        <li><b>网点更密：</b>按拆快递的真实动线（驿站与宿舍楼下）布点，并独立研发设备，不受既有机器型号限制，便于跨校复制。</li>
+        <li><b>先进性：</b>投放前对包装箱质量做分级筛查，只有符合运输质量的进入再运输，其余转工艺品或重塑，避免"套箱使用"隐患。</li>
+        <li><b>独特性：</b>按质量为每一个回收箱匹配再利用路径，不浪费任何一份资源。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5 财务预测 -->
+  <section id="finance">
+    <h2 class="sec">效益监测与财务预测<em>FINANCIAL PROJECTION</em></h2>
+    <div class="card">
+      <div id="chartRevenue" class="chart"></div>
+      <p class="lead" style="margin-top:10px">
+        基于回收单价 0.9 元/斤、返现 0.2 元/斤的价差模型，结合在校生规模与回收频次测算，
+        项目四年营业收入由 <b>33.6 万元</b> 增长至 <b>70.9 万元</b>，营业利润由 <b>21.9 万元</b> 提升至 <b>41.9 万元</b>，
+        整体呈稳定增长态势；同期成本预算 22.44 万元、立项经费 5,000 元由本人跟踪执行。
+      </p>
+      <table>
+        <thead>
+          <tr><th>利润表科目（万元）</th><th>第一年</th><th>第二年</th><th>第三年</th><th>第四年</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>营业收入</td><td class="hl">33.6</td><td class="hl">44.4</td><td class="hl">56.8</td><td class="hl">70.9</td></tr>
+          <tr><td>营业成本</td><td>3.6</td><td>4.8</td><td>6.5</td><td>7.6</td></tr>
+          <tr><td>税金及附加</td><td>0.1</td><td>0.3</td><td>0.6</td><td>1.4</td></tr>
+          <tr><td>管理费用</td><td>8.0</td><td>10.0</td><td>13.0</td><td>20.0</td></tr>
+          <tr><td>营业利润</td><td class="hl">21.9</td><td class="hl">29.3</td><td class="hl">36.7</td><td class="hl">41.9</td></tr>
+          <tr><td>经营活动现金流净额</td><td>25.6</td><td>34.4</td><td>43.8</td><td>55.9</td></tr>
+        </tbody>
+      </table>
+      <p class="lead" style="margin-top:12px;font-size:13px;color:var(--ink-3)">
+        编制基础：《企业会计准则》，权责发生制；固定资产直线法折旧 10 年、无残值，无形资产摊销 20 年；
+        增值税税率 13%，城建税与教育费附加分别为三税的 7% 与 3%，按净利润 12% 提取法定盈余公积。
+      </p>
+    </div>
+  </section>
+
+  <!-- 6 投融资 -->
+  <section id="invest">
+    <h2 class="sec">投融资方案<em>INVESTMENT &amp; FINANCING</em></h2>
+    <div class="grid2">
+      <div class="card">
+        <h3 style="font-size:15px">注册资本 200 万元的资金用途</h3>
+        <div id="chartCapital" class="chart-sm"></div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:15px">立项经费 5,000 元预算结构</h3>
+        <div id="chartBudget" class="chart-sm"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3 style="font-size:15px">股本结构与融资路径</h3>
+      <ul class="dot">
+        <li><b>股本结构：</b>注册资本 200 万元，其中团队技术与资金入股 <b>90 万元（45%）</b>，拟引入风险投资 <b>110 万元（55%）</b>。</li>
+        <li><b>融资途径：</b>政策基金（大学生创业担保贷款最高 7 万元并享贴息、开业贷款贴息）+ 亲情融资 + 天使基金（山东省级引导基金出资比例最高 40%，省市县合计最高 60%）。</li>
+        <li><b>后续规划：</b>项目拟申请贷款 100 万元；度过回本期后计划与快递公司合作获取后续投资 100 万元，提升客户粘性。</li>
+        <li><b>利润分成：</b>初期利润 8% 归投资方，40% 填补亏损，40% 用于员工工资，12% 创业股东分成；亏损填补完毕后并入股东分成。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7 风险 -->
+  <section id="risk">
+    <h2 class="sec">风险识别与应对<em>RISK MANAGEMENT</em></h2>
+    <div class="risks">
+      <div class="risk"><h5>💰 资金风险</h5><p>加大融资力度、用足大学生创业扶持政策，并强化资金监管，保障每一笔投入的产出效率。</p></div>
+      <div class="risk"><h5>⚙️ 设备保障风险</h5><p>先开发小型设备在小范围试运行排查隐患，降低大型设备投放的试错成本。</p></div>
+      <div class="risk"><h5>📉 市场占比风险</h5><p>前期加大宣传建立认知，配合积分激励与主题活动，短期内培养新的回收习惯。</p></div>
+      <div class="risk"><h5>🏫 场地风险</h5><p>主动与校方、宿舍楼、食堂负责人沟通争取支持，运营获利后以文创礼品回馈，换取长期稳定场地。</p></div>
+      <div class="risk"><h5>🗓️ 投资风险</h5><p>假期将设备预设至周边商场小区、开通预回收预约，按校址区位动态调整投放规模以平滑淡旺季。</p></div>
+      <div class="risk"><h5>🆚 市场风险</h5><p>与菜鸟驿站形成差异化竞争：积分兑换文创产品、普及资源再利用知识，提高参与意愿。</p></div>
+      <div class="risk"><h5>📋 监管风险</h5><p>用小程序做线上指导与拍照估价，取消人工监督、压缩教学成本，同时扩大用户规模。</p></div>
+      <div class="risk"><h5>⚖️ 法律政策风险</h5><p>紧贴《关于加快推进快递包装绿色转型意见》等政策更新包装材质与处理方式，拓展回收品类分散政策风险。</p></div>
+    </div>
+  </section>
+
+  <!-- 8 成果 -->
+  <section id="result">
+    <h2 class="sec">项目成果<em>OUTCOME</em></h2>
+    <div class="card">
+      <div class="grid3">
+        <div class="tile"><h4>🏅 国家级立项</h4><p>大学生创业训练项目（创业训练项目类），立项经费 5,000 元</p></div>
+        <div class="tile"><h4>🥈 互联网+ 银奖</h4><p>本科生创意组项目竞赛获奖</p></div>
+        <div class="tile"><h4>📄 3 份调查报告</h4><p>覆盖行业市场、用户需求与效益测算的完整调研输出</p></div>
+      </div>
+      <p class="lead" style="margin-top:14px">
+        通过该项目完整跑通了<b>问卷设计 → 数据采集 → 统计建模（SPSS 信效度 + 多元 Logistic 回归）→ 市场规模测算（TAM/SAM/SOM）
+        → 财务预测与投融资设计</b>的分析闭环，也锻炼了跨组织协调与团队管理能力。
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    刘健博 · 数据分析个人平台 &nbsp;|&nbsp; <a href="index.html">返回主页</a> &nbsp;·&nbsp;
+    <a href="resume.pdf" target="_blank">下载简历 PDF</a> &nbsp;·&nbsp;
+    <a href="https://github.com/OI-CTFsky" target="_blank" rel="noopener">GitHub</a>
+  </footer>
+
+</div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script>
+if(typeof echarts==="undefined")document.write('<script src="https://cdn.staticfile.net/echarts/5.5.0/echarts.min.js"><\/script>');
+</script>
+<script>
+(function(){
+  if(typeof echarts==="undefined"){
+    document.querySelectorAll('.chart,.chart-sm').forEach(function(el){
+      el.innerHTML='<div style="padding:24px;text-align:center;color:#97a49c;font-size:13px">图表需加载 ECharts，请检查网络后刷新</div>';
+    });
+    return;
+  }
+  var YEAR=['第一年','第二年','第三年','第四年'];
+  var AXIS={axisLine:{lineStyle:{color:'#d9e5df'}},axisLabel:{color:'#5d6b62',fontSize:12},
+            splitLine:{lineStyle:{color:'#eef4f1'}}};
+
+  var c1=echarts.init(document.getElementById('chartRevenue'));
+  c1.setOption({
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},
+      formatter:function(p){var s=YEAR[p[0].dataIndex]+'<br>';p.forEach(function(x){
+        s+=x.marker+x.seriesName+'：<b>'+x.value+'</b> 万元<br>';});return s;}},
+    legend:{data:['营业收入','营业利润','营业成本'],top:0,textStyle:{color:'#5d6b62',fontSize:12}},
+    grid:{left:52,right:24,top:44,bottom:34},
+    xAxis:Object.assign({type:'category',data:YEAR},AXIS,{splitLine:{show:false}}),
+    yAxis:Object.assign({type:'value',name:'万元',nameTextStyle:{color:'#97a49c',fontSize:11}},AXIS),
+    series:[
+      {name:'营业收入',type:'bar',barWidth:'30%',data:[33.6,44.4,56.8,70.9],
+       itemStyle:{color:'#0f9960',borderRadius:[5,5,0,0]},
+       label:{show:true,position:'top',color:'#0b7350',fontSize:11,formatter:'{c}'}},
+      {name:'营业利润',type:'line',smooth:true,symbolSize:8,data:[21.9,29.3,36.7,41.9],
+       lineStyle:{width:3,color:'#3d7dd8'},itemStyle:{color:'#3d7dd8'}},
+      {name:'营业成本',type:'line',smooth:true,symbolSize:7,data:[3.6,4.8,6.5,7.6],
+       lineStyle:{width:2,type:'dashed',color:'#b9891f'},itemStyle:{color:'#b9891f'}}
+    ]
+  });
+
+  var c2=echarts.init(document.getElementById('chartCapital'));
+  c2.setOption({
+    tooltip:{trigger:'item',formatter:'{b}：<b>{c} 万元</b>（{d}%）'},
+    legend:{bottom:0,itemWidth:10,itemHeight:10,textStyle:{color:'#5d6b62',fontSize:11.5}},
+    series:[{type:'pie',radius:['42%','68%'],center:['50%','44%'],avoidLabelOverlap:true,
+      itemStyle:{borderColor:'#fff',borderWidth:2},
+      label:{fontSize:11.5,color:'#5d6b62',formatter:'{b}\n{d}%'},
+      data:[
+        {value:70,name:'回收箱研发投放',itemStyle:{color:'#0f9960'}},
+        {value:60,name:'软件外包开发',itemStyle:{color:'#37b785'}},
+        {value:50,name:'APP 开发调试',itemStyle:{color:'#3d7dd8'}},
+        {value:10,name:'人员工资',itemStyle:{color:'#b9891f'}},
+        {value:10,name:'备用金',itemStyle:{color:'#c2d4cb'}}
+      ]}]
+  });
+
+  var c3=echarts.init(document.getElementById('chartBudget'));
+  c3.setOption({
+    tooltip:{trigger:'item',formatter:'{b}：<b>{c} 元</b>（{d}%）'},
+    legend:{bottom:0,itemWidth:10,itemHeight:10,textStyle:{color:'#5d6b62',fontSize:11.5}},
+    series:[{type:'pie',radius:['42%','68%'],center:['50%','44%'],avoidLabelOverlap:true,
+      itemStyle:{borderColor:'#fff',borderWidth:2},
+      label:{fontSize:11.5,color:'#5d6b62',formatter:'{b}\n{d}%'},
+      data:[
+        {value:2400,name:'仪器设备购置',itemStyle:{color:'#0f9960'}},
+        {value:2400,name:'业务费',itemStyle:{color:'#37b785'}},
+        {value:200,name:'材料费',itemStyle:{color:'#b9891f'}}
+      ]}]
+  });
+
+  window.addEventListener('resize',function(){c1.resize();c2.resize();c3.resize();});
+})();
+</script>
+</body>
+</html>
