@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>刘健博 · 数据分析个人平台 | 简历与作品集</title>
-<meta name="description" content="刘健博个人平台：数据分析 / 数据运营求职，杭州。简历与交互式作品集：营收智能仪表盘、异动诊断报告、SQL 代码速查、绿色驿站国家级大创项目。">
+<title>刘健博 · 数据分析 | 简历与作品集</title>
+<meta name="description" content="刘健博个人平台：数据分析 / 数据运营求职，杭州。覆盖电商、金融、审计多领域。简历与交互式作品集：营收智能仪表盘、异动诊断报告、SQL 代码速查、绿色驿站国家级大创项目。">
 <style>
   :root{
     --ink:#2b2733; --ink-2:#6b6577; --ink-3:#9b95a5;
@@ -37,6 +37,7 @@
   .hero h1{font-size:40px;letter-spacing:2px;font-weight:700}
   .hero .role{margin-top:8px;font-size:17px;opacity:.92}
   .hero .role b{background:rgba(255,255,255,.18);padding:3px 12px;border-radius:16px;font-size:14px;margin-right:8px}
+  .hero .subtitle{margin-top:12px;font-size:14px;opacity:.82;max-width:660px;line-height:1.75}
   .hero .contact{margin-top:16px;display:flex;gap:10px 22px;flex-wrap:wrap;font-size:14px;opacity:.95}
   .hero .cta{margin-top:26px;display:flex;gap:14px;flex-wrap:wrap}
   .hero .cta a{font-size:14px;font-weight:600;text-decoration:none;padding:10px 26px;border-radius:26px}
@@ -63,6 +64,17 @@
   .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
   .tags span{font-size:12px;background:var(--accent-soft);color:var(--accent-deep);
     padding:3px 10px;border-radius:12px}
+
+  /* skill tiers */
+  .skill-tier{margin-bottom:10px}
+  .skill-tier:last-child{margin-bottom:0}
+  .skill-tier .tier-label{font-size:11px;font-weight:700;color:var(--accent);
+    letter-spacing:.5px;margin-bottom:6px}
+  .skill-tier .tags{margin-top:4px}
+
+  /* project nature tag */
+  .nature{font-size:11px;background:var(--accent-soft);color:var(--accent-deep);
+    padding:2px 8px;border-radius:10px;font-weight:500;white-space:nowrap;margin-left:6px}
 
   /* experience */
   .exp{border-left:2px solid var(--accent-soft);padding-left:22px;position:relative}
@@ -132,8 +144,8 @@
       <a href="#skills">技能</a>
       <a href="#exp">实习经历</a>
       <a href="#projects">项目经历</a>
-      <a href="#edu">教育</a>
       <a href="#works">作品集</a>
+      <a href="#edu">教育</a>
       <a href="green-station.html">绿色驿站</a>
       <a href="sql-cheatsheet.html">SQL</a>
     </div>
@@ -145,11 +157,12 @@
   <div class="in">
     <h1>刘健博</h1>
     <p class="role"><b>求职意向</b>数据分析 / 数据运营&nbsp;&nbsp;·&nbsp;&nbsp;<b>期望城市</b>杭州</p>
+    <p class="subtitle">金融工程背景，具备审计实务与商业分析双线经验，擅长用 Python / SQL 驱动数据清洗、可视化建模与业务洞察。项目覆盖电商、金融、证券、环保等多领域，具备从数据采集到决策建议的完整分析链路能力。</p>
     <div class="contact">
       <span>📞 155-0244-6408</span>
       <span>✉️ 15502446408@163.com</span>
       <span>🎓 山东财经大学 · 金融工程</span>
-      <span>💻 GitHub：OI-CTFsky</span>
+      <span>💻 <a href="https://github.com/OI-CTFsky" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.4)">GitHub: OI-CTFsky</a></span>
     </div>
     <div class="cta">
       <a class="a1" href="#works">查看交互式作品集 ↓</a>
@@ -171,12 +184,22 @@
     <div class="skill-grid">
       <div class="skill">
         <h3>📊 数据分析</h3>
-        <p>Python（Pandas 自动化脚本）、SQL / MySQL 数据查询、Tableau 可视化看板、Stata / MATLAB 统计建模、AI Prompt 提示词工程</p>
-        <div class="tags"><span>Python</span><span>Pandas</span><span>SQL / MySQL</span><span>Tableau</span><span>Stata</span><span>MATLAB</span><span>SPSS</span><span>AI Prompt</span></div>
+        <div class="skill-tier">
+          <div class="tier-label">精通</div>
+          <div class="tags"><span>Python</span><span>Pandas</span><span>SQL / MySQL</span><span>Tableau</span></div>
+        </div>
+        <div class="skill-tier">
+          <div class="tier-label">熟练</div>
+          <div class="tags"><span>Stata</span><span>SPSS</span><span>AI 辅助数据分析与报告生成</span></div>
+        </div>
+        <div class="skill-tier">
+          <div class="tier-label">了解</div>
+          <div class="tags"><span>MATLAB</span></div>
+        </div>
       </div>
       <div class="skill">
         <h3>🧰 办公与证书</h3>
-        <p>Office / WPS（Word / Excel / PPT）、Xmind、PS；擅长数据报告撰写与演示汇报</p>
+        <p>Office / WPS（Word / Excel / PPT）；擅长数据报告撰写与演示汇报</p>
         <div class="tags"><span>证券从业</span><span>基金从业</span><span>计算机二级</span><span>CET-6</span></div>
       </div>
     </div>
@@ -207,7 +230,7 @@
     <h2 class="sec">项目经历<em>PROJECTS</em></h2>
     <div class="card">
       <div class="exp">
-        <div class="head"><h3>电商用户转化漏斗与 RFM 价值分析</h3><span class="date">2023.06 – 2024.05</span></div>
+        <div class="head"><h3>电商用户转化漏斗与 RFM 价值分析</h3><span class="date">2026.06 – 2026.09</span></div>
         <ul>
           <li><b>数据清洗：</b>使用 Python/Pandas 对电商用户行为日志进行去重、补缺与标准化处理，沉淀可复用的数据清洗流程与质量控制规范</li>
           <li><b>指标体系：</b>围绕人货场搭建 UV/PV、转化率、复购率、客单价及留存率等核心指标体系，明确口径定义与计算逻辑，输出指标字典</li>
@@ -244,21 +267,6 @@
           <li><b>资源协调：</b>作为负责人协调菜鸟驿站、物流公司、DIY 手工店推进回收链路落地，输出 3 份调查报告并获互联网+ 等奖项</li>
         </ul>
         <div style="margin-top:10px"><a href="green-station.html" style="font-size:13px;font-weight:600;color:var(--accent);text-decoration:none">查看项目详情（已脱敏）→</a></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="edu">
-    <h2 class="sec">教育经历<em>EDUCATION</em></h2>
-    <div class="card">
-      <div class="edu">
-        <div class="logo">🎓</div>
-        <div>
-          <h3>山东财经大学 · 金融工程</h3>
-          <span class="date">2021.09 – 2025.07</span>
-          <p>GPA 4.75/5.0（专业 TOP 3%）· 互联网+大赛银奖 · 大创国家级奖项<br>
-          主修：Python、MATLAB、概率统计、计量经济学与金融工程</p>
-        </div>
       </div>
     </div>
   </section>
@@ -311,6 +319,21 @@
           <span class="go">下载 PDF →</span>
         </div>
       </a>
+    </div>
+  </section>
+
+  <section id="edu">
+    <h2 class="sec">教育经历<em>EDUCATION</em></h2>
+    <div class="card">
+      <div class="edu">
+        <div class="logo">🎓</div>
+        <div>
+          <h3>山东财经大学 · 金融工程</h3>
+          <span class="date">2021.09 – 2025.07</span>
+          <p>GPA 4.75/5.0（专业 TOP 3%）· 互联网+大赛银奖 · 大创国家级奖项<br>
+          主修：Python、MATLAB、概率统计、计量经济学与金融工程</p>
+        </div>
+      </div>
     </div>
   </section>
 
