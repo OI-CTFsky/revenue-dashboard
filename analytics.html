@@ -63,7 +63,7 @@
   function showErr(msg){
     var h=document.getElementById('hint');
     h.className='err';
-    h.innerHTML='<b>连接后端失败</b><br>'+msg+'<br><br>你可以先直接在新标签页打开：<code>'+EP+'/health</code> 看 Worker 是否返回 <code>{"ok":true}</code>。';
+    h.innerHTML='<b>连接后端失败</b><br>'+msg+'<br><br>你可以先直接在新标签页打开：<code>'+EP+'/health</code> 看是否返回 <code>{"ok":true}</code>。';
   }
   if(!EP){
     var h=document.getElementById('hint'); h.className='hint';
@@ -88,9 +88,15 @@
     document.getElementById('k_views').textContent=d.views;
     document.getElementById('upd').textContent=new Date().toLocaleTimeString('zh-CN');
     var pages=Object.keys(d.pageCounts||{}).map(function(k){return [PAGE_LABEL[k]||k, d.pageCounts[k]];}).sort(function(a,b){return b[1]-a[1];});
-    cPages.setOption({tooltip:{},grid:{left:80,right:24,top:10,bottom:20},xAxis:{type:'value'},yAxis:{type:'category',data:pages.map(function(p){return p[0];})},series:[{type:'bar',data:pages.map(function(p){return p[1];}),itemStyle:{color:'#5b54c9'},label:{show:true,position:'right'}}]});
+    if(pages.length){
+      cPages.setOption({tooltip:{},grid:{left:80,right:24,top:10,bottom:20},xAxis:{type:'value'},yAxis:{type:'category',data:pages.map(function(p){return p[0];})},series:[{type:'bar',data:pages.map(function(p){return p[1];}),itemStyle:{color:'#5b54c9'},label:{show:true,position:'right'}}],title:null},true);
+    }else{
+      cPages.setOption({title:{text:'暂无数据',left:'center',top:'center',textStyle:{fontSize:14,color:'#999'}},xAxis:{show:false},yAxis:{show:false},series:[]},true);
+    }
     var ports=[['dashboard.html','营收仪表盘'],['e02-analysis.html','经营异动诊断'],['sql-cheatsheet.html','SQL速查'],['green-station.html','绿色驿站'],['resume.pdf','简历PDF']].map(function(p){return [p[1], (d.portCounts||{})[p[0]]||0];});
-    cPort.setOption({tooltip:{},grid:{left:80,right:24,top:10,bottom:20},xAxis:{type:'value'},yAxis:{type:'category',data:ports.map(function(p){return p[0];})},series:[{type:'bar',data:ports.map(function(p){return p[1];}),itemStyle:{color:'#0f9960'},label:{show:true,position:'right'}}]});
+    cPort.setOption({tooltip:{},grid:{left:80,right:24,top:10,bottom:20},xAxis:{type:'value'},yAxis:{type:'category',data:ports.map(function(p){return p[0];})},series:[{type:'bar',data:ports.map(function(p){return p[1];}),itemStyle:{color:'#0f9960'},label:{show:true,position:'right'}}],title:null},true);
+    // 容器从 display:none 切出后必须 resize，否则 ECharts 宽高为 0 导致空白
+    requestAnimationFrame(function(){ cPages.resize(); cPort.resize(); });
     var tb=document.getElementById('tb'); tb.innerHTML='';
     (d.recent||[]).forEach(function(r){
       var tr=document.createElement('tr');
