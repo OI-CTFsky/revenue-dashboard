@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>刘健博 · 跨境电商数据分析 / 数据运营 | 个人求职平台</title>
-<meta name="description" content="刘健博 · 杭州求职：跨境电商数据分析 / 数据运营。金融工程本科 GPA 4.75/5.0（专业 TOP 3%），天职国际审计数据实战，擅长 SQL / Python 数据清洗建模与 Tableau 可视化，具备电商用户转化漏斗与 RFM 分层分析经验。">
+<title>刘健博·个人简历平台</title>
+<meta name="description" content="刘健博个人简历平台：金融工程本科，天职国际审计数据实战，擅长 SQL / Python 数据清洗建模与 Tableau 可视化，具备电商转化漏斗、RFM 分层与经营异动归因经验。">
 <!-- preflight: template=project_oriented · length=auto · language=zh · report=html · auto-selected: true -->
 <style>
   :root{
@@ -62,7 +62,7 @@
   h2.sec::before{content:"";width:5px;height:20px;border-radius:3px;background:var(--accent)}
   h2.sec em{font-style:normal;font-size:12px;color:var(--ink-3);font-weight:400;margin-left:auto}
   h2.sec.no-bar::before{display:none}
-  .portrait{width:120px;height:120px;border-radius:50%;object-fit:cover;
+  .portrait{width:120px;height:120px;border-radius:8px;object-fit:cover;
     border:3px solid rgba(255,255,255,.85);box-shadow:0 6px 18px rgba(0,0,0,.22);
     margin-top:18px;display:block}
   .hero-top{display:grid;grid-template-columns:1fr 220px;gap:36px;align-items:start}
@@ -156,14 +156,13 @@
 
 <div class="topnav">
   <div class="in">
-    <a class="brand" href="#">刘健博<b> · </b>数据分析求职平台</a>
+    <a class="brand" href="#">刘健博·个人简历平台</a>
     <div class="links">
-      <a href="#fit">岗位匹配</a>
       <a href="#skills">能力矩阵</a>
-      <a href="#exp">实习经历</a>
+      <a href="#works">作品集</a>
+      <a href="#exp">工作经历</a>
       <a href="#projects">项目经历</a>
       <a href="#edu">教育</a>
-      <a href="#works">作品集</a>
     </div>
     <a class="dl" href="resume.pdf" download>下载简历 PDF</a>
   </div>
@@ -242,6 +241,57 @@
           </tr>
         </tbody>
       </table>
+    </div>
+  </section>
+
+  <section id="works">
+    <h2 class="sec">作品集<em>PORTFOLIO · 点击进入交互体验</em></h2>
+    <div class="works">
+      <a class="work" href="dashboard.html">
+        <div class="cover"><img src="cover_dashboard.png" alt="营收情况智能分析仪表盘预览"></div>
+        <div class="body">
+          <h3>营收情况智能分析仪表盘</h3>
+          <p>Tableau 看板复刻重构：目标达成、用户漏斗、利润结构与逾期风险四维度交互看板，支持联动筛选。</p>
+          <div class="meta"><span>ECharts</span><span>Tableau</span><span>交互看板</span></div>
+          <span class="go">进入看板 →</span>
+        </div>
+      </a>
+      <a class="work" href="e02-analysis.html">
+        <div class="cover"><img src="cover_e02.png" alt="经营现状分析与异动诊断报告预览"></div>
+        <div class="body">
+          <h3>经营现状分析与异动诊断</h3>
+          <p>量价拆解、逐层下钻、关键问题归因与证据链诊断，完整呈现从异动发现到结论的分析思路。</p>
+          <div class="meta"><span>异动归因</span><span>逐层下钻</span><span>分析报告</span></div>
+          <span class="go">查看报告 →</span>
+        </div>
+      </a>
+      <a class="work" href="sql-cheatsheet.html">
+        <div class="cover"><img src="cover_sql.png" alt="SQL 代码速查笔记预览"></div>
+        <div class="body">
+          <h3>SQL 代码速查笔记</h3>
+          <p>从基础查询、聚合筛选到窗口函数、环比同比与累计计算，暗色代码高亮，可直接复用。</p>
+          <div class="meta"><span>MySQL</span><span>窗口函数</span><span>取数能力</span></div>
+          <span class="go">查看笔记 →</span>
+        </div>
+      </a>
+      <a class="work" href="green-station.html">
+        <div class="cover"><img src="cover_green.png" alt="绿色驿站国家级大创项目预览"></div>
+        <div class="body">
+          <h3>绿色驿站 · 国家级大创项目</h3>
+          <p>问卷调研、SPSS 多元 Logistic 回归、TAM/SAM/SOM 规模测算与四年财务预测、投融资方案。</p>
+          <div class="meta"><span>国家级立项</span><span>SPSS 回归</span><span>财务建模</span></div>
+          <span class="go">查看项目 →</span>
+        </div>
+      </a>
+      <a class="work" href="resume.pdf">
+        <div class="cover"><img src="cover_resume.png" alt="个人简历 PDF 预览"></div>
+        <div class="body">
+          <h3>个人简历（PDF 原件）</h3>
+          <p>与上方预览一致的最新版简历 PDF，含教育背景、工作经历、项目经历与专业技能，可直接下载投递或打印。</p>
+          <div class="meta"><span>简历原件</span><span>可直接下载</span></div>
+          <span class="go">下载 PDF →</span>
+        </div>
+      </a>
     </div>
   </section>
 
@@ -340,59 +390,8 @@
     </div>
   </section>
 
-  <section id="works">
-    <h2 class="sec">作品集<em>PORTFOLIO · 点击进入交互体验</em></h2>
-    <div class="works">
-      <a class="work" href="dashboard.html">
-        <div class="cover"><img src="cover_dashboard.png" alt="营收情况智能分析仪表盘预览"></div>
-        <div class="body">
-          <h3>营收情况智能分析仪表盘</h3>
-          <p>Tableau 看板复刻重构：目标达成、用户漏斗、利润结构与逾期风险四维度交互看板，支持联动筛选。</p>
-          <div class="meta"><span>ECharts</span><span>Tableau</span><span>交互看板</span></div>
-          <span class="go">进入看板 →</span>
-        </div>
-      </a>
-      <a class="work" href="e02-analysis.html">
-        <div class="cover"><img src="cover_e02.png" alt="经营现状分析与异动诊断报告预览"></div>
-        <div class="body">
-          <h3>经营现状分析与异动诊断</h3>
-          <p>量价拆解、逐层下钻、关键问题归因与证据链诊断，完整呈现从异动发现到结论的分析思路。</p>
-          <div class="meta"><span>异动归因</span><span>逐层下钻</span><span>分析报告</span></div>
-          <span class="go">查看报告 →</span>
-        </div>
-      </a>
-      <a class="work" href="sql-cheatsheet.html">
-        <div class="cover"><img src="cover_sql.png" alt="SQL 代码速查笔记预览"></div>
-        <div class="body">
-          <h3>SQL 代码速查笔记</h3>
-          <p>从基础查询、聚合筛选到窗口函数、环比同比与累计计算，暗色代码高亮，可直接复用。</p>
-          <div class="meta"><span>MySQL</span><span>窗口函数</span><span>取数能力</span></div>
-          <span class="go">查看笔记 →</span>
-        </div>
-      </a>
-      <a class="work" href="green-station.html">
-        <div class="cover"><img src="cover_green.png" alt="绿色驿站国家级大创项目预览"></div>
-        <div class="body">
-          <h3>绿色驿站 · 国家级大创项目</h3>
-          <p>问卷调研、SPSS 多元 Logistic 回归、TAM/SAM/SOM 规模测算与四年财务预测、投融资方案。</p>
-          <div class="meta"><span>国家级立项</span><span>SPSS 回归</span><span>财务建模</span></div>
-          <span class="go">查看项目 →</span>
-        </div>
-      </a>
-      <a class="work" href="resume.pdf">
-        <div class="cover"><img src="cover_resume.png" alt="个人简历 PDF 预览"></div>
-        <div class="body">
-          <h3>个人简历（PDF 原件）</h3>
-          <p>完整求职简历：教育背景、天职国际实习经历、四段项目经历与专业技能，适合投递与打印。</p>
-          <div class="meta"><span>简历原件</span><span>可直接下载</span></div>
-          <span class="go">下载 PDF →</span>
-        </div>
-      </a>
-    </div>
-  </section>
-
   <footer>
-    刘健博 · 数据分析 / 数据运营求职平台 &nbsp;|&nbsp; 电话 15502446408 &nbsp;|&nbsp; 邮箱 15502446408@163.com &nbsp;|&nbsp;
+    刘健博·个人简历平台 &nbsp;|&nbsp; 电话 15502446408 &nbsp;|&nbsp; 邮箱 15502446408@163.com &nbsp;|&nbsp;
     <a href="https://github.com/OI-CTFsky" target="_blank" rel="noopener">GitHub</a>
   </footer>
 
