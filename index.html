@@ -119,6 +119,20 @@
   .work .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
   .work .meta span{font-size:11px;background:var(--accent-soft);color:var(--accent-deep);padding:2px 8px;border-radius:10px}
 
+  /* feishu doc cover —— 渐变占位封面 */
+  .feishu-cover{position:relative;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#3370ff 0%,#5b8fff 60%,#7a68d8 100%)}
+  .feishu-cover.b2{background:linear-gradient(135deg,#0f9960 0%,#3fb884 55%,#5b54c9 100%)}
+  .feishu-cover .ficon{font-size:54px;color:rgba(255,255,255,.92);font-weight:700;
+    text-shadow:0 4px 18px rgba(0,0,0,.18);letter-spacing:-2px}
+  .feishu-cover .ftag{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.92);
+    color:#3370ff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;
+    display:inline-flex;align-items:center;gap:4px;letter-spacing:.5px}
+  .feishu-cover.b2 .ftag{color:#0f9960}
+  .open-tip{margin-top:10px;font-size:12px;color:var(--ink-3);display:flex;align-items:center;gap:6px}
+  .open-tip .ext{display:inline-block;background:var(--accent-soft);color:var(--accent-deep);
+    padding:1px 8px;border-radius:10px;font-size:11px;font-weight:600}
+
   /* education */
   .edu{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
   .edu .logo{width:54px;height:54px;border-radius:14px;background:var(--accent);color:#fff;display:flex;
@@ -160,6 +174,7 @@
     <div class="links">
       <a href="#skills">能力矩阵</a>
       <a href="#works">作品集</a>
+      <a href="#feishu">飞书文档</a>
       <a href="#exp">工作经历</a>
       <a href="#projects">项目经历</a>
       <a href="#edu">教育</a>
@@ -290,6 +305,44 @@
           <p>与上方预览一致的最新版简历 PDF，含教育背景、工作经历、项目经历与专业技能，可直接下载投递或打印。</p>
           <div class="meta"><span>简历原件</span><span>可直接下载</span></div>
           <span class="go">下载 PDF →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section id="feishu">
+    <h2 class="sec">飞书协作 · 自动化产出<em>FEISHU DOCS · 报表与多维看板</em></h2>
+    <div class="card" style="padding:18px 20px 8px;font-size:13px;color:var(--ink-2);line-height:1.7;margin-bottom:14px">
+      借助飞书文档/多维表格搭建的自动化数据交付产物——配置一次后周期自动更新，省去手工跑数与汇总，
+      与下方 4 个独立作品集互为补充（飞书端零代码/低代码，自建端带交互看板与专项报告）。
+    </div>
+    <div class="works" style="grid-template-columns:repeat(2,1fr);max-width:720px">
+      <a class="work" href="https://pcnvuyrzlgfh.feishu.cn/wiki/FjSYwR8CRigprHkqeEqcAvmlnlg" target="_blank" rel="noopener">
+        <div class="cover feishu-cover">
+          <span class="ftag">📄 飞书 Wiki</span>
+          <span class="ficon">Σ</span>
+        </div>
+        <div class="body">
+          <h3>自动化报表文档</h3>
+          <p>用飞书文档搭建的周期自动化报表——汇总模板化、口径标准化、按周/月自动推送，
+          覆盖财务与业务多部门的常规报表需求，零手工跑数。</p>
+          <div class="meta"><span>自动化报表</span><span>飞书 Wiki</span><span>数据交付</span></div>
+          <span class="go">打开飞书文档 ↗</span>
+          <p class="open-tip"><span class="ext">建议操作</span>点击后请确认当前账号具备查看权限</p>
+        </div>
+      </a>
+      <a class="work" href="https://pcnvuyrzlgfh.feishu.cn/base/Zr7ybAAfna4qVjsZxZPc5u1knGv" target="_blank" rel="noopener">
+        <div class="cover feishu-cover b2">
+          <span class="ftag">🗂 飞书 Base</span>
+          <span class="ficon">▦</span>
+        </div>
+        <div class="body">
+          <h3>自动化看板 · 多维表格</h3>
+          <p>在飞书多维表格中构建的实时自动化看板——数据自动汇总、视图/筛选/分组视图联动，
+          支持多维度联表分析，作为轻量 BI 替代方案。</p>
+          <div class="meta"><span>多维表格</span><span>实时看板</span><span>飞书 Base</span></div>
+          <span class="go">打开多维表格 ↗</span>
+          <p class="open-tip"><span class="ext">建议操作</span>点击后请确认当前账号具备查看权限</p>
         </div>
       </a>
     </div>
