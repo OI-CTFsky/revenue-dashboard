@@ -37,6 +37,52 @@ function cors(body, status = 200) {
   };
 }
 
+// SCF 不同触发方式给出的真实 IP 字段不同，依次兜底
+function getClientIP(event) {
+  const h = event.headers || {};
+  const fwd = h['x-forwarded-for'] || h['X-Forwarded-For'] || h['x-real-ip'] || h['X-Real-Ip'] || '';
+  if (fwd) return fwd.split(',')[0].trim();
+  const rc = event.requestContext || {};
+  return rc.sourceIp || rc.identity?.sourceIp || rc.http?.sourceIp || '';
+}
+
+function isPrivateIP(ip) {
+  if (!ip || ip === '127.0.0.1' || ip === '::1') return true;
+  const parts = ip.split('.');
+  if (parts.length !== 4) return false;
+  const [a, b, c] = parts.map(Number);
+  if (a === 10) return true;
+  if (a === 172 && b >= 16 && b <= 31) return true;
+  if (a === 192 && b === 168) return true;
+  return false;
+}
+
+async function geo(ip) {
+  if (!ip || isPrivateIP(ip)) return { country: '', city: '' };
+  try {
+    // ipapi.co：免费额度对个人站点足够，失败自动降级
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 1200);
+    const r = await fetch(`https://ipapi.co/${ip}/json/?fields=ip,country_name,city`, { signal: ctrl.signal });
+    clearTimeout(t);
+    if (r.ok) {
+      const j = await r.json();
+      return { country: j.country_name || '', city: j.city || '' };
+    }
+  } catch (_) {}
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 1200);
+    const r = await fetch(`https://ipwho.is/${ip}`, { signal: ctrl.signal });
+    clearTimeout(t);
+    if (r.ok) {
+      const j = await r.json();
+      return { country: j.country || '', city: j.city || '' };
+    }
+  } catch (_) {}
+  return { country: '', city: '' };
+}
+
 exports.main = async (event) => {
   if (event.httpMethod === 'OPTIONS') return cors('');
   const urlPath = (event.path || '').split('?')[0];
@@ -52,8 +98,8 @@ exports.main = async (event) => {
       try { data = JSON.parse(event.body || '{}'); } catch (e) {
         return cors({ error: 'bad json' }, 400);
       }
-      const headers = event.headers || {};
-      const fwd = headers['x-forwarded-for'] || headers['X-Forwarded-For'] || '';
+      const ip = getClientIP(event);
+      const { country, city } = await geo(ip);
       const row = {
         sid: String(data.sid || 's-' + Date.now()).slice(0, 64),
         type: String(data.type || 'view').slice(0, 16),
@@ -64,7 +110,9 @@ exports.main = async (event) => {
         clicked: JSON.stringify(Array.isArray(data.clicked) ? data.clicked.slice(0, 50) : []),
         dur: Number(data.dur) || 0,
         ts: Number(data.ts) || Date.now(),
-        ip: (fwd.split(',')[0] || '').trim().slice(0, 64)
+        ip: ip.slice(0, 64),
+        country: country.slice(0, 64),
+        city: city.slice(0, 64)
       };
       await gw('POST', '/v1/rdb/rest/analytics_events', row);
       return cors({ ok: true });
@@ -74,7 +122,7 @@ exports.main = async (event) => {
     if (urlPath.endsWith('/stats') && event.httpMethod === 'GET') {
       const rows = await gw(
         'GET',
-        '/v1/rdb/rest/analytics_events?select=sid,type,path,dur,ts,ip,clicked&order=ts.desc&limit=2000'
+        '/v1/rdb/rest/analytics_events?select=sid,type,path,dur,ts,ip,country,city,clicked&order=ts.desc&limit=2000'
       );
 
       const sessions = {};
@@ -85,7 +133,7 @@ exports.main = async (event) => {
         try { clicked = JSON.parse(e.clicked || '[]'); } catch (x) { clicked = []; }
         if (!sessions[e.sid]) {
           sessions[e.sid] = {
-            sid: e.sid, ip: e.ip,
+            sid: e.sid, ip: e.ip, country: e.country, city: e.city,
             entry: e.ts, last: e.ts, dur: 0,
             paths: new Set(), clicked: new Set()
           };
@@ -126,7 +174,7 @@ exports.main = async (event) => {
       }
 
       const recent = list.slice().sort((a, b) => b.entry - a.entry).slice(0, 40).map(s => ({
-        ip: s.ip, entry: s.entry,
+        ip: s.ip, country: s.country, city: s.city, entry: s.entry,
         dur: Math.round(s.dur / 1000),
         pages: [...s.paths].map(p => p.split('/').pop() || p),
         clicked: [...s.clicked].map(p => p.split('/').pop() || p)
