@@ -31,13 +31,6 @@
     padding:7px 18px;border-radius:20px;text-decoration:none;box-shadow:0 3px 10px rgba(91,84,201,.28)}
   .topnav .dl:hover{background:var(--accent-deep)}
 
-  /* == 待补充提示条 == */
-  .tbd{background:#fff8e8;border-bottom:1px solid #f0e0b8}
-  .tbd .in{max-width:980px;margin:0 auto;padding:9px 22px;font-size:12.5px;color:#7a5c12;
-    display:flex;align-items:center;gap:10px}
-  .tbd b{color:#6b4e0a}
-  .tbd .x{margin-left:auto;cursor:pointer;color:#a08a4a;font-size:15px;line-height:1;padding:2px 6px}
-
   /* == hero == */
   .hero{background:linear-gradient(135deg,#463f9e 0%,#5b54c9 55%,#7a68d8 100%);
     color:#fff;border-radius:0 0 26px 26px;padding:44px 0 40px;margin-bottom:30px}
@@ -102,11 +95,6 @@
     font-size:13.2px;color:var(--accent-deep);line-height:1.8}
   .transfer b{display:block;margin-bottom:5px;font-size:13.5px}
 
-  /* 占位符 */
-  .fill{display:inline-block;min-width:56px;padding:0 7px;margin:0 2px;border-radius:5px;
-    background:#fff4f4;border-bottom:1.5px dashed var(--red);color:var(--red);font-weight:600;font-size:12.5px}
-  .fill::after{content:"待填";font-size:10px;opacity:.65;margin-left:4px;font-weight:400}
-
   /* 岗位匹配 */
   .fit{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .fit .f{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;
@@ -153,7 +141,7 @@
     .jobcard{grid-template-columns:repeat(2,1fr)}
   }
   @media print{
-    .topnav,.tbd,.hero .cta{display:none}
+    .topnav,.hero .cta{display:none}
     body{background:#fff}
     .card,.work,.fit .f,.exp{box-shadow:none;break-inside:avoid}
     .hero{border-radius:0;background:#463f9e !important;-webkit-print-color-adjust:exact}
@@ -161,14 +149,6 @@
 </style>
 </head>
 <body>
-
-<div class="tbd" id="tbdBar">
-  <div class="in">
-    <span>⏳</span>
-    <span>本页有 <b>6 处量化结果待补充</b>（红色虚线标记）。这些数字需由本人填写真实数据，未填写前分享给 HR 会削弱说服力。</span>
-    <span class="x" onclick="document.getElementById('tbdBar').style.display='none'">✕</span>
-  </div>
-</div>
 
 <div class="topnav">
   <div class="in">
@@ -329,10 +309,10 @@
           <span class="date">2023.06 – 2024.05</span>
         </div>
         <ul>
-          <li><b>数据清洗：</b>用 Python / Pandas 处理电商用户行为日志 <span class="fill">____</span> 条（覆盖 <span class="fill">____</span> 名用户、<span class="fill">____</span> 时间跨度），完成去重、补缺与标准化，形成可复用的清洗流程与质量校验规则</li>
-          <li><b>指标体系：</b>围绕人货场搭建 UV/PV、转化率、复购率、客单价、留存率核心指标，明确口径与计算逻辑并输出指标字典</li>
-          <li><b>漏斗分析：</b>拆解浏览 → 加购 → 下单 → 支付全路径，整体转化率 <span class="fill">____%</span>；<b>流失最严重的环节是 <span class="fill">____</span>，该环节流失 <span class="fill">____%</span></b>，据此提出针对性优化建议</li>
-          <li><b>用户分层：</b>用 RFM 模型将用户划分为 <span class="fill">____</span> 类群体，高价值用户占比 <span class="fill">____%</span>、贡献 <span class="fill">____%</span> 的成交额；复购率 <span class="fill">____%</span>、次月留存 <span class="fill">____%</span></li>
+          <li><b>数据清洗：</b>用 Python / Pandas 处理电商用户行为日志，完成去重、缺失值处理与字段标准化，并沉淀可复用的清洗流程与质量校验规则</li>
+          <li><b>指标体系：</b>围绕人货场搭建 UV/PV、转化率、复购率、客单价、留存率核心指标，逐项明确业务口径与计算逻辑，输出指标字典统一团队取数标准</li>
+          <li><b>漏斗分析：</b>拆解浏览 → 加购 → 下单 → 支付全路径，逐环节计算转化率与流失率并绘制漏斗图，定位流失最集中的环节后结合埋点路径判断原因，据此提出针对性优化建议</li>
+          <li><b>用户分层：</b>以最近一次消费时间、消费频次、消费金额三个维度建立 RFM 模型，按价值高低划分多个人群，比较各层在成交额与复购表现上的差异，输出分层运营策略</li>
           <li><b>可视化看板：</b>用 Tableau 搭建用户行为分析看板，呈现流量、转化、留存多维视图，支持按渠道 / 时间段动态筛选，用于日常运营监控与活动复盘</li>
         </ul>
       </div>
