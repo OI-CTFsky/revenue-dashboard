@@ -65,6 +65,8 @@
   .portrait{width:120px;height:120px;border-radius:50%;object-fit:cover;
     border:3px solid rgba(255,255,255,.85);box-shadow:0 6px 18px rgba(0,0,0,.22);
     margin-top:18px;display:block}
+  .hero-top{display:grid;grid-template-columns:1fr 220px;gap:36px;align-items:start}
+  .hero-top img{justify-self:end}
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:0 1px 3px rgba(43,39,51,.04)}
   /* 能力矩阵 */
   table{width:100%;border-collapse:collapse;font-size:13.4px}
@@ -136,6 +138,8 @@
     .hero h1{font-size:30px}
     .topnav .links{display:none}
     td.k{width:auto;white-space:normal}
+    .hero-top{grid-template-columns:1fr}
+    .hero-top img{justify-self:start;margin-top:20px;width:150px;height:150px}
   }
   @media(max-width:560px){
     .jobcard{grid-template-columns:repeat(2,1fr)}
@@ -166,22 +170,26 @@
 </div>
 
 <div class="hero">
-  <div class="in">
-    <h1>刘健博</h1>
-    <p class="role"><b>求职意向</b>数据分析 / 数据运营</p>
+  <div class="in hero-top">
+    <div>
+      <h1>刘健博</h1>
+      <p class="role"><b>求职意向</b>数据分析 / 数据运营</p>
 
-    <div class="contact">
-      <span>📞 155-0244-6408</span>
-      <span>✉️ 15502446408@163.com</span>
+      <div class="contact">
+        <span>📞 155-0244-6408</span>
+        <span>✉️ 15502446408@163.com</span>
+      </div>
+
+      <div class="cta">
+        <a class="a1" href="#works">查看交互式作品集 ↓</a>
+        <a class="a2" href="resume.pdf" download>下载简历 PDF</a>
+      </div>
     </div>
 
-    <img class="portrait" src="portrait.jpg" alt="刘健博证件照">
+    <img class="portrait" src="portrait.jpg" alt="刘健博证件照" style="width:220px;height:220px;margin-top:0;border-width:4px">
+  </div>
 
-    <div class="cta">
-      <a class="a1" href="#works">查看交互式作品集 ↓</a>
-      <a class="a2" href="resume.pdf" download>下载简历 PDF</a>
-    </div>
-
+  <div class="in" style="margin-top:22px">
     <div class="jobcard">
       <div class="j"><span>求职状态</span><b>已毕业 · 全职</b></div>
       <div class="j"><span>到岗时间</span><b>随时到岗</b></div>
@@ -256,18 +264,6 @@
         </ul>
       </div>
 
-      <div class="exp">
-        <div class="head">
-          <h3>海航财务健康度量化与 CSI 指数归因分析</h3>
-          <span class="date">2026.06 – 2026.09</span>
-        </div>
-        <ul>
-          <li><b>财务分析：</b>选取海南航空近三年财报数据，搭建偿债能力、盈利能力与运营效率多维测算模型，识别关键财务异动指标与风险点</li>
-          <li><b>趋势研判：</b>结合行情量价数据，用趋势分析、财务比率与相关性检验挖掘异动成因，构建量价联动分析框架</li>
-          <li><b>指数分析：</b>对 CSI 指数近六个月走势归因，拆解成分股贡献度，评估市场风格切换与行业轮动特征</li>
-          <li><b>报告输出：</b>独立输出量化分析报告，跑通数据采集-清洗-建模-结论的完整分析链路，沉淀标准化分析 SOP</li>
-        </ul>
-      </div>
     </div>
   </section>
 
@@ -277,8 +273,21 @@
 
       <div class="exp">
         <div class="head">
-          <h3>电商用户转化漏斗与 RFM 价值分析<span class="badge hot">跨境电商方向核心项目</span></h3>
-          <span class="date">2023.06 – 2024.05</span>
+          <h3>海航财务健康度量化与 CSI 指数归因分析</h3>
+          <span class="date">2026.05 – 2026.06</span>
+        </div>
+        <ul>
+          <li><b>财务分析：</b>选取海南航空近三年财报数据，搭建偿债能力、盈利能力与运营效率多维测算模型，识别关键财务异动指标与风险点</li>
+          <li><b>趋势研判：</b>结合行情量价数据，用趋势分析、财务比率与相关性检验挖掘异动成因，构建量价联动分析框架</li>
+          <li><b>指数分析：</b>对 CSI 指数近六个月走势归因，拆解成分股贡献度，评估市场风格切换与行业轮动特征</li>
+          <li><b>报告输出：</b>独立输出量化分析报告，跑通数据采集-清洗-建模-结论的完整分析链路，沉淀标准化分析 SOP</li>
+        </ul>
+      </div>
+
+      <div class="exp">
+        <div class="head">
+          <h3>电商用户转化漏斗与 RFM 价值分析</h3>
+          <span class="date">2026.06 – 2026.09</span>
         </div>
         <ul>
           <li><b>数据清洗：</b>用 Python / Pandas 处理电商用户行为日志，完成去重、缺失值处理与字段标准化，并沉淀可复用的清洗流程与质量校验规则</li>
@@ -365,7 +374,7 @@
         <div class="cover"><img src="cover_green.png" alt="绿色驿站国家级大创项目预览"></div>
         <div class="body">
           <h3>绿色驿站 · 国家级大创项目</h3>
-          <p>问卷调研、SPSS 多元 Logistic 回归、TAM/SAM/SOM 规模测算与四年财务预测、投融资方案（已脱敏）。</p>
+          <p>问卷调研、SPSS 多元 Logistic 回归、TAM/SAM/SOM 规模测算与四年财务预测、投融资方案。</p>
           <div class="meta"><span>国家级立项</span><span>SPSS 回归</span><span>财务建模</span></div>
           <span class="go">查看项目 →</span>
         </div>
