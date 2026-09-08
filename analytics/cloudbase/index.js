@@ -2,9 +2,42 @@
 // 部署：云函数入口选本文件（index.js），HTTP 触发开启。
 // 数据库：在云开发控制台创建集合 analytics_events（权限设为“所有用户可读写”或“仅管理端”，本函数用管理端 SDK 写入）。
 const cloud = require('@cloudbase/node-sdk');
-const app = cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
+// HTTP 触发（函数 URL）环境不会注入默认凭证，必须显式鉴权：
+// 优先读函数环境变量 CLOUDBASE_APIKEY（CloudBase API Key），
+// 部署时可将其直接内嵌到下方 ACCESS_KEY 兜底值中。
+const ENV_ID = 'qkxdsw-d0ghqo6occbcc3cd0';
+const ACCESS_KEY = process.env.CLOUDBASE_APIKEY || '';
+const app = cloud.init(ACCESS_KEY ? { env: ENV_ID, accessKey: ACCESS_KEY } : { env: ENV_ID });
 const db = app.database();
 const _ = db.command;
+
+// 集合自愈：首次写入时若集合不存在则自动创建（CloudBase 不允许向不存在的集合写入）
+let _collReady = false;
+async function ensureCollection() {
+  if (_collReady) return;
+  try { await db.createCollection('analytics_events'); } catch (e) { /* 已存在或无权限时忽略 */ }
+  _collReady = true;
+}
+async function saveEvent(rec) {
+  await ensureCollection();
+  const day = new Date(rec.ts).toISOString().slice(0, 10);
+  const docId = 'events:' + day;
+  try {
+    const res = await db.collection('analytics_events').doc(docId).update({ data: { list: _.push(rec) } });
+    if (!res.updated || res.updated === 0) {
+      await db.collection('analytics_events').add({ _id: docId, list: [rec] });
+    }
+  } catch (e) {
+    if (/collection/i.test(e.message || '')) {
+      _collReady = false;
+      await ensureCollection();
+      const res = await db.collection('analytics_events').doc(docId).update({ data: { list: _.push(rec) } });
+      if (!res.updated || res.updated === 0) {
+        await db.collection('analytics_events').add({ _id: docId, list: [rec] });
+      }
+    } else throw e;
+  }
+}
 
 function cors(body, status = 200) {
   return {
@@ -49,14 +82,7 @@ exports.main = async (event, context) => {
         clicked: Array.isArray(data.clicked) ? data.clicked.slice(0, 50) : [],
         ip: (fwd.split(',')[0] || '').trim()
       };
-      const day = new Date(rec.ts).toISOString().slice(0, 10);
-      const docId = 'events:' + day;
-      const res = await db.collection('analytics_events').doc(docId).update({
-        data: { list: _.push(rec) }
-      });
-      if (!res.updated || res.updated === 0) {
-        await db.collection('analytics_events').add({ _id: docId, list: [rec] });
-      }
+      await saveEvent(rec);
       return cors({ ok: true });
     }
 
