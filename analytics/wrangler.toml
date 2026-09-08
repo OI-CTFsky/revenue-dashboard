@@ -4,4 +4,4 @@ compatibility_date = "2024-09-23"
 
 [[kv_namespaces]]
 binding = "ANALYTICS_KV"
-id = "REPLACE_WITH_YOUR_KV_ID"
+id = "49a241c038fc417b8667bd0597c0107b"
