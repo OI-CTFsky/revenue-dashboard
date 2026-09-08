@@ -23,17 +23,18 @@ async function saveEvent(rec) {
   const day = new Date(rec.ts).toISOString().slice(0, 10);
   const docId = 'events:' + day;
   try {
-    const res = await db.collection('analytics_events').doc(docId).update({ data: { list: _.push(rec) } });
+    // node-sdk 的 update 直接传数据对象（不是 { data: ... }，那是小程序 SDK 的写法）
+    const res = await db.collection('analytics_events').doc(docId).update({ list: _.push(rec) });
     if (!res.updated || res.updated === 0) {
-      await db.collection('analytics_events').add({ _id: docId, list: [rec] });
+      await db.collection('analytics_events').doc(docId).set({ list: [rec] });
     }
   } catch (e) {
     if (/collection/i.test(e.message || '')) {
       _collReady = false;
       await ensureCollection();
-      const res = await db.collection('analytics_events').doc(docId).update({ data: { list: _.push(rec) } });
+      const res = await db.collection('analytics_events').doc(docId).update({ list: _.push(rec) });
       if (!res.updated || res.updated === 0) {
-        await db.collection('analytics_events').add({ _id: docId, list: [rec] });
+        await db.collection('analytics_events').doc(docId).set({ list: [rec] });
       }
     } else throw e;
   }
