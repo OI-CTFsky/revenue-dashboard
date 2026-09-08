@@ -1,43 +1,27 @@
-// 腾讯云云开发（CloudBase）云函数：访客事件收集 + 聚合统计
-// 部署：云函数入口选本文件（index.js），HTTP 触发开启。
-// 数据库：在云开发控制台创建集合 analytics_events（权限设为“所有用户可读写”或“仅管理端”，本函数用管理端 SDK 写入）。
-const cloud = require('@cloudbase/node-sdk');
-// HTTP 触发（函数 URL）环境不会注入默认凭证，必须显式鉴权：
-// 优先读函数环境变量 CLOUDBASE_APIKEY（CloudBase API Key），
-// 部署时可将其直接内嵌到下方 ACCESS_KEY 兜底值中。
+// 腾讯云 CloudBase 云函数：访客事件收集 + 聚合统计（零依赖版）
+// 架构：SCF 函数 URL（公网入口）→ CloudBase 环境级网关 PostgREST → PostgreSQL
+//   写入: POST https://{envId}.api.tcloudbasegateway.com/v1/rdb/rest/analytics_events
+//   读取: GET  同上（service_role，可读可写）
+// 鉴权: CloudBase API Key（Bearer），经函数环境变量 CLOUDBASE_APIKEY 注入，
+//   部署时可内嵌兜底值（见 index.deploy.js）。无需任何 npm 依赖（Node 18 内置 fetch）。
 const ENV_ID = 'qkxdsw-d0ghqo6occbcc3cd0';
 const ACCESS_KEY = process.env.CLOUDBASE_APIKEY || '';
-const app = cloud.init(ACCESS_KEY ? { env: ENV_ID, accessKey: ACCESS_KEY } : { env: ENV_ID });
-const db = app.database();
-const _ = db.command;
+const GW = `https://${ENV_ID}.api.tcloudbasegateway.com`;
+const REST = `${GW}/v1/rdb/rest/analytics_events`;
 
-// 集合自愈：首次写入时若集合不存在则自动创建（CloudBase 不允许向不存在的集合写入）
-let _collReady = false;
-async function ensureCollection() {
-  if (_collReady) return;
-  try { await db.createCollection('analytics_events'); } catch (e) { /* 已存在或无权限时忽略 */ }
-  _collReady = true;
-}
-async function saveEvent(rec) {
-  await ensureCollection();
-  const day = new Date(rec.ts).toISOString().slice(0, 10);
-  const docId = 'events:' + day;
-  try {
-    // node-sdk 的 update 直接传数据对象（不是 { data: ... }，那是小程序 SDK 的写法）
-    const res = await db.collection('analytics_events').doc(docId).update({ list: _.push(rec) });
-    if (!res.updated || res.updated === 0) {
-      await db.collection('analytics_events').doc(docId).set({ list: [rec] });
-    }
-  } catch (e) {
-    if (/collection/i.test(e.message || '')) {
-      _collReady = false;
-      await ensureCollection();
-      const res = await db.collection('analytics_events').doc(docId).update({ list: _.push(rec) });
-      if (!res.updated || res.updated === 0) {
-        await db.collection('analytics_events').doc(docId).set({ list: [rec] });
-      }
-    } else throw e;
-  }
+async function gw(method, path, body) {
+  const res = await fetch(`${GW}${path}`, {
+    method,
+    headers: {
+      Authorization: `Bearer ${ACCESS_KEY}`,
+      'Content-Type': 'application/json',
+      ...(body ? { Prefer: 'return=minimal' } : {})
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`gateway ${res.status}: ${text.slice(0, 200)}`);
+  return text ? JSON.parse(text) : null;
 }
 
 function cors(body, status = 200) {
@@ -53,17 +37,16 @@ function cors(body, status = 200) {
   };
 }
 
-exports.main = async (event, context) => {
+exports.main = async (event) => {
   if (event.httpMethod === 'OPTIONS') return cors('');
   const urlPath = (event.path || '').split('?')[0];
 
   try {
-    // 健康检查
     if (urlPath.endsWith('/health')) {
-      return cors({ ok: true });
+      return cors({ ok: true, ts: Date.now() });
     }
 
-    // 接收事件
+    // 接收事件：一行一条写入 PG
     if (urlPath.endsWith('/log') && event.httpMethod === 'POST') {
       let data;
       try { data = JSON.parse(event.body || '{}'); } catch (e) {
@@ -71,32 +54,35 @@ exports.main = async (event, context) => {
       }
       const headers = event.headers || {};
       const fwd = headers['x-forwarded-for'] || headers['X-Forwarded-For'] || '';
-      const rec = {
-        sid: data.sid || ('s-' + Date.now()),
-        path: data.path || urlPath,
-        type: data.type || 'view',
-        ts: data.ts || Date.now(),
-        dur: data.dur || 0,
-        ua: (data.ua || '').slice(0, 300),
-        ref: (data.ref || '').slice(0, 300),
-        screen: data.screen || '',
-        clicked: Array.isArray(data.clicked) ? data.clicked.slice(0, 50) : [],
-        ip: (fwd.split(',')[0] || '').trim()
+      const row = {
+        sid: String(data.sid || 's-' + Date.now()).slice(0, 64),
+        type: String(data.type || 'view').slice(0, 16),
+        path: String(data.path || urlPath).slice(0, 300),
+        ref: String(data.ref || '').slice(0, 300),
+        ua: String(data.ua || '').slice(0, 300),
+        screen: String(data.screen || '').slice(0, 32),
+        clicked: JSON.stringify(Array.isArray(data.clicked) ? data.clicked.slice(0, 50) : []),
+        dur: Number(data.dur) || 0,
+        ts: Number(data.ts) || Date.now(),
+        ip: (fwd.split(',')[0] || '').trim().slice(0, 64)
       };
-      await saveEvent(rec);
+      await gw('POST', '/v1/rdb/rest/analytics_events', row);
       return cors({ ok: true });
     }
 
-    // 返回聚合统计
+    // 聚合统计：拉最近 2000 条事件，JS 内聚合（个人站流量量级足够）
     if (urlPath.endsWith('/stats') && event.httpMethod === 'GET') {
-      const res = await db.collection('analytics_events').limit(100).get();
-      const events = [];
-      (res.data || []).forEach(d => { if (Array.isArray(d.list)) events.push(...d.list); });
+      const rows = await gw(
+        'GET',
+        '/v1/rdb/rest/analytics_events?select=sid,type,path,dur,ts,ip,clicked&order=ts.desc&limit=2000'
+      );
 
       const sessions = {};
       let views = 0;
-      for (const e of events) {
+      for (const e of rows || []) {
         if (!e.sid) continue;
+        let clicked = [];
+        try { clicked = JSON.parse(e.clicked || '[]'); } catch (x) { clicked = []; }
         if (!sessions[e.sid]) {
           sessions[e.sid] = {
             sid: e.sid, ip: e.ip,
@@ -110,7 +96,7 @@ exports.main = async (event, context) => {
         if (e.ts > s.last) s.last = e.ts;
         if ((e.type === 'end' || e.type === 'ping') && e.dur > s.dur) s.dur = e.dur;
         if (e.path) s.paths.add(e.path);
-        if (Array.isArray(e.clicked)) e.clicked.forEach(p => s.clicked.add(p));
+        clicked.forEach(p => s.clicked.add(p));
       }
 
       const list = Object.values(sessions);
