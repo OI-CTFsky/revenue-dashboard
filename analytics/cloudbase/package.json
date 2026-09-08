@@ -4,6 +4,6 @@
   "description": "访客数据分析云端函数（腾讯云 CloudBase）",
   "main": "index.js",
   "dependencies": {
-    "@cloudbase/node-sdk": "^2.10.0"
+    "@cloudbase/node-sdk": "^3.18.3"
   }
 }
