@@ -61,6 +61,10 @@
   h2.sec{font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:16px}
   h2.sec::before{content:"";width:5px;height:20px;border-radius:3px;background:var(--accent)}
   h2.sec em{font-style:normal;font-size:12px;color:var(--ink-3);font-weight:400;margin-left:auto}
+  h2.sec.no-bar::before{display:none}
+  .portrait{width:120px;height:120px;border-radius:50%;object-fit:cover;
+    border:3px solid rgba(255,255,255,.85);box-shadow:0 6px 18px rgba(0,0,0,.22);
+    margin-top:18px;display:block}
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:0 1px 3px rgba(43,39,51,.04)}
   /* 能力矩阵 */
   table{width:100%;border-collapse:collapse;font-size:13.4px}
@@ -169,9 +173,9 @@
     <div class="contact">
       <span>📞 155-0244-6408</span>
       <span>✉️ 15502446408@163.com</span>
-      <span>🎓 山东财经大学 · 金融工程（2025.07 毕业）</span>
-      <span>💻 GitHub：OI-CTFsky</span>
     </div>
+
+    <img class="portrait" src="portrait.jpg" alt="刘健博证件照">
 
     <div class="cta">
       <a class="a1" href="#works">查看交互式作品集 ↓</a>
@@ -234,13 +238,13 @@
   </section>
 
   <section id="exp">
-    <h2 class="sec">工作 / 实习经历<em>EXPERIENCE</em></h2>
+    <h2 class="sec no-bar">工作经历<em>EXPERIENCE</em></h2>
     <div class="card">
       <div class="exp">
         <div class="head">
           <h3>天职国际会计师事务所</h3>
-          <span class="sub">审计助理</span>
-          <span class="date">2025.08 – 2026.06</span>
+          <span class="sub">审计专员</span>
+          <span class="date">2025.06 – 2026.07</span>
         </div>
         <ul>
           <li><b>数据对账：</b>统筹国家电网母子公司财务与业务两类异构数据库，统一口径并逐笔定位差异，完成双向 100% 勾稽匹配与差异归因</li>
@@ -249,6 +253,19 @@
           <li><b>自动化提效：</b>Python 处理海航航空 10 余家子公司海量数据，自主开发汇总清洗小程序，效率提升 15%，节省工时约 40 小时</li>
           <li><b>数据治理：</b>负责 3 个集团项目数据归集整理，完成 5 家境外银行英文询证函标准化并制作汇总表，使函证工作较去年提前 10 天</li>
           <li><b>AI 提效：</b>用 AI 工具与提示词工程辅助数据校验、清洗与报告生成，压缩海量数据核对周期</li>
+        </ul>
+      </div>
+
+      <div class="exp">
+        <div class="head">
+          <h3>海航财务健康度量化与 CSI 指数归因分析</h3>
+          <span class="date">2026.06 – 2026.09</span>
+        </div>
+        <ul>
+          <li><b>财务分析：</b>选取海南航空近三年财报数据，搭建偿债能力、盈利能力与运营效率多维测算模型，识别关键财务异动指标与风险点</li>
+          <li><b>趋势研判：</b>结合行情量价数据，用趋势分析、财务比率与相关性检验挖掘异动成因，构建量价联动分析框架</li>
+          <li><b>指数分析：</b>对 CSI 指数近六个月走势归因，拆解成分股贡献度，评估市场风格切换与行业轮动特征</li>
+          <li><b>报告输出：</b>独立输出量化分析报告，跑通数据采集-清洗-建模-结论的完整分析链路，沉淀标准化分析 SOP</li>
         </ul>
       </div>
     </div>
@@ -273,19 +290,6 @@
       </div>
 
       <div class="exp">
-        <div class="head">
-          <h3>海航财务健康度量化与 CSI 指数归因分析<span class="badge side">个人项目</span></h3>
-          <span class="date">2026.03 – 2026.06</span>
-        </div>
-        <ul>
-          <li><b>财务分析：</b>选取海南航空近三年财报数据，搭建偿债能力、盈利能力与运营效率多维测算模型，识别关键财务异动指标与风险点</li>
-          <li><b>趋势研判：</b>结合行情量价数据，用趋势分析、财务比率与相关性检验挖掘异动成因，构建量价联动分析框架</li>
-          <li><b>指数分析：</b>对 CSI 指数近六个月走势归因，拆解成分股贡献度，评估市场风格切换与行业轮动特征</li>
-          <li><b>报告输出：</b>独立输出量化分析报告，跑通数据采集-清洗-建模-结论的完整分析链路，沉淀标准化分析 SOP</li>
-        </ul>
-      </div>
-
-      <div class="exp">
         <div class="head"><h3>证券客户分层画像与精准营销策略优化</h3><span class="date">2024.06 – 2024.08</span></div>
         <ul>
           <li><b>标签体系：</b>整合客户沟通与成交数据，搭建客户标签体系，刻画风险偏好、资产特征与投资行为偏好</li>
@@ -297,7 +301,7 @@
 
       <div class="exp">
         <div class="head">
-          <h3><a href="green-station.html" style="color:inherit;text-decoration:none;border-bottom:1.5px dashed var(--accent)">绿色驿站 · 快递包装回收与再利用经营分析</a></h3>
+          <h3>绿色驿站 · 快递包装回收与再利用经营分析</h3>
           <span class="date">2023.09 – 2023.12 · 项目负责人</span>
         </div>
         <ul>
@@ -307,7 +311,6 @@
           <li><b>效益监测：</b>搭建回收量与销售额预测模型，给出四年销售额 33.6 万至 70.9 万，跟踪 22.44 万成本预算与 5,000 元经费执行</li>
           <li><b>资源协调：</b>协调菜鸟驿站、物流公司、DIY 手工店推进回收链路落地，输出 3 份调查报告并获互联网+ 等奖项</li>
         </ul>
-        <div style="margin-top:10px"><a href="green-station.html" style="font-size:13px;font-weight:600;color:var(--accent);text-decoration:none">查看项目详情（已脱敏）→</a></div>
       </div>
     </div>
   </section>
