@@ -1,0 +1,7 @@
+name = "resume-analytics"
+main = "worker.js"
+compatibility_date = "2024-09-23"
+
+[[kv_namespaces]]
+binding = "ANALYTICS_KV"
+id = "REPLACE_WITH_YOUR_KV_ID"
