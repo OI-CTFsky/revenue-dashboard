@@ -40,10 +40,15 @@ function cors(body, status = 200) {
 // SCF 不同触发方式给出的真实 IP 字段不同，依次兜底
 function getClientIP(event) {
   const h = event.headers || {};
-  const fwd = h['x-forwarded-for'] || h['X-Forwarded-For'] || h['x-real-ip'] || h['X-Real-Ip'] || '';
-  if (fwd) return fwd.split(',')[0].trim();
+  // 函数 URL（tencentscf.com）：客户端 IP 在 x-scf-remote-addr
+  const candidates = [
+    h['x-scf-remote-addr'], h['X-Scf-Remote-Addr'],
+    h['x-forwarded-for'], h['X-Forwarded-For'],
+    h['x-real-ip'], h['X-Real-Ip'], h['x-client-ip']
+  ].filter(Boolean);
+  if (candidates.length) return String(candidates[0]).split(',')[0].trim();
   const rc = event.requestContext || {};
-  return rc.sourceIp || rc.identity?.sourceIp || rc.http?.sourceIp || '';
+  return rc.sourceIp || (rc.identity && rc.identity.sourceIp) || (rc.http && rc.http.sourceIp) || '';
 }
 
 function isPrivateIP(ip) {
