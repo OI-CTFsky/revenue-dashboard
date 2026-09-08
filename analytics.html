@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>访问数据看板 · 刘健博个人简历平台</title>
+<style>
+  :root{--bg:#f6f5f8;--card:#fff;--line:#e8e5ee;--ink:#2b2733;--ink-2:#6b6577;--accent:#5b54c9;--accent-deep:#463f9e;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;padding:26px 22px 60px}
+  .wrap{max-width:1080px;margin:0 auto}
+  h1{font-size:24px;font-weight:700}
+  .sub{color:var(--ink-2);font-size:13px;margin-top:4px}
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:22px 0}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .kpi b{display:block;font-size:26px;font-weight:800;color:var(--accent-deep)}
+  .kpi span{font-size:12.5px;color:var(--ink-2)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+  .card h3{font-size:15px;margin-bottom:10px}
+  .charts{height:300px}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--accent-deep);font-weight:600}
+  .hint{background:#fff7e6;border:1px solid #ffe1a8;color:#8a6d1a;padding:14px 16px;border-radius:12px;font-size:13px;line-height:1.8}
+  .live{display:inline-block;width:8px;height:8px;border-radius:50%;background:#0f9960;margin-right:6px;animation:p 1.4s infinite}
+  @keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+  @media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <h1>访问数据看板 <span class="live"></span></h1>
+  <div class="sub">实时统计 · 每 15 秒自动刷新 · 最近更新 <span id="upd">—</span></div>
+  <div id="hint"></div>
+  <div class="kpis" id="kpis" style="display:none">
+    <div class="kpi"><b id="k_visits">0</b><span>总访问（会话）</span></div>
+    <div class="kpi"><b id="k_ip">0</b><span>独立访客（IP）</span></div>
+    <div class="kpi"><b id="k_active">0</b><span>当前在线</span></div>
+    <div class="kpi"><b id="k_avg">0s</b><span>平均停留</span></div>
+    <div class="kpi"><b id="k_views">0</b><span>总浏览量</span></div>
+  </div>
+  <div class="grid" id="charts" style="display:none">
+    <div class="card"><h3>各页面访问次数</h3><div id="c_pages" class="charts"></div></div>
+    <div class="card"><h3>作品集各项目查看次数</h3><div id="c_port" class="charts"></div></div>
+  </div>
+  <div class="card" id="tbl" style="display:none;margin-top:16px">
+    <h3>最近访问记录</h3>
+    <table><thead><tr><th>IP</th><th>地区</th><th>进入时间</th><th>停留</th><th>浏览页面</th></tr></thead>
+    <tbody id="tb"></tbody></table>
+  </div>
+</div>
+<script src="analytics-config.js"></script>
+<script>
+(function(){
+  var EP = (window.ANALYTICS && window.ANALYTICS.endpoint) || "";
+  var PAGE_LABEL = { "index.html":"首页","dashboard.html":"营收仪表盘","e02-analysis.html":"经营异动诊断","sql-cheatsheet.html":"SQL速查","green-station.html":"绿色驿站","resume.pdf":"简历PDF","":"未知" };
+  function fmtDur(s){ if(!s) return "0s"; var m=Math.floor(s/60), r=s%60; return m? (m+"分"+r+"秒"):(r+"秒"); }
+  function fmtTime(ts){ return new Date(ts).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}); }
+  if(!EP){
+    var h=document.getElementById('hint'); h.className='hint';
+    h.innerHTML='⚠️ 尚未配置后端：请在 <b>analytics-config.js</b> 中填入 Cloudflare Worker 地址（步骤见 analytics/README.md），刷新即可看到真实数据。';
+    return;
+  }
+  var cPages = echarts.init(document.getElementById('c_pages'));
+  var cPort = echarts.init(document.getElementById('c_port'));
+  function render(d){
+    document.getElementById('hint').style.display='none';
+    document.getElementById('kpis').style.display='grid';
+    document.getElementById('charts').style.display='grid';
+    document.getElementById('tbl').style.display='block';
+    document.getElementById('k_visits').textContent=d.totalVisits;
+    document.getElementById('k_ip').textContent=d.uniqueIP;
+    document.getElementById('k_active').textContent=d.activeNow||0;
+    document.getElementById('k_avg').textContent=fmtDur(d.avgDur);
+    document.getElementById('k_views').textContent=d.views;
+    document.getElementById('upd').textContent=new Date().toLocaleTimeString('zh-CN');
+    var pages=Object.keys(d.pageCounts).map(function(k){return [PAGE_LABEL[k]||k, d.pageCounts[k]];}).sort(function(a,b){return b[1]-a[1];});
+    cPages.setOption({tooltip:{},grid:{left:80,right:24,top:10,bottom:20},xAxis:{type:'value'},yAxis:{type:'category',data:pages.map(function(p){return p[0];})},series:[{type:'bar',data:pages.map(function(p){return p[1];}),itemStyle:{color:'#5b54c9'},label:{show:true,position:'right'}}]});
+    var ports=[['dashboard.html','营收仪表盘'],['e02-analysis.html','经营异动诊断'],['sql-cheatsheet.html','SQL速查'],['green-station.html','绿色驿站'],['resume.pdf','简历PDF']].map(function(p){return [p[1], d.portCounts[p[0]]||0];});
+    cPort.setOption({tooltip:{},grid:{left:80,right:24,top:10,bottom:20},xAxis:{type:'value'},yAxis:{type:'category',data:ports.map(function(p){return p[0];})},series:[{type:'bar',data:ports.map(function(p){return p[1];}),itemStyle:{color:'#0f9960'},label:{show:true,position:'right'}}]});
+    var tb=document.getElementById('tb'); tb.innerHTML='';
+    d.recent.forEach(function(r){
+      var tr=document.createElement('tr');
+      var region=[r.country,r.city].filter(Boolean).join(' ')||'—';
+      tr.innerHTML='<td>'+ (r.ip||'—') +'</td><td>'+region+'</td><td>'+fmtTime(r.entry)+'</td><td>'+fmtDur(r.dur)+'</td><td>'+ (r.pages.map(function(p){return PAGE_LABEL[p]||p;}).join('、')||'—') +'</td>';
+      tb.appendChild(tr);
+    });
+  }
+  function load(){ fetch(EP+'/stats',{cache:'no-store'}).then(function(r){return r.json();}).then(render).catch(function(e){ console.warn(e); }); }
+  load(); setInterval(load,15000);
+  window.addEventListener('resize',function(){ cPages.resize(); cPort.resize(); });
+})();
+</script>
+</body>
+</html>
