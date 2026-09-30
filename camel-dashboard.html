@@ -83,7 +83,7 @@
   <section>
     <div class="sec-head"><span class="bar"></span><h2>转化漏斗</h2><span class="en">IMPRESSION → CONVERSION</span></div>
     <div id="cFunnel" class="chart"></div>
-    <div class="note"><b>口径：</b>播放 → 有效观看 → 互动 → 间接转化四级漏斗。综合转化率 = 间接转化人数 / 有效观看人数 ≈ <b>0.12%</b>；有效观看率、互动率分别按各级 / 上一级计算。</div>
+    <div class="note"><b>口径：</b>播放 → 有效观看 → 互动 → 间接转化四级漏斗。综合转化率 = 间接转化 / 有效观看 ≈ <b>0.12%</b>；各级为相对播放的占比。<b>绝对量已按客户数据保密要求模糊化，此处仅展示漏斗结构与相对转化。</b></div>
   </section>
 
   <div class="row2">
@@ -127,8 +127,8 @@ const W=v=>(v/10000).toFixed(0)+'万';
 // KPI cards (no money)
 (function(){
   const cards=[
-    {l:'有效观看',v:'1.19 亿',s:'种草规模',c:'#1f6b45'},
-    {l:'间接转化',v:'14.5 万',s:'人数',c:'#0f9960'},
+    {l:'有效观看',v:'亿级',s:'种草规模',c:'#1f6b45'},
+    {l:'间接转化',v:'十万级',s:'人数',c:'#0f9960'},
     {l:'综合转化率',v:'0.12%',s:'约行业 6 倍',c:'#5b7fd4'},
     {l:'种草视频',v:'180 条',s:'样本量',c:'#d9a441'},
     {l:'参与达人',v:'149 位',s:'分层评估',c:'#8a74c9'},
@@ -139,10 +139,10 @@ const W=v=>(v/10000).toFixed(0)+'万';
 
 // Funnel
 mk('cFunnel',{
-  tooltip:{...tip,trigger:'item',formatter:p=>p.name+'：<b>'+W(p.value)+'</b>'},
+  tooltip:{...tip,trigger:'item',formatter:p=>p.name+'：<b>'+p.value+'%</b>（相对播放）'},
   color:['#1f6b45','#2f8a5b','#4bb3a4','#5b7fd4'],
-  series:[{type:'funnel',left:'8%',right:'8%',top:10,bottom:10,minSize:'12%',maxSize:'100%',sort:'descending',gap:2,label:{position:'inside',formatter:'{b}\n{c}',color:'#fff',fontSize:12},data:[
-    {name:'播放',value:285946867},{name:'有效观看',value:119035116},{name:'互动',value:12814853},{name:'间接转化',value:144678}
+  series:[{type:'funnel',left:'8%',right:'8%',top:10,bottom:10,minSize:'12%',maxSize:'100%',sort:'descending',gap:2,label:{position:'inside',formatter:'{b}\n{c}%',color:'#fff',fontSize:12},data:[
+    {name:'播放',value:100},{name:'有效观看',value:41.6},{name:'互动',value:4.5},{name:'间接转化',value:0.05}
   ]}]
 });
 
