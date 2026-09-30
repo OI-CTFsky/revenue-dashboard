@@ -3,22 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>刘健博·个人简历平台</title>
-<meta name="description" content="刘健博个人简历平台：金融工程本科，天职国际审计数据实战，擅长 SQL / Python 数据清洗建模与 Tableau 可视化，具备电商转化漏斗、RFM 分层与经营异动归因经验。">
-<!-- preflight: template=project_oriented · length=auto · language=zh · report=html · auto-selected: true -->
+<title>刘健博·电商数据分析作品集</title>
+<meta name="description" content="刘健博·电商数据分析/运营分析作品集：金融工程背景，具备企业数据处理经验，擅长 SQL / Python / Excel / Tableau / FineBI，完成电商经营报表、达人种草看板与转化漏斗、RFM 分层与经营异动归因等专题分析。意向城市杭州。">
 <style>
   :root{
     --ink:#2b2733; --ink-2:#6b6577; --ink-3:#9b95a5;
     --bg:#f6f5f8; --card:#ffffff; --line:#e8e5ee;
     --accent:#5b54c9; --accent-deep:#463f9e; --accent-soft:#eeedfa;
-    --gold:#b9891f; --green:#0f9960; --red:#d9534f;
+    --gold:#b9891f; --green:#0f9960; --red:#d9534f; --camel:#1f6b45;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",system-ui,sans-serif;
     background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
   .wrap{max-width:980px;margin:0 auto;padding:0 22px 60px}
-
-  /* == top nav == */
   .topnav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);
     backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .topnav .in{max-width:980px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
@@ -30,53 +27,43 @@
   .topnav .dl{margin-left:auto;background:var(--accent);color:#fff;font-size:13px;font-weight:600;
     padding:7px 18px;border-radius:20px;text-decoration:none;box-shadow:0 3px 10px rgba(91,84,201,.28)}
   .topnav .dl:hover{background:var(--accent-deep)}
-
-  /* == hero == */
   .hero{background:linear-gradient(135deg,#463f9e 0%,#5b54c9 55%,#7a68d8 100%);
     color:#fff;border-radius:0 0 26px 26px;padding:44px 0 40px;margin-bottom:30px}
   .hero .in{max-width:980px;margin:0 auto;padding:0 22px}
   .hero h1{font-size:38px;letter-spacing:2px;font-weight:700}
   .hero .role{margin-top:7px;font-size:16.5px;opacity:.94}
   .hero .role b{background:rgba(255,255,255,.18);padding:3px 12px;border-radius:16px;font-size:14px;margin-right:8px}
-  .hero .contact{margin-top:16px;display:flex;gap:10px 22px;flex-wrap:wrap;font-size:14px;opacity:.95}
-  .hero .cta{margin-top:22px;display:flex;gap:14px;flex-wrap:wrap}
+  .hero .intro{margin-top:12px;font-size:13.5px;opacity:.92;max-width:640px;line-height:1.7}
+  .hero .contact{margin-top:14px;display:flex;gap:10px 22px;flex-wrap:wrap;font-size:14px;opacity:.95}
+  .hero .cta{margin-top:20px;display:flex;gap:14px;flex-wrap:wrap}
   .hero .cta a{font-size:14px;font-weight:600;text-decoration:none;padding:10px 26px;border-radius:26px}
   .hero .cta .a1{background:#fff;color:var(--accent-deep);box-shadow:0 4px 14px rgba(0,0,0,.18)}
   .hero .cta .a2{border:1.5px solid rgba(255,255,255,.65);color:#fff}
-
-  /* 求职信息卡 */
   .jobcard{margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .jobcard .j{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);
     border-radius:12px;padding:11px 12px;text-align:center}
   .jobcard .j span{display:block;font-size:11.5px;opacity:.82;margin-bottom:3px}
   .jobcard .j b{font-size:14px;font-weight:600}
-
   .stats{margin-top:24px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
   .stats .s{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:13px 16px}
   .stats .s b{display:block;font-size:22px;font-weight:700}
   .stats .s span{font-size:12px;opacity:.85}
-
-  /* == sections == */
   section{margin-bottom:34px;scroll-margin-top:70px}
   h2.sec{font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:16px}
   h2.sec::before{content:"";width:5px;height:20px;border-radius:3px;background:var(--accent)}
   h2.sec em{font-style:normal;font-size:12px;color:var(--ink-3);font-weight:400;margin-left:auto}
   h2.sec.no-bar::before{display:none}
   .portrait{width:150px;height:193px;border-radius:4px;object-fit:cover;
-    border:3px solid rgba(255,255,255,.85);box-shadow:0 6px 18px rgba(0,0,0,.22);
-    margin-top:18px;display:block}
+    border:3px solid rgba(255,255,255,.85);box-shadow:0 6px 18px rgba(0,0,0,.22);margin-top:18px;display:block}
   .hero-top{display:grid;grid-template-columns:1fr 220px;gap:36px;align-items:start}
   .hero-top img{justify-self:end}
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:0 1px 3px rgba(43,39,51,.04)}
-  /* 能力矩阵 */
   table{width:100%;border-collapse:collapse;font-size:13.4px}
   th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
   thead th{background:var(--accent-soft);color:var(--accent-deep);font-weight:600;font-size:12.5px}
   tbody tr:last-child td{border-bottom:none}
   td.k{font-weight:600;color:var(--ink);white-space:nowrap;width:118px}
   td.ev{color:var(--ink-2);font-size:12.8px}
-
-  /* 经历 */
   .exp{border-left:2px solid var(--accent-soft);padding-left:22px;position:relative}
   .exp+.exp{margin-top:24px}
   .exp::before{content:"";position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;
@@ -88,80 +75,69 @@
   .exp ul{margin:10px 0 0;padding-left:18px}
   .exp li{font-size:13.5px;color:var(--ink-2);margin-bottom:6px}
   .exp li b{color:var(--ink);font-weight:600}
-  .badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:10px;margin-left:8px;
-    vertical-align:middle;font-weight:600}
+  .badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:10px;margin-left:8px;vertical-align:middle;font-weight:600}
   .badge.hot{background:#fdecea;color:#c0392b}
   .badge.side{background:var(--accent-soft);color:var(--accent-deep)}
-
-  .transfer{margin-top:16px;background:var(--accent-soft);border-radius:12px;padding:14px 18px;
-    font-size:13.2px;color:var(--accent-deep);line-height:1.8}
-  .transfer b{display:block;margin-bottom:5px;font-size:13.5px}
-
-  /* 岗位匹配 */
-  .fit{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .fit .f{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;
-    border-left:3px solid var(--green)}
-  .fit .f h4{font-size:14.5px;margin-bottom:6px;display:flex;gap:8px;align-items:center}
-  .fit .f p{font-size:13.2px;color:var(--ink-2)}
-
-  /* portfolio */
+  .four{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .four .q{background:#faf9fd;border:1px solid var(--line);border-radius:12px;padding:11px 13px}
+  .four .q .t{font-size:12px;font-weight:700;color:var(--accent-deep);margin-bottom:4px}
+  .four .q .t::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:middle}
+  .four .q p{font-size:12.8px;color:var(--ink-2);line-height:1.7}
+  .code{margin-top:10px;background:#1e1b2e;color:#e6e2f5;border-radius:10px;padding:12px 14px;font-family:"JetBrains Mono","Consolas",monospace;font-size:11.5px;line-height:1.65;overflow:auto;white-space:pre}
+  .code .cm{color:#8f86b8}
   .works{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   .work{position:relative;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);
-    border-radius:16px;overflow:hidden;text-decoration:none;color:var(--ink);transition:.18s;
-    box-shadow:0 1px 3px rgba(43,39,51,.04)}
+    border-radius:16px;overflow:hidden;text-decoration:none;color:var(--ink);transition:.18s;box-shadow:0 1px 3px rgba(43,39,51,.04)}
   .work:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(70,63,158,.14);border-color:var(--accent)}
-  .work .cover{height:126px;overflow:hidden;background:#eee;position:relative}
+  .work .cover{height:126px;overflow:hidden;background:#eee;position:relative;display:flex;align-items:center;justify-content:center}
   .work .cover img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+  .work .cover .ficon{font-size:52px;color:rgba(255,255,255,.95);font-weight:700;text-shadow:0 4px 18px rgba(0,0,0,.18)}
+  .cover.camel{background:linear-gradient(135deg,#1f6b45 0%,#2f8a5b 55%,#5b54c9 100%)}
+  .cover.camel.b2{background:linear-gradient(135deg,#0f9960 0%,#3fb884 55%,#5b54c9 100%)}
+  .cover.camel.b3{background:linear-gradient(135deg,#b9891f 0%,#d9a441 55%,#5b54c9 100%)}
+  .cover .ftag{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.92);color:#1f6b45;font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px}
   .work .body{padding:15px 17px 17px;flex:1;display:flex;flex-direction:column}
   .work h3{font-size:15px;font-weight:700;margin-bottom:6px}
   .work p{font-size:12.5px;color:var(--ink-2);flex:1}
   .work .go{margin-top:11px;font-size:13px;font-weight:600;color:var(--accent)}
   .work .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
   .work .meta span{font-size:11px;background:var(--accent-soft);color:var(--accent-deep);padding:2px 8px;border-radius:10px}
-
-  /* feishu doc cover —— 渐变占位封面 */
-  .feishu-cover{position:relative;display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(135deg,#3370ff 0%,#5b8fff 60%,#7a68d8 100%)}
-  .feishu-cover.b2{background:linear-gradient(135deg,#0f9960 0%,#3fb884 55%,#5b54c9 100%)}
-  .feishu-cover .ficon{font-size:54px;color:rgba(255,255,255,.92);font-weight:700;
-    text-shadow:0 4px 18px rgba(0,0,0,.18);letter-spacing:-2px}
-  .feishu-cover .ftag{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.92);
-    color:#3370ff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;
-    display:inline-flex;align-items:center;gap:4px;letter-spacing:.5px}
-  .feishu-cover.b2 .ftag{color:#0f9960}
-  .open-tip{margin-top:10px;font-size:12px;color:var(--ink-3);display:flex;align-items:center;gap:6px}
-  .open-tip .ext{display:inline-block;background:var(--accent-soft);color:var(--accent-deep);
-    padding:1px 8px;border-radius:10px;font-size:11px;font-weight:600}
-
-  /* education */
+  .subgroup{margin-top:22px}
+  .subgroup .sg-title{font-size:14px;font-weight:700;color:var(--ink-2);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .subgroup .sg-title::before{content:"";width:4px;height:15px;border-radius:3px;background:var(--ink-3)}
+  .certs{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+  .cert-hero{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 1px 3px rgba(43,39,51,.04)}
+  .cert-hero img{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .cert-hero .cap{padding:12px 16px}
+  .cert-hero .cap h3{font-size:15px}
+  .cert-hero .cap p{font-size:12.5px;color:var(--ink-2);margin-top:3px}
+  .cert-list{display:flex;flex-direction:column;gap:12px}
+  .cert-item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:center}
+  .cert-item .ic{width:40px;height:40px;border-radius:10px;background:var(--accent-soft);color:var(--accent-deep);display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+  .cert-item h4{font-size:14px}
+  .cert-item p{font-size:12px;color:var(--ink-2)}
   .edu{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
-  .edu .logo{width:54px;height:54px;border-radius:14px;background:var(--accent);color:#fff;display:flex;
-    align-items:center;justify-content:center;font-size:22px;flex:none}
+  .edu .logo{width:54px;height:54px;border-radius:14px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;flex:none}
   .edu h3{font-size:16.5px}
   .edu .date{font-size:12.5px;color:var(--ink-3)}
   .edu p{font-size:13.5px;color:var(--ink-2);margin-top:6px}
-
-  footer{margin-top:46px;padding-top:22px;border-top:1px solid var(--line);
-    text-align:center;font-size:12.5px;color:var(--ink-3)}
+  .disc{margin-top:14px;font-size:12px;color:var(--ink-3);background:#faf8fb;border-radius:10px;padding:10px 14px;line-height:1.7}
+  footer{margin-top:46px;padding-top:22px;border-top:1px solid var(--line);text-align:center;font-size:12.5px;color:var(--ink-3)}
   footer a{color:var(--accent-deep);text-decoration:none}
-
   @media(max-width:900px){
     .stats{grid-template-columns:repeat(2,1fr)}
-    .jobcard{grid-template-columns:repeat(3,1fr)}
-    .fit,.works{grid-template-columns:1fr}
+    .fit,.works,.certs,.four{grid-template-columns:1fr}
     .hero h1{font-size:30px}
     .topnav .links{display:none}
     td.k{width:auto;white-space:normal}
     .hero-top{grid-template-columns:1fr}
     .hero-top img{justify-self:start;margin-top:20px;width:140px;height:180px}
   }
-  @media(max-width:560px){
-    .jobcard{grid-template-columns:repeat(2,1fr)}
-  }
+  @media(max-width:560px){.jobcard{grid-template-columns:repeat(2,1fr)}}
   @media print{
     .topnav,.hero .cta{display:none}
     body{background:#fff}
-    .card,.work,.fit .f,.exp{box-shadow:none;break-inside:avoid}
+    .card,.work,.cert-hero,.cert-item,.exp,.four .q{box-shadow:none;break-inside:avoid}
     .hero{border-radius:0;background:#463f9e !important;-webkit-print-color-adjust:exact}
   }
 </style>
@@ -170,11 +146,11 @@
 
 <div class="topnav">
   <div class="in">
-    <a class="brand" href="#">刘健博·个人简历平台</a>
+    <a class="brand" href="#">刘健博 · <b>电商数据分析</b></a>
     <div class="links">
       <a href="#skills">能力矩阵</a>
       <a href="#works">作品集</a>
-      <a href="#feishu">飞书文档</a>
+      <a href="#certs">技能认证</a>
       <a href="#exp">工作经历</a>
       <a href="#projects">项目经历</a>
       <a href="#edu">教育</a>
@@ -187,34 +163,30 @@
   <div class="in hero-top">
     <div>
       <h1>刘健博</h1>
-      <p class="role"><b>求职意向</b>数据分析 / 数据运营</p>
-
+      <p class="role"><b>求职意向</b>电商数据分析 / 运营分析 · 意向城市 杭州</p>
+      <p class="intro">金融工程背景，具备企业数据处理经验，能够使用 SQL、Python、Excel 与 Tableau / FineBI 完成电商报表、看板和专题分析。</p>
       <div class="contact">
         <span>📞 155-0244-6408</span>
         <span>✉️ 15502446408@163.com</span>
       </div>
-
       <div class="cta">
         <a class="a1" href="#works">查看交互式作品集 ↓</a>
         <a class="a2" href="resume.pdf" download>下载简历 PDF</a>
       </div>
     </div>
-
     <img class="portrait" src="portrait.jpg" alt="刘健博证件照" style="width:180px;height:231px;margin-top:0;border-width:4px">
   </div>
-
   <div class="in" style="margin-top:22px">
     <div class="jobcard">
       <div class="j"><span>求职状态</span><b>已毕业 · 全职</b></div>
       <div class="j"><span>到岗时间</span><b>随时到岗</b></div>
-      <div class="j"><span>目标岗位</span><b>数据分析 / 运营</b></div>
+      <div class="j"><span>意向城市</span><b>杭州</b></div>
     </div>
-
     <div class="stats">
       <div class="s"><b>4.75/5.0</b><span>GPA · 专业 TOP 3%</span></div>
-      <div class="s"><b>500+ 份</b><span>函证核验 · 准确率 100%</span></div>
-      <div class="s"><b>15% ↑</b><span>Python 自动化提效 · 省 40h</span></div>
-      <div class="s"><b>4 个</b><span>独立完成的完整分析项目</span></div>
+      <div class="s"><b>180 条</b><span>骆驼达人种草视频底表</span></div>
+      <div class="s"><b>1.19 亿</b><span>种草有效观看 · 看板分析</span></div>
+      <div class="s"><b>4 个</b><span>电商核心分析作品</span></div>
     </div>
   </div>
 </div>
@@ -225,35 +197,12 @@
     <h2 class="sec">能力矩阵<em>SKILLS MATRIX</em></h2>
     <div class="card" style="padding:0;overflow:hidden">
       <table>
-        <thead>
-          <tr><th>能力层</th><th>工具与方法</th><th>实战出处</th></tr>
-        </thead>
+        <thead><tr><th>能力层</th><th>工具与方法</th><th>实战出处</th></tr></thead>
         <tbody>
-          <tr>
-            <td class="k">取数与清洗</td>
-            <td>SQL / MySQL、Python（Pandas）、Excel（Power Query / 透视表）</td>
-            <td class="ev">500+ 份函证清洗比对；电商用户行为日志去重补缺标准化；10 余家子公司海量数据汇总</td>
-          </tr>
-          <tr>
-            <td class="k">分析与建模</td>
-            <td>漏斗分析、RFM 用户分层、A/B 测试、留存与复购分析、多元 Logistic 回归、财务比率与趋势分析</td>
-            <td class="ev">电商浏览-加购-下单-支付漏斗；客户风险偏好分层；SPSS 信效度检验与回归（p=0.004）</td>
-          </tr>
-          <tr>
-            <td class="k">可视化与看板</td>
-            <td>Tableau、ECharts、Excel 图表</td>
-            <td class="ev">用户行为分析看板（流量 / 转化 / 留存多维视图）；营收智能分析仪表盘</td>
-          </tr>
-          <tr>
-            <td class="k">统计与建模工具</td>
-            <td>Stata、MATLAB、SPSS</td>
-            <td class="ev">多元 Logistic 回归、信效度检验、概率统计与计量经济学建模</td>
-          </tr>
-          <tr>
-            <td class="k">业务与交付</td>
-            <td>指标字典与口径定义、专项分析报告、异动归因、AI 提示词工程</td>
-            <td class="ev">3 份专项分析报告；经营异动诊断报告 V2；审计底稿编制与复核</td>
-          </tr>
+          <tr><td class="k">取数与清洗</td><td>SQL / MySQL 多表关联、窗口函数、去重与汇总；Python（Pandas）清洗标准化；Excel（透视表 / 高级函数 / 多表匹配）</td><td class="ev">宝尊商品·订单·退款·活动四类数据口径统一；骆驼达人种草视频明细去重建库；电商用户行为日志清洗</td></tr>
+          <tr><td class="k">分析与建模</td><td>漏斗分析、RFM 用户分层、种草效果与达人分层、同比环比与异常归因</td><td class="ev">电商浏览-加购-下单-支付漏斗；骆驼达人粉丝量级分层与内容赛道归因</td></tr>
+          <tr><td class="k">可视化与看板</td><td>Tableau、FineBI、ECharts、Excel 图表</td><td class="ev">骆驼种草监控看板（KPI/漏斗/散点/桑基）；电商用户行为看板；经营看板与周报</td></tr>
+          <tr><td class="k">业务与交付</td><td>指标字典与口径定义、经营报表、专题分析与复盘报告、AI 提效</td><td class="ev">日/周/活动周期经营报表；骆驼种草效益复盘报告；口径与结论边界说明</td></tr>
         </tbody>
       </table>
     </div>
@@ -262,21 +211,30 @@
   <section id="works">
     <h2 class="sec">作品集<em>PORTFOLIO · 点击进入交互体验</em></h2>
     <div class="works">
-      <a class="work" href="dashboard.html">
-        <div class="cover"><img src="cover_dashboard.png" alt="营收情况智能分析仪表盘预览"></div>
+      <a class="work" href="camel-report.html">
+        <div class="cover camel"><span class="ftag">🐫 骆驼 · 报表</span><span class="ficon">▤</span></div>
         <div class="body">
-          <h3>营收情况智能分析仪表盘</h3>
-          <p>Tableau 看板复刻重构：目标达成、用户漏斗、利润结构与逾期风险四维度交互看板，支持联动筛选。</p>
-          <div class="meta"><span>ECharts</span><span>Tableau</span><span>交互看板</span></div>
+          <h3>骆驼达人种草数据报表</h3>
+          <p>统一达人/视频/商品 ID 建内容研究底表，补分类维度，支撑不同类型内容的互动效果横向对比。</p>
+          <div class="meta"><span>底表建库</span><span>去重校验</span><span>SQL</span></div>
+          <span class="go">查看报表 →</span>
+        </div>
+      </a>
+      <a class="work" href="camel-dashboard.html">
+        <div class="cover camel b2"><span class="ftag">🐫 骆驼 · 看板</span><span class="ficon">📊</span></div>
+        <div class="body">
+          <h3>骆驼达人种草效益分析看板</h3>
+          <p>FineBI 搭建种草监控看板：KPI 总览、播放互动趋势、转化漏斗、达人预估对比、内容方向桑基图。</p>
+          <div class="meta"><span>FineBI</span><span>转化漏斗</span><span>交互看板</span></div>
           <span class="go">进入看板 →</span>
         </div>
       </a>
-      <a class="work" href="e02-analysis.html">
-        <div class="cover"><img src="cover_e02.png" alt="经营现状分析与异动诊断报告预览"></div>
+      <a class="work" href="camel-review.html">
+        <div class="cover camel b3"><span class="ftag">🐫 骆驼 · 复盘</span><span class="ficon">📝</span></div>
         <div class="body">
-          <h3>经营现状分析与异动诊断</h3>
-          <p>量价拆解、逐层下钻、关键问题归因与证据链诊断，完整呈现从异动发现到结论的分析思路。</p>
-          <div class="meta"><span>异动归因</span><span>逐层下钻</span><span>分析报告</span></div>
+          <h3>骆驼达人种草效益复盘报告</h3>
+          <p>从看板结论回到内容本身，输出达人筛选与内容方向的可执行策略，明确结论边界。</p>
+          <div class="meta"><span>归因</span><span>达人分层</span><span>策略建议</span></div>
           <span class="go">查看报告 →</span>
         </div>
       </a>
@@ -289,58 +247,25 @@
           <span class="go">查看笔记 →</span>
         </div>
       </a>
-      <a class="work" href="green-station.html">
-        <div class="cover"><img src="cover_green.png" alt="绿色驿站国家级大创项目预览"></div>
-        <div class="body">
-          <h3>绿色驿站 · 国家级大创项目</h3>
-          <p>问卷调研、SPSS 多元 Logistic 回归、TAM/SAM/SOM 规模测算与四年财务预测、投融资方案。</p>
-          <div class="meta"><span>国家级立项</span><span>SPSS 回归</span><span>财务建模</span></div>
-          <span class="go">查看项目 →</span>
-        </div>
-      </a>
-      <a class="work" href="resume.pdf">
-        <div class="cover"><img src="cover_resume.png" alt="个人简历 PDF 预览"></div>
-        <div class="body">
-          <h3>个人简历（PDF 原件）</h3>
-          <p>与上方预览一致的最新版简历 PDF，含教育背景、工作经历、项目经历与专业技能，可直接下载投递或打印。</p>
-          <div class="meta"><span>简历原件</span><span>可直接下载</span></div>
-          <span class="go">下载 PDF →</span>
-        </div>
-      </a>
     </div>
+    <p class="disc">脱敏说明：以上为可公开的作品演示。品牌合作的具体商单费用、达人报价、交易金额等非公开数据已隐藏或以模拟演示数据替代；指标定义、计算方法、筛选条件、图表结构与分析过程完整保留。</p>
   </section>
 
-  <section id="feishu">
-    <h2 class="sec">飞书协作 · 自动化产出<em>FEISHU DOCS · 报表与多维看板</em></h2>
-    <div class="works" style="grid-template-columns:repeat(2,1fr);max-width:720px">
-      <a class="work" href="https://pcnvuyrzlgfh.feishu.cn/wiki/FjSYwR8CRigprHkqeEqcAvmlnlg" target="_blank" rel="noopener">
-        <div class="cover feishu-cover">
-          <span class="ftag">📄 飞书 Wiki</span>
-          <span class="ficon">Σ</span>
+  <section id="certs">
+    <h2 class="sec">技能认证<em>CERTIFICATIONS</em></h2>
+    <div class="certs">
+      <div class="cert-hero">
+        <img src="cert_yindao.jpg" alt="影刀 RPA 高级技能证书">
+        <div class="cap">
+          <h3>影刀 RPA 高级工程师认证</h3>
+          <p>影刀 RPA 官方高级技能认证 · 用于电商数据自动化采集、清洗与报表流程搭建。</p>
         </div>
-        <div class="body">
-          <h3>自动化报表文档</h3>
-          <p>用飞书文档搭建的周期自动化报表——汇总模板化、口径标准化、按周/月自动推送，
-          覆盖财务与业务多部门的常规报表需求，零手工跑数。</p>
-          <div class="meta"><span>自动化报表</span><span>飞书 Wiki</span><span>数据交付</span></div>
-          <span class="go">打开飞书文档 ↗</span>
-          <p class="open-tip"><span class="ext">建议操作</span>点击后请确认当前账号具备查看权限</p>
-        </div>
-      </a>
-      <a class="work" href="https://pcnvuyrzlgfh.feishu.cn/base/Zr7ybAAfna4qVjsZxZPc5u1knGv" target="_blank" rel="noopener">
-        <div class="cover feishu-cover b2">
-          <span class="ftag">🗂 飞书 Base</span>
-          <span class="ficon">▦</span>
-        </div>
-        <div class="body">
-          <h3>自动化看板 · 多维表格</h3>
-          <p>在飞书多维表格中构建的实时自动化看板——数据自动汇总、视图/筛选/分组视图联动，
-          支持多维度联表分析，作为轻量 BI 替代方案。</p>
-          <div class="meta"><span>多维表格</span><span>实时看板</span><span>飞书 Base</span></div>
-          <span class="go">打开多维表格 ↗</span>
-          <p class="open-tip"><span class="ext">建议操作</span>点击后请确认当前账号具备查看权限</p>
-        </div>
-      </a>
+      </div>
+      <div class="cert-list">
+        <div class="cert-item"><div class="ic">🖥</div><div><h4>影刀 RPA 高级工程师</h4><p>流程自动化 · 数据采集与报表机器人</p></div></div>
+        <div class="cert-item"><div class="ic">🔤</div><div><h4>CET-6</h4><p>大学英语六级</p></div></div>
+        <div class="cert-item"><div class="ic">🗂</div><div><h4>计算机二级（WPS / Python）</h4><p>全国计算机等级考试</p></div></div>
+      </div>
     </div>
   </section>
 
@@ -349,76 +274,68 @@
     <div class="card">
       <div class="exp">
         <div class="head">
-          <h3>天职国际会计师事务所</h3>
-          <span class="sub">审计专员</span>
-          <span class="date">2025.06 – 2026.07</span>
+          <h3>上海宝尊电子商务有限公司</h3>
+          <span class="sub">电商数据分析师｜运动户外品牌</span>
+          <span class="date">2025.06 – 2026.09</span>
         </div>
         <ul>
-          <li><b>数据对账：</b>统筹国家电网母子公司财务与业务两类异构数据库，统一口径并逐笔定位差异，完成双向 100% 勾稽匹配与差异归因</li>
-          <li><b>函证核验：</b>负责沈鼓集团 IPO 项目 10 余个核心科目，完成 500 余份函证清洗与交叉比对，追踪回函异常，准确率 100%</li>
-          <li><b>指标建模：</b>整合沈阳产业投资集团多科目财务数据，搭建偿债能力、盈利能力与经营趋势三维测算模型，输出 3 份专项分析报告</li>
-          <li><b>自动化提效：</b>Python 处理海航航空 10 余家子公司海量数据，自主开发汇总清洗小程序，效率提升 15%，节省工时约 40 小时</li>
-          <li><b>数据治理：</b>负责 3 个集团项目数据归集整理，完成 5 家境外银行英文询证函标准化并制作汇总表，使函证工作较去年提前 10 天</li>
-          <li><b>AI 提效：</b>用 AI 工具与提示词工程辅助数据校验、清洗与报告生成，压缩海量数据核对周期</li>
+          <li><b>经营报表：</b>统筹商品、订单、退款与活动四类数据，统一日期、SKU、品类与渠道口径，按日/周/活动周期输出经营报表与口径说明</li>
+          <li><b>指标跟踪：</b>测算支付销售额、退款后净销售额、订单量与客单价，跟踪退货率与活动期销售波动，区分含退款与退款后两类口径</li>
+          <li><b>品类分析：</b>用 SQL 关联订单表与商品维表，按品类、价格带、款式与尺码拆解销售结构变化，定位异常波动品类与原因</li>
+          <li><b>活动复盘：</b>按活动周期对比活动前后流量、转化与销售表现，判断活动对品类结构与退货率的实际影响，输出复盘结论与建议</li>
+          <li><b>渠道对比：</b>按渠道拆分销售额、订单量与客单价，比较退货率与占比差异，标注占比变化较大的渠道供业务排查</li>
+          <li><b>商品监测：</b>按 SKU 跟踪销量、库存与退货表现，筛出高销量高退货款式，提示商品信息与内容呈现两端的排查方向</li>
+          <li><b>看板周报：</b>用 Excel 与 Tableau 整理周度与月度经营数据，形成经营看板与周报，标明指标口径与结论适用范围</li>
+          <li><b>需求响应：</b>承接运营、商品与客服侧临时取数需求，先对齐指标口径与统计范围再出数，沉淀常用取数模板与口径说明</li>
         </ul>
       </div>
-
     </div>
   </section>
 
   <section id="projects">
     <h2 class="sec">项目经历<em>PROJECTS</em></h2>
     <div class="card">
-
       <div class="exp">
         <div class="head">
-          <h3>海航财务健康度量化与 CSI 指数归因分析</h3>
-          <span class="date">2026.05 – 2026.06</span>
+          <h3>电商用户行为数据分析（漏斗 + RFM）</h3>
+          <span class="date">2025.06 – 2026.03</span>
         </div>
-        <ul>
-          <li><b>财务分析：</b>选取海南航空近三年财报数据，搭建偿债能力、盈利能力与运营效率多维测算模型，识别关键财务异动指标与风险点</li>
-          <li><b>趋势研判：</b>结合行情量价数据，用趋势分析、财务比率与相关性检验挖掘异动成因，构建量价联动分析框架</li>
-          <li><b>指数分析：</b>对 CSI 指数近六个月走势归因，拆解成分股贡献度，评估市场风格切换与行业轮动特征</li>
-          <li><b>报告输出：</b>独立输出量化分析报告，跑通数据采集-清洗-建模-结论的完整分析链路，沉淀标准化分析 SOP</li>
-        </ul>
+        <div class="four">
+          <div class="q"><div class="t">业务问题</div><p>品牌旗舰店从流量到成交的转化路径不清晰，运营难以定位流失最集中的环节，也难以区分高价值人群做精细化运营。</p></div>
+          <div class="q"><div class="t">个人负责</div><p>用 Python/Pandas 对行为日志去重、补缺、标准化并沉淀清洗流程；围绕人货场搭建 UV/PV、转化率、复购率、客单价、留存率指标体系并输出指标字典；用漏斗模型拆解浏览-加购-下单-支付，用 RFM 划分用户价值分层；用 Tableau 输出行为看板。</p></div>
+          <div class="q"><div class="t">关键发现</div><p>下单→支付环节流失最集中，是转化优化的首要抓手；用户价值高度集中，少数高频高额人群贡献大部分成交额，存在明显分层运营空间。</p></div>
+          <div class="q"><div class="t">建议</div><p>对支付前流失环节增加优惠/提醒触达；对高价值人群做专属权益、沉睡人群做召回测试，并用看板持续监控活动前后转化变化。</p></div>
+        </div>
+        <div class="code"><span class="cm">-- 关联+去重+汇总（模拟演示数据）：为漏斗与 RFM 提供去重后的底层数据集</span>
+WITH dedup AS (
+  SELECT user_id, item_id, event_type, DATE(event_time) dt, MAX(event_time) last_time
+  FROM user_behavior_log
+  GROUP BY user_id, item_id, event_type, DATE(event_time)
+)
+SELECT user_id,
+  COUNT(DISTINCT CASE WHEN event_type='view' THEN item_id END) view_cnt,
+  COUNT(DISTINCT CASE WHEN event_type='pay'  THEN item_id END) pay_cnt,
+  MAX(CASE WHEN event_type='pay' THEN last_time END) last_pay_time
+FROM dedup GROUP BY user_id;</div>
       </div>
 
-      <div class="exp">
-        <div class="head">
-          <h3>电商用户转化漏斗与 RFM 价值分析</h3>
-          <span class="date">2026.06 – 2026.09</span>
+      <div class="subgroup">
+        <div class="sg-title">其他作品（金融 / 调研 / 自动化，作为方法迁移能力佐证）</div>
+        <div class="works">
+          <a class="work" href="dashboard.html">
+            <div class="cover"><img src="cover_dashboard.png" alt="营收智能分析仪表盘"></div>
+            <div class="body"><h3>营收 / 信贷经营智能分析仪表盘</h3><p>Tableau 复刻重构：目标达成、用户漏斗、利润结构与逾期风险四维交互看板（模拟演示数据）。</p><div class="meta"><span>Tableau</span><span>ECharts</span></div><span class="go">进入看板 →</span></div>
+          </a>
+          <a class="work" href="e02-analysis.html">
+            <div class="cover"><img src="cover_e02.png" alt="经营现状分析与异动诊断"></div>
+            <div class="body"><h3>经营现状分析与异动诊断</h3><p>量价拆解、逐层下钻、关键问题归因与证据链诊断，完整呈现从异动发现到结论的分析思路。</p><div class="meta"><span>异动归因</span><span>逐层下钻</span></div><span class="go">查看报告 →</span></div>
+          </a>
+          <a class="work" href="green-station.html">
+            <div class="cover"><img src="cover_green.png" alt="绿色驿站国家级大创"></div>
+            <div class="body"><h3>绿色驿站 · 国家级大创</h3><p>问卷调研、SPSS 多元 Logistic 回归、TAM/SAM/SOM 规模测算与四年财务预测。</p><div class="meta"><span>SPSS</span><span>财务建模</span></div><span class="go">查看项目 →</span></div>
+          </a>
         </div>
-        <ul>
-          <li><b>数据清洗：</b>用 Python / Pandas 处理电商用户行为日志，完成去重、缺失值处理与字段标准化，并沉淀可复用的清洗流程与质量校验规则</li>
-          <li><b>指标体系：</b>围绕人货场搭建 UV/PV、转化率、复购率、客单价、留存率核心指标，逐项明确业务口径与计算逻辑，输出指标字典统一团队取数标准</li>
-          <li><b>漏斗分析：</b>拆解浏览 → 加购 → 下单 → 支付全路径，逐环节计算转化率与流失率并绘制漏斗图，定位流失最集中的环节后结合埋点路径判断原因，据此提出针对性优化建议</li>
-          <li><b>用户分层：</b>以最近一次消费时间、消费频次、消费金额三个维度建立 RFM 模型，按价值高低划分多个人群，比较各层在成交额与复购表现上的差异，输出分层运营策略</li>
-          <li><b>可视化看板：</b>用 Tableau 搭建用户行为分析看板，呈现流量、转化、留存多维视图，支持按渠道 / 时间段动态筛选，用于日常运营监控与活动复盘</li>
-        </ul>
-      </div>
-
-      <div class="exp">
-        <div class="head"><h3>证券客户分层画像与精准营销策略优化</h3><span class="date">2024.06 – 2024.08</span></div>
-        <ul>
-          <li><b>标签体系：</b>整合客户沟通与成交数据，搭建客户标签体系，刻画风险偏好、资产特征与投资行为偏好</li>
-          <li><b>分层画像：</b>提炼客户分层画像与 RFM 价值模型，识别高价值客户群体特征，支撑差异化经营与分群触达</li>
-          <li><b>转化复盘：</b>复盘客户转化全链路数据，定位各环节表现与流失原因，优化跟进策略与营销话术</li>
-          <li><b>策略迭代：</b>基于数据反馈与 A/B 测试结果持续迭代营销策略，沉淀可复用实验流程与转化提升 SOP</li>
-        </ul>
-      </div>
-
-      <div class="exp">
-        <div class="head">
-          <h3>绿色驿站 · 快递包装回收与再利用经营分析</h3>
-          <span class="date">2023.09 – 2023.12 · 项目负责人</span>
-        </div>
-        <ul>
-          <li><b>项目定位：</b>主持国家级大创项目，统筹 6 人团队完成投融资方案与效益监测，聚焦绿色包装全链路</li>
-          <li><b>调研分析：</b>设计问卷回收 300 余份，用 SPSS 做信效度检验与多元 Logistic 回归，量化回收率关键影响因素（模型 p=0.004）</li>
-          <li><b>规模测算：</b>基于 27,000 名在校生测算年回收量 96,660 件、参与意愿 96.92%，用 TAM/SAM/SOM 法测算初期市场规模约 90 万元</li>
-          <li><b>效益监测：</b>搭建回收量与销售额预测模型，给出四年销售额 33.6 万至 70.9 万，跟踪 22.44 万成本预算与 5,000 元经费执行</li>
-          <li><b>资源协调：</b>协调菜鸟驿站、物流公司、DIY 手工店推进回收链路落地，输出 3 份调查报告并获互联网+ 等奖项</li>
-        </ul>
+        <p class="disc">另含：海航财务健康度量化与 CSI 指数归因分析、证券客户分层画像与精准营销策略优化（均为金融场景，脱敏处理）。SQL 速查笔记见作品集，实际项目查询见上方各作品内嵌代码。</p>
       </div>
     </div>
   </section>
@@ -431,16 +348,15 @@
         <div>
           <h3>山东财经大学 · 金融工程</h3>
           <span class="date">2021.09 – 2025.07</span>
-          <p>GPA 4.75/5.0（专业 TOP 3%）· 互联网+ 大赛银奖 · 大创国家级奖项<br>
-          主修：Python、MATLAB、概率统计、计量经济学与金融工程<br>
-          证书：证券从业资格、基金从业资格、计算机二级、CET-6</p>
+          <p>GPA 4.75/5.0（专业 TOP 3%）· 互联网+ 大赛银奖 · 大创国家级立项<br>
+          主修：Python、MATLAB、概率论与数理统计、计量经济学与金融工程</p>
         </div>
       </div>
     </div>
   </section>
 
   <footer>
-    刘健博·个人简历平台 &nbsp;|&nbsp; 电话 15502446408 &nbsp;|&nbsp; 邮箱 15502446408@163.com &nbsp;|&nbsp;
+    刘健博 · 电商数据分析/运营分析 &nbsp;|&nbsp; 意向城市 杭州 &nbsp;|&nbsp; 15502446408 &nbsp;|&nbsp; 15502446408@163.com &nbsp;|&nbsp;
     <a href="https://github.com/OI-CTFsky" target="_blank" rel="noopener">GitHub</a>
   </footer>
 
