@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>骆驼达人种草效益分析看板 | 刘健博 · 电商数据分析</title>
+<meta name="description" content="骆驼达人种草效益分析看板（FineBI 复刻）：KPI 总览、播放互动趋势、转化漏斗、达人分层与内容方向，动态监控种草大盘并定位高效/低效投放。金额为模拟演示数据。">
+<style>
+  :root{--accent:#1f6b45;--accent-deep:#155033;--ink:#2b2733;--ink-2:#6b6478;--line:#e7efe9;--card:#fff;--bg:#f4f7f5;--good:#3aa47c;--warn:#d9534f;--blue:#5b7fd4;--gold:#d9a441;--violet:#8a74c9}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Microsoft YaHei","PingFang SC","Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
+  .pnav{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+  .pnav a{font-size:13px;padding:8px 16px;border-radius:22px;text-decoration:none;border:1px solid var(--line);background:#fff;color:var(--ink-2);transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+  .pnav a.on{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+  .pnav a:not(.on):hover{border-color:var(--accent);color:var(--accent-deep)}
+  .pnav .spacer{margin-left:auto;font-size:12px;color:var(--ink-2);align-self:center}
+  header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;padding:26px 30px;background:linear-gradient(135deg,#fff 55%,#eef6f0);border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 24px rgba(43,39,51,.06)}
+  .h-title h1{font-size:25px;letter-spacing:.5px}
+  .h-title h1 .dot{color:var(--accent)}
+  .h-title p{margin-top:8px;font-size:13px;color:var(--ink-2)}
+  .badges{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .badge{font-size:12px;padding:3px 10px;border-radius:20px;background:#e7f2ea;color:var(--accent-deep);border:1px solid #cfe6d6}
+  .badge.gray{background:#f0eef3;color:#5f5a6b;border-color:#e3e0e8}
+  .h-meta{text-align:right;font-size:12px;color:var(--ink-2);line-height:1.9}
+  .h-meta b{color:var(--ink);font-size:14px}
+  .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 14px;position:relative;overflow:hidden}
+  .kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c,var(--accent))}
+  .kpi .label{font-size:11.5px;color:var(--ink-2)}
+  .kpi .value{font-size:21px;font-weight:700;margin-top:7px;font-variant-numeric:tabular-nums}
+  .kpi .sub{font-size:11px;color:var(--ink-2);margin-top:4px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px 14px;margin-bottom:18px;box-shadow:0 3px 14px rgba(43,39,51,.04)}
+  .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .sec-head .bar{width:5px;height:18px;border-radius:3px;background:var(--accent)}
+  .sec-head h2{font-size:16.5px}
+  .sec-head .en{font-size:11px;color:var(--ink-2);margin-left:auto;letter-spacing:.5px}
+  .chart{width:100%;height:330px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .note{font-size:11.5px;color:var(--ink-2);margin-top:6px;line-height:1.8;background:#f6faf7;border-radius:10px;padding:10px 14px}
+  .note b{color:var(--ink)}
+  .four{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .four .q{background:#f6faf7;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .four .q .t{font-size:12px;font-weight:700;color:var(--accent-deep);margin-bottom:4px}
+  .four .q p{font-size:12.8px;color:var(--ink-2);line-height:1.7}
+  footer{margin-top:26px;text-align:center;font-size:12px;color:var(--ink-2);line-height:2}
+  footer b{color:var(--ink)}
+  @media(max-width:900px){.kpis{grid-template-columns:repeat(3,1fr)}.row2,.four{grid-template-columns:1fr}.h-meta{text-align:left}}
+</style>
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script>if(typeof echarts==="undefined")document.write('<script src="https://cdn.staticfile.net/echarts/5.5.0/echarts.min.js"><\/script>')</script>
+</head>
+<body>
+<div class="wrap">
+  <nav class="pnav">
+    <a href="index.html"><span>🏠</span>个人主页</a>
+    <a href="camel-report.html"><span>▤</span>骆驼报表</a>
+    <a class="on" href="camel-dashboard.html"><span>📊</span>骆驼看板</a>
+    <a href="camel-review.html"><span>📝</span>骆驼复盘</a>
+    <a href="sql-cheatsheet.html"><span>🐬</span>SQL 速查</a>
+    <span class="spacer">刘健博 · 电商数据分析作品集</span>
+  </nav>
+
+  <header>
+    <div class="h-title">
+      <h1>骆驼达人种草效益分析看板<span class="dot">.</span></h1>
+      <p>抖音/快手达人短视频种草效果监控 · 规模 / 效率 / 达人 / 内容四维联动</p>
+      <div class="badges">
+        <span class="badge">FineBI 看板复刻</span>
+        <span class="badge">180 条视频 · 149 位达人</span>
+        <span class="badge gray">观察期 2025-06 ~ 2025-08</span>
+      </div>
+    </div>
+    <div class="h-meta">
+      <b>刘健博</b> · 电商数据分析作品集<br>
+      SQL · FineBI · Tableau<br>
+      金额为模拟演示数据（口径与图表结构保留）
+    </div>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section>
+    <div class="sec-head"><span class="bar"></span><h2>转化漏斗</h2><span class="en">IMPRESSION → CONVERSION</span></div>
+    <div id="cFunnel" class="chart"></div>
+    <div class="note"><b>口径：</b>播放 → 有效观看 → 互动 → 间接转化四级漏斗。综合转化率 = 间接转化人数 / 有效观看人数 ≈ <b>0.12%</b>；有效观看率、互动率分别按各级 / 上一级计算。</div>
+  </section>
+
+  <div class="row2">
+    <section>
+      <div class="sec-head"><span class="bar"></span><h2>播放互动趋势</h2><span class="en">PLAY & ENGAGE TREND</span></div>
+      <div id="cTrend" class="chart" style="height:300px"></div>
+    </section>
+    <section>
+      <div class="sec-head"><span class="bar"></span><h2>内容方向</h2><span class="en">CONTENT DIRECTION</span></div>
+      <div id="cContent" class="chart" style="height:300px"></div>
+    </section>
+  </div>
+
+  <section>
+    <div class="sec-head"><span class="bar"></span><h2>达人分层效率对比</h2><span class="en">CREATOR TIER EFFICIENCY</span></div>
+    <div id="cTier" class="chart"></div>
+    <div class="note"><b>口径：</b>按粉丝量级分层（头部≥100万粉 / 肩部 / 腰部 / 尾部），横轴为量级，纵轴为"每万粉对应的间接转化人数中位数"。头部达人单位粉丝的转化贡献显著低于尾部，用统一阈值筛选会系统性误判。</div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="bar"></span><h2>看板四段式说明</h2><span class="en">CASE FRAMEWORK</span></div>
+    <div class="four">
+      <div class="q"><div class="t">业务问题</div><p>报表只能看单期，业务希望一个能动态监控种草大盘、并按达人与内容维度下钻、快速定位高效与低效投放的看板。</p></div>
+      <div class="q"><div class="t">个人负责</div><p>用 SQL 按达人类型、商品类别、内容场景、观察周期汇总源数据形成可追溯底层数据集；用 FineBI 搭建 KPI 卡、播放互动趋势、转化漏斗、达人预估对比、达人方向散点与内容方向桑基图。</p></div>
+      <div class="q"><div class="t">关键发现（脱敏）</div><p>综合转化率约 0.12%，单位转化效率约为户外行业均值的 12 倍；约 35% 的视频单位转化成本高于阈值，被标为低效投放复核对象；无效种草率约 15%。</p></div>
+      <div class="q"><div class="t">建议 / 口径</div><p>公开数据只比较内容分布与互动表现；有效观看、间接转化等字段单独标注原始口径来源，不与支付转化、销售额混算；无交易数据时不推算销售额。</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <b>刘健博 · 电商数据分析作品集</b> — 本页为 FineBI《骆驼种草监控看板》的 ECharts 复刻演示，用于展示看板结构与分析方法<br>
+    品牌合作金额为模拟演示数据，指标定义与图表结构保留 · © 2026
+  </footer>
+</div>
+
+<script>
+const tip={backgroundColor:'rgba(255,255,255,.96)',borderColor:'#e7efe9',borderWidth:1,textStyle:{color:'#2b2733',fontSize:12},extraCssText:'box-shadow:0 6px 18px rgba(43,39,51,.12);border-radius:8px;'};
+const charts=[];function mk(id,opt){const el=document.getElementById(id);if(!el)return;const c=echarts.init(el);c.setOption(opt);charts.push(c);}window.addEventListener('resize',()=>charts.forEach(c=>c.resize()));
+const W=v=>(v/10000).toFixed(0)+'万';
+
+// KPI cards (no money)
+(function(){
+  const cards=[
+    {l:'有效观看',v:'1.19 亿',s:'种草规模',c:'#1f6b45'},
+    {l:'间接转化',v:'14.5 万',s:'人数',c:'#0f9960'},
+    {l:'综合转化率',v:'0.12%',s:'约行业 6 倍',c:'#5b7fd4'},
+    {l:'种草视频',v:'180 条',s:'样本量',c:'#d9a441'},
+    {l:'参与达人',v:'149 位',s:'分层评估',c:'#8a74c9'},
+    {l:'无效种草率',v:'15%',s:'27 / 180 条',c:'#d9534f'}
+  ];
+  document.getElementById('kpis').innerHTML=cards.map(c=>'<div class="kpi" style="--c:'+c.c+'"><div class="label">'+c.l+'</div><div class="value">'+c.v+'</div><div class="sub">'+c.s+'</div></div>').join('');
+})();
+
+// Funnel
+mk('cFunnel',{
+  tooltip:{...tip,trigger:'item',formatter:p=>p.name+'：<b>'+W(p.value)+'</b>'},
+  color:['#1f6b45','#2f8a5b','#4bb3a4','#5b7fd4'],
+  series:[{type:'funnel',left:'8%',right:'8%',top:10,bottom:10,minSize:'12%',maxSize:'100%',sort:'descending',gap:2,label:{position:'inside',formatter:'{b}\n{c}',color:'#fff',fontSize:12},data:[
+    {name:'播放',value:285946867},{name:'有效观看',value:119035116},{name:'互动',value:12814853},{name:'间接转化',value:144678}
+  ]}]
+});
+
+// Trend (播放 + 互动率)
+(function(){
+  const days=['06-13','06-21','06-29','07-07','07-15','07-23','07-31','08-08'];
+  const play=[820,1500,2600,3400,2900,2100,1400,900];
+  const rate=[0.13,0.51,1.01,0.67,0.54,0.57,0.72,0.54];
+  mk('cTrend',{
+    tooltip:{...tip,trigger:'axis'},legend:{top:0,right:0,itemWidth:12,itemHeight:8,textStyle:{color:'#6b6478',fontSize:11}},
+    grid:{left:8,right:12,top:36,bottom:6,containLabel:true},
+    xAxis:{type:'category',data:days,axisLabel:{color:'#6b6478',fontSize:10}},
+    yAxis:[{type:'value',name:'播放(万)',nameTextStyle:{color:'#9a93a5',fontSize:10},axisLabel:{color:'#6b6478',fontSize:10},splitLine:{lineStyle:{color:'#eef3ef'}}},
+      {type:'value',name:'互动率',max:1.2,axisLabel:{color:'#6b6478',fontSize:10,formatter:'{value}%'},splitLine:{show:false}}],
+    series:[{name:'播放数',type:'bar',data:play,barWidth:'46%',itemStyle:{borderRadius:[4,4,0,0],color:{type:'linear',x:0,y:0,x2:0,y2:1,colorStops:[{offset:0,color:'#4bb3a4'},{offset:1,color:'#1f6b45'}]}}},
+      {name:'互动率',type:'line',yAxisIndex:1,data:rate,smooth:true,symbolSize:6,lineStyle:{width:2.5,color:'#d9a441'},itemStyle:{color:'#d9a441'}}]
+  });
+})();
+
+// Content direction
+mk('cContent',{
+  tooltip:{...tip,trigger:'axis',axisPointer:{type:'shadow'},valueFormatter:v=>v+'%'},
+  grid:{left:8,right:20,top:20,bottom:6,containLabel:true},
+  xAxis:{type:'value',max:40,axisLabel:{color:'#6b6478',fontSize:10,formatter:'{value}%'},splitLine:{lineStyle:{color:'#eef3ef'}}},
+  yAxis:{type:'category',data:['随拍','户外','摄影','旅行','其他'],axisLabel:{color:'#2b2733',fontSize:11},axisTick:{show:false},axisLine:{lineStyle:{color:'#e5e0e8'}}},
+  series:[{type:'bar',data:[22,28,26,31,15],barWidth:14,itemStyle:{borderRadius:[0,7,7,0],color:{type:'linear',x:0,y:0,x2:1,y2:0,colorStops:[{offset:0,color:'#7fc9a3'},{offset:1,color:'#1f6b45'}]}},label:{show:true,position:'right',fontSize:10,color:'#155033',formatter:'{c}%'}}]
+});
+
+// Tier efficiency
+mk('cTier',{
+  tooltip:{...tip,trigger:'axis',axisPointer:{type:'shadow'}},
+  grid:{left:8,right:16,top:24,bottom:6,containLabel:true},
+  xAxis:{type:'category',data:['头部(≥100万粉)','肩部','腰部','尾部'],axisLabel:{color:'#6b6478',fontSize:11}},
+  yAxis:{type:'value',name:'每万粉间接转化(人)',nameTextStyle:{color:'#9a93a5',fontSize:10},axisLabel:{color:'#6b6478',fontSize:10},splitLine:{lineStyle:{color:'#eef3ef'}}},
+  series:[{type:'bar',data:[0.6,1.8,4.2,6.0],barWidth:'42%',itemStyle:{borderRadius:[6,6,0,0],color:p=>['#d9534f','#d9a441','#4bb3a4','#1f6b45'][p.dataIndex]},label:{show:true,position:'top',fontSize:11,color:'#2b2733'}}]
+});
+</script>
+<script src="analytics-config.js"></script>
+<script src="analytics/track.js"></script>
+</body>
+</html>
