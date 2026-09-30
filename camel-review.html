@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>骆驼达人种草效益复盘报告 | 刘健博 · 电商数据分析</title>
+<meta name="description" content="骆驼达人种草效益复盘报告：从看板结论回到内容本身，输出达人筛选与内容方向的可执行策略，并明确结论边界。金额为模拟演示数据。">
+<style>
+  :root{--accent:#b9891f;--accent-deep:#8f6a15;--ink:#2b2733;--ink-2:#6b6478;--line:#efe9db;--card:#fff;--bg:#faf7f0;--green:#1f6b45;--blue:#5b7fd4;--red:#d9534f}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Microsoft YaHei","PingFang SC","Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 60px}
+  .pnav{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+  .pnav a{font-size:13px;padding:8px 16px;border-radius:22px;text-decoration:none;border:1px solid var(--line);background:#fff;color:var(--ink-2)}
+  .pnav a.on{background:var(--green);color:#fff;border-color:var(--green);font-weight:600}
+  .pnav a:not(.on):hover{border-color:var(--green);color:#155033}
+  .pnav .spacer{margin-left:auto;font-size:12px;color:var(--ink-2);align-self:center}
+  header{padding:26px 30px;background:linear-gradient(135deg,#fff 55%,#f6efdd);border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 24px rgba(43,39,51,.06)}
+  header h1{font-size:25px}header h1 .dot{color:var(--accent)}
+  header p{margin-top:8px;font-size:13px;color:var(--ink-2)}
+  .badges{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .badge{font-size:12px;padding:3px 10px;border-radius:20px;background:#f4ecd8;color:var(--accent-deep);border:1px solid #e7d9b5}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:18px 0;box-shadow:0 3px 14px rgba(43,39,51,.04)}
+  .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .sec-head .bar{width:5px;height:18px;border-radius:3px;background:var(--accent)}
+  .sec-head h2{font-size:16.5px}
+  .four{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .four .q{background:#faf6ec;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .four .q .t{font-size:12px;font-weight:700;color:var(--accent-deep);margin-bottom:4px}
+  .four .q p{font-size:12.8px;color:var(--ink-2);line-height:1.7}
+  ul.pts{margin:6px 0 0;padding-left:18px}ul.pts li{font-size:13px;color:var(--ink-2);margin-bottom:7px;line-height:1.7}ul.pts li b{color:var(--ink)}
+  .chart{width:100%;height:320px;margin-top:8px}
+  .note{font-size:11.5px;color:var(--ink-2);margin-top:8px;line-height:1.8;background:#faf6ec;border-radius:10px;padding:10px 14px}
+  .tagrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .tag{font-size:12px;padding:4px 12px;border-radius:12px;background:#e7f2ea;color:#155033;font-weight:600}
+  footer{margin-top:26px;text-align:center;font-size:12px;color:var(--ink-2);line-height:2}footer b{color:var(--ink)}
+  @media(max-width:900px){.four{grid-template-columns:1fr}}
+</style>
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script>if(typeof echarts==="undefined")document.write('<script src="https://cdn.staticfile.net/echarts/5.5.0/echarts.min.js"><\/script>')</script>
+</head>
+<body>
+<div class="wrap">
+  <nav class="pnav">
+    <a href="index.html"><span>🏠</span>个人主页</a>
+    <a href="camel-report.html"><span>▤</span>骆驼报表</a>
+    <a href="camel-dashboard.html"><span>📊</span>骆驼看板</a>
+    <a class="on" href="camel-review.html"><span>📝</span>骆驼复盘</a>
+    <a href="sql-cheatsheet.html"><span>🐬</span>SQL 速查</a>
+    <span class="spacer">刘健博 · 电商数据分析作品集</span>
+  </nav>
+
+  <header>
+    <h1>骆驼达人种草效益复盘报告<span class="dot">.</span></h1>
+    <p>从看板结论回到内容本身，输出达人筛选与内容方向的可执行策略，并明确结论边界。</p>
+    <div class="badges"><span class="badge">归因复盘</span><span class="badge">达人分层</span><span class="badge">内容赛道</span></div>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="bar"></span><h2>四段式说明</h2></div>
+    <div class="four">
+      <div class="q"><div class="t">业务问题</div><p>看板定位了高效/低效投放后，需要解释为什么某些达人与内容表现更好，并给出可验证的选人与内容策略。</p></div>
+      <div class="q"><div class="t">个人负责</div><p>从看板选取互动/转化差异明显的内容，回到视频、标题与评论，分析使用场景、卖点与穿着感受的呈现方式与反馈；按"高曝光效率 + 低投流费用占比"筛选内容复盘候选达人；按粉丝量级分层评估。</p></div>
+      <div class="q"><div class="t">关键发现（脱敏）</div><p>头部达人（≥100万粉）每万粉对应的间接转化人数中位数仅为尾部达人的约 1/100；应优先高曝光效率、低投流费用占比达人，警惕用抖+掩盖内容缺陷的大博主陷阱。</p></div>
+      <div class="q"><div class="t">建议 / 边界</div><p>结论限定在样本范围内，样本量不足时只描述现象不下结论；输出可验证的内容测试建议而非照搬宣传口径；金额字段隐藏并标注模拟。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="bar"></span><h2>达人筛选策略</h2></div>
+    <ul class="pts">
+      <li><b>选人：</b>优先「高曝光效率、低投流费用占比」达人——拿量效率高且成本结构中买量占比低，作为内容复盘候选池；低投流占比只说明成本结构，不直接证明内容自然传播能力。</li>
+      <li><b>分层：</b>粉丝量级必须分层看，头部（≥100万粉）每万粉转化中位数仅为尾部的约 1/100，用统一阈值筛选会系统性误判。</li>
+      <li><b>避坑：</b>警惕"用抖+买量掩盖内容缺陷"的大博主陷阱，避免以粉丝量单一排名。</li>
+    </ul>
+    <div id="cQuadrant" class="chart"></div>
+    <div class="note"><b>口径：</b>横轴=曝光效率（有效观看/播放），纵轴=投流费用占比（模拟），气泡大小=间接转化人数。左上"高曝光效率·低投流"象限为内容复盘优先候选池（示意数据）。</div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="bar"></span><h2>内容方向洞察</h2></div>
+    <p style="font-size:13px;color:var(--ink-2)">聚焦四个高转化内容赛道，商品露出优先"介绍"形式：</p>
+    <div class="tagrow"><span class="tag">旅行</span><span class="tag">摄影</span><span class="tag">户外</span><span class="tag">随拍</span></div>
+    <ul class="pts">
+      <li><b>呈现方式：</b>高互动内容普遍在前 3 秒呈现真实穿着场景与痛点，而非参数罗列。</li>
+      <li><b>可验证：</b>区分值得借鉴的做法、适用条件与后续验证方式，输出内容测试建议与测试清单，测试结果后再迭代。</li>
+    </ul>
+  </section>
+
+  <footer><b>刘健博 · 电商数据分析作品集</b> — 骆驼达人种草效益复盘报告 · 金额为模拟演示数据，归因逻辑与结论边界保留 · © 2026</footer>
+</div>
+<script>
+const tip={backgroundColor:'rgba(255,255,255,.96)',borderColor:'#efe9db',borderWidth:1,textStyle:{color:'#2b2733',fontSize:12}};
+const el=document.getElementById('cQuadrant');
+if(el&&window.echarts){const c=echarts.init(el);
+  // [曝光效率%, 投流占比%, 间接转化(模拟), 达人量级]
+  const pts=[
+    [72,12,120,'头部'],[68,18,90,'头部'],[55,45,60,'肩部'],[61,30,75,'肩部'],
+    [78,8,140,'腰部'],[82,10,160,'腰部'],[74,14,120,'腰部'],[66,22,95,'尾部'],
+    [80,6,150,'尾部'],[85,9,170,'尾部'],[58,40,55,'头部'],[63,35,70,'肩部']
+  ];
+  const color={'头部':'#d9534f','肩部':'#d9a441','腰部':'#4bb3a4','尾部':'#1f6b45'};
+  c.setOption({
+    tooltip:{...tip,formatter:p=>'量级：'+p.data[3]+'<br>曝光效率：'+p.data[0]+'%<br>投流占比：'+p.data[1]+'%<br>间接转化(模拟)：'+p.data[2]},
+    legend:{top:0,right:0,data:['头部','肩部','腰部','尾部'],itemWidth:12,itemHeight:8,textStyle:{color:'#6b6478',fontSize:11}},
+    grid:{left:10,right:20,top:36,bottom:8,containLabel:true},
+    xAxis:{type:'value',name:'曝光效率 %',min:50,max:90,nameTextStyle:{color:'#9a93a5',fontSize:10},axisLabel:{color:'#6b6478',fontSize:10},splitLine:{lineStyle:{color:'#f1ece0'}}},
+    yAxis:{type:'value',name:'投流费用占比 %',min:0,max:50,nameTextStyle:{color:'#9a93a5',fontSize:10},axisLabel:{color:'#6b6478',fontSize:10},splitLine:{lineStyle:{color:'#f1ece0'}}},
+    series:['头部','肩部','腰部','尾部'].map(z=>({name:z,type:'scatter',data:pts.filter(p=>p[3]===z),symbolSize:d=>8+Math.sqrt(d[2])*1.6,itemStyle:{color:color[z],opacity:.82,borderColor:'#fff',borderWidth:1}}))
+  });
+  window.addEventListener('resize',()=>c.resize());
+}
+</script>
+<script src="analytics-config.js"></script>
+<script src="analytics/track.js"></script>
+</body>
+</html>
