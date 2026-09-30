@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>骆驼达人种草数据报表 | 刘健博 · 电商数据分析</title>
+<meta name="description" content="骆驼达人种草数据报表：统一达人/视频/商品 ID 建内容研究底表，补充分类维度，去重与口径校验，支撑种草效果横向对比。金额为模拟演示数据。">
+<style>
+  :root{--accent:#1f6b45;--accent-deep:#155033;--ink:#2b2733;--ink-2:#6b6478;--line:#e7efe9;--card:#fff;--bg:#f4f7f5;--gold:#d9a441;--blue:#5b7fd4;--violet:#8a74c9}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Microsoft YaHei","PingFang SC","Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 60px}
+  .pnav{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+  .pnav a{font-size:13px;padding:8px 16px;border-radius:22px;text-decoration:none;border:1px solid var(--line);background:#fff;color:var(--ink-2)}
+  .pnav a.on{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+  .pnav a:not(.on):hover{border-color:var(--accent);color:var(--accent-deep)}
+  .pnav .spacer{margin-left:auto;font-size:12px;color:var(--ink-2);align-self:center}
+  header{padding:26px 30px;background:linear-gradient(135deg,#fff 55%,#eef6f0);border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 24px rgba(43,39,51,.06)}
+  header h1{font-size:25px}header h1 .dot{color:var(--accent)}
+  header p{margin-top:8px;font-size:13px;color:var(--ink-2)}
+  .badges{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .badge{font-size:12px;padding:3px 10px;border-radius:20px;background:#e7f2ea;color:var(--accent-deep);border:1px solid #cfe6d6}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:18px 0;box-shadow:0 3px 14px rgba(43,39,51,.04)}
+  .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .sec-head .bar{width:5px;height:18px;border-radius:3px;background:var(--accent)}
+  .sec-head h2{font-size:16.5px}
+  .four{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .four .q{background:#f6faf7;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .four .q .t{font-size:12px;font-weight:700;color:var(--accent-deep);margin-bottom:4px}
+  .four .q p{font-size:12.8px;color:var(--ink-2);line-height:1.7}
+  table{width:100%;border-collapse:collapse;font-size:12.8px}
+  th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:#eef6f0;color:var(--accent-deep);font-weight:600;font-size:12px}
+  td.k{font-weight:600;white-space:nowrap}
+  .code{background:#1e1b2e;color:#e6e2f5;border-radius:10px;padding:12px 14px;font-family:"JetBrains Mono","Consolas",monospace;font-size:11.5px;line-height:1.65;overflow:auto;white-space:pre}
+  .code .cm{color:#8f86b8}
+  .chart{width:100%;height:300px;margin-top:8px}
+  .note{font-size:11.5px;color:var(--ink-2);margin-top:8px;line-height:1.8;background:#f6faf7;border-radius:10px;padding:10px 14px}
+  footer{margin-top:26px;text-align:center;font-size:12px;color:var(--ink-2);line-height:2}footer b{color:var(--ink)}
+  @media(max-width:900px){.four{grid-template-columns:1fr}}
+</style>
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script>if(typeof echarts==="undefined")document.write('<script src="https://cdn.staticfile.net/echarts/5.5.0/echarts.min.js"><\/script>')</script>
+</head>
+<body>
+<div class="wrap">
+  <nav class="pnav">
+    <a href="index.html"><span>🏠</span>个人主页</a>
+    <a class="on" href="camel-report.html"><span>▤</span>骆驼报表</a>
+    <a href="camel-dashboard.html"><span>📊</span>骆驼看板</a>
+    <a href="camel-review.html"><span>📝</span>骆驼复盘</a>
+    <a href="sql-cheatsheet.html"><span>🐬</span>SQL 速查</a>
+    <span class="spacer">刘健博 · 电商数据分析作品集</span>
+  </nav>
+
+  <header>
+    <h1>骆驼达人种草数据报表<span class="dot">.</span></h1>
+    <p>统一达人 / 视频 / 商品 ID 建内容研究底表，补分类维度，支撑不同类型内容的互动效果横向对比。</p>
+    <div class="badges"><span class="badge">底表建库</span><span class="badge">去重与口径校验</span><span class="badge">SQL 关联</span></div>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="bar"></span><h2>四段式说明</h2></div>
+    <div class="four">
+      <div class="q"><div class="t">业务问题</div><p>骆驼在抖音/快手投放大量达人短视频种草，数据散落在多个来源、口径不一，缺少统一底表，无法按达人类型、内容形式、商品类别横向比较种草效果。</p></div>
+      <div class="q"><div class="t">个人负责</div><p>整理视频明细底表，统一视频ID/达人ID/商品ID 建立内容研究底表；补充品类、内容场景、商品卖点与内容形式分类字段；核验重复视频、缺失值与数据类型，分别统计点赞/收藏/评论/分享，统一采集时间与发布时间口径。</p></div>
+      <div class="q"><div class="t">关键发现</div><p>覆盖 180 条视频、149 位达人；场景穿搭类内容的互动率高于纯产品展示；互动量与发布时段相关性弱、与内容形式相关性更强。</p></div>
+      <div class="q"><div class="t">建议</div><p>优先复用高互动内容形式做小批量测试再放量；对低互动但成本高的内容形式做投放复核。商单费用、达人报价等非公开金额字段按原来源口径保留并标注为模拟演示数据，不做换算与二次推算。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="bar"></span><h2>底表字段设计</h2></div>
+    <table>
+      <thead><tr><th>字段组</th><th>字段</th><th>口径 / 说明</th></tr></thead>
+      <tbody>
+        <tr><td class="k">主键与关联</td><td>video_id · author_id · item_id</td><td>统一三套 ID，支撑跨表关联与去重</td></tr>
+        <tr><td class="k">内容属性</td><td>标题 · 链接 · 发布日期 · 内容形式 · 内容场景 · 商品卖点 · 品类</td><td>补维字段，使报表能回答"不同类型内容表现差异"</td></tr>
+        <tr><td class="k">互动指标</td><td>点赞 · 收藏 · 评论 · 分享 · 有效观看</td><td>分别统计，统一采集时间与发布时间口径</td></tr>
+        <tr><td class="k">效果指标</td><td>销量转化人数 · 转化率 · 达人类型 · 粉丝量级</td><td>金额类字段（报价/商单费）隐藏并标注模拟演示数据</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="bar"></span><h2>取数 SQL（关联 + 去重）</h2></div>
+    <div class="code"><span class="cm">-- 输入：seed_video_raw(video_id,author_id,likes,collects,comments,shares)、dim_content(video_id,content_form)</span>
+<span class="cm">-- 输出：按内容形式汇总的视频数与各互动求和；用途：报表内容形式聚合层（模拟演示数据）</span>
+SELECT c.content_form,
+       COUNT(DISTINCT v.video_id) AS video_cnt,
+       SUM(v.likes) AS likes, SUM(v.collects) AS collects,
+       SUM(v.comments) AS comments, SUM(v.shares) AS shares
+FROM (
+  SELECT video_id, MAX(likes) likes, MAX(collects) collects,
+         MAX(comments) comments, MAX(shares) shares
+  FROM seed_video_raw
+  GROUP BY video_id                       <span class="cm">-- 视频去重，避免重复采集</span>
+) v
+JOIN dim_content c ON v.video_id = c.video_id
+GROUP BY c.content_form
+ORDER BY video_cnt DESC;</div>
+    <div id="cForm" class="chart"></div>
+    <div class="note"><b>说明：</b>上图内容为按内容形式聚合的互动分布示意（模拟演示数据），展示"去重 → 关联维表 → 分组汇总"的取数结果形态。</div>
+  </section>
+
+  <footer><b>刘健博 · 电商数据分析作品集</b> — 骆驼达人种草数据报表 · 品牌合作金额为模拟演示数据，字段设计与分析逻辑保留 · © 2026</footer>
+</div>
+<script>
+const tip={backgroundColor:'rgba(255,255,255,.96)',borderColor:'#e7efe9',borderWidth:1,textStyle:{color:'#2b2733',fontSize:12}};
+const el=document.getElementById('cForm');
+if(el&&window.echarts){const c=echarts.init(el);c.setOption({
+  tooltip:{...tip,trigger:'axis',axisPointer:{type:'shadow'}},legend:{top:0,right:0,itemWidth:12,itemHeight:8,textStyle:{color:'#6b6478',fontSize:11}},
+  grid:{left:8,right:16,top:36,bottom:6,containLabel:true},
+  xAxis:{type:'category',data:['场景穿搭','产品展示','教程','测评','随拍'],axisLabel:{color:'#6b6478',fontSize:11}},
+  yAxis:{type:'value',axisLabel:{color:'#6b6478',fontSize:10},splitLine:{lineStyle:{color:'#eef3ef'}}},
+  series:[
+    {name:'点赞',type:'bar',data:[5200,2100,3400,2800,1600],itemStyle:{borderRadius:[4,4,0,0],color:'#1f6b45'}},
+    {name:'收藏',type:'bar',data:[1800,600,1500,1200,500],itemStyle:{borderRadius:[4,4,0,0],color:'#4bb3a4'}},
+    {name:'评论',type:'bar',data:[900,300,700,650,260],itemStyle:{borderRadius:[4,4,0,0],color:'#d9a441'}}
+  ]});window.addEventListener('resize',()=>c.resize());}
+</script>
+<script src="analytics-config.js"></script>
+<script src="analytics/track.js"></script>
+</body>
+</html>
